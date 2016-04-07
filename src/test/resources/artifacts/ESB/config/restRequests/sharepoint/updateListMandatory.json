@@ -1,0 +1,8 @@
+{
+  "accessToken": "%s(accessToken)",
+  "apiUrl": "%s(apiUrl)",
+  "type": "%s(type)",
+  "guId": "%s(listId)",
+  "title": "%s(updateTitle)",
+  "ifMatch": "%s(ifMatch)"
+}

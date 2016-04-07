@@ -1,0 +1,10 @@
+{
+  "accessToken": "%s(accessToken)",
+  "apiUrl": "%s(apiUrl)",
+  "type": "%s(type)",
+  "allowContentTypes": "%s(allowContentTypes)",
+  "baseTemplate": "%s(baseTemplate)",
+  "contentTypesEnabled": "%s(contentTypesEnabled)",
+  "description": "%s(description)",
+  "title": "%s(ListTitle)"
+}

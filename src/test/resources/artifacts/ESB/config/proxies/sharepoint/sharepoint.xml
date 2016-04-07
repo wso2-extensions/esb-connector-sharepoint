@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ ~  Copyright (c) 2016, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ ~
+ ~  WSO2 Inc. licenses this file to you under the Apache License,
+ ~  Version 2.0 (the "License"); you may not use this file except
+ ~  in compliance with the License.
+ ~  You may obtain a copy of the License at
+ ~
+ ~    http://www.apache.org/licenses/LICENSE-2.0
+ ~
+ ~  Unless required by applicable law or agreed to in writing,
+ ~  software distributed under the License is distributed on an
+ ~  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ ~  KIND, either express or implied.  See the License for the
+ ~  specific language governing permissions and limitations
+ ~  under the License.
+-->
+<proxy xmlns="http://ws.apache.org/ns/synapse"
+       name="sharepoint"
+       transports="https,http"
+       statistics="disable"
+       trace="disable"
+       startOnLoad="true">
+    <target>
+        <inSequence>
+            <property name="id" expression="json-eval($.id)"/>
+            <property name="clientId" expression="json-eval($.clientId)"/>
+            <property name="clientSecret" expression="json-eval($.clientSecret)"/>
+            <property name="refreshToken" expression="json-eval($.refreshToken)"/>
+            <property name="redirectUri" expression="json-eval($.redirectUri)"/>
+            <property name="resource" expression="json-eval($.resource)"/>
+            <property name="code" expression="json-eval($.code)"/>
+            <property name="apiUrl" expression="json-eval($.apiUrl)"/>
+            <property name="accessToken" expression="json-eval($.accessToken)"/>
+            <property name="type" expression="json-eval($.type)"/>
+            <property name="allowContentTypes" expression="json-eval($.allowContentTypes)"/>
+            <property name="baseTemplate" expression="json-eval($.baseTemplate)"/>
+            <property name="contentTypesEnabled"
+                      expression="json-eval($.contentTypesEnabled)"/>
+            <property name="description" expression="json-eval($.description)"/>
+            <property name="title" expression="json-eval($.title)"/>
+            <property name="listTitle" expression="json-eval($.listTitle)"/>
+            <property name="guId" expression="json-eval($.guId)"/>
+            <property name="serverRelativeUrl" expression="json-eval($.serverRelativeUrl)"/>
+            <property name="folderPath" expression="json-eval($.folderPath)"/>
+            <property name="folderName" expression="json-eval($.folderName)"/>
+            <property name="name" expression="json-eval($.name)"/>
+            <property name="fileName" expression="json-eval($.fileName)"/>
+            <property name="filePath" expression="json-eval($.filePath)"/>
+            <property name="fileContent" expression="json-eval($.fileContent)"/>
+            <property name="overwrite" expression="json-eval($.overwrite)"/>
+            <property name="ifMatch" expression="json-eval($.ifMatch)"/>
+            <property name="itemId" expression="json-eval($.itemId)"/>
+            <property name="newTitle" expression="json-eval($.newTitle)"/>
+            <property name="intervalTime" expression="json-eval($.intervalTime)"/>
+            <sharepoint.init>
+                <apiUrl>{$ctx:apiUrl}</apiUrl>
+                <accessToken>{$ctx:accessToken}</accessToken>
+                <id>{$ctx:id}</id>
+                <clientId>{$ctx:clientId}</clientId>
+                <clientSecret>{$ctx:clientSecret}</clientSecret>
+                <refreshToken>{$ctx:refreshToken}</refreshToken>
+                <redirectUri>{$ctx:redirectUri}</redirectUri>
+                <resource>{$ctx:resource}</resource>
+                <registryPath>{$ctx:registryPath}</registryPath>
+                <intervalTime>{$ctx:intervalTime}</intervalTime>
+            </sharepoint.init>
+            <switch source="get-property('transport','Action')">
+                <case regex="urn:createList">
+                    <sharepoint.createList>
+                        <type>{$ctx:type}</type>
+                        <allowContentTypes>{$ctx:allowContentTypes}</allowContentTypes>
+                        <baseTemplate>{$ctx:baseTemplate}</baseTemplate>
+                        <contentTypesEnabled>{$ctx:contentTypesEnabled}</contentTypesEnabled>
+                        <description>{$ctx:description}</description>
+                        <title>{$ctx:title}</title>
+                    </sharepoint.createList>
+                </case>
+                <case regex="urn:retriveLists">
+                    <sharepoint.retriveLists/>
+                </case>
+                <case regex="urn:getListByTitle">
+                    <sharepoint.getListByTitle>
+                        <title>{$ctx:title}</title>
+                    </sharepoint.getListByTitle>
+                </case>
+                <case regex="urn:getListById">
+                    <sharepoint.getListById>
+                        <guId>{$ctx:guId}</guId>
+                    </sharepoint.getListById>
+                </case>
+                <case regex="urn:updateList">
+                    <sharepoint.updateList>
+                        <guId>{$ctx:guId}</guId>
+                        <title>{$ctx:title}</title>
+                        <type>{$ctx:type}</type>
+                        <ifMatch>{$ctx:ifMatch}</ifMatch>
+                    </sharepoint.updateList>
+                </case>
+                <case regex="urn:deleteList">
+                    <sharepoint.deleteList>
+                        <title>{$ctx:title}</title>
+                        <ifMatch>{$ctx:ifMatch}</ifMatch>
+                    </sharepoint.deleteList>
+                </case>
+                <case regex="urn:createListItem">
+                    <sharepoint.createListItem>
+                        <title>{$ctx:title}</title>
+                        <type>{$ctx:type}</type>
+                        <listTitle>{$ctx:listTitle}</listTitle>
+                    </sharepoint.createListItem>
+                </case>
+                <case regex="urn:retriveListItems">
+                    <sharepoint.retriveListItems>
+                        <title>{$ctx:title}</title>
+                    </sharepoint.retriveListItems>
+                </case>
+                <case regex="urn:getItemById">
+                    <sharepoint.getItemById>
+                        <title>{$ctx:title}</title>
+                        <itemId>{$ctx:itemId}</itemId>
+                    </sharepoint.getItemById>
+                </case>
+                <case regex="urn:updateListItems">
+                    <sharepoint.updateListItems>
+                        <title>{$ctx:title}</title>
+                        <type>{$ctx:type}</type>
+                        <newTitle>{$ctx:newTitle}</newTitle>
+                        <itemId>{$ctx:itemId}</itemId>
+                        <ifMatch>{$ctx:ifMatch}</ifMatch>
+                    </sharepoint.updateListItems>
+                </case>
+                <case regex="urn:deleteListItem">
+                    <sharepoint.deleteListItem>
+                        <title>{$ctx:title}</title>
+                        <itemId>{$ctx:itemId}</itemId>
+                        <ifMatch>{$ctx:ifMatch}</ifMatch>
+                    </sharepoint.deleteListItem>
+                </case>
+                <case regex="urn:createFolder">
+                    <sharepoint.createFolder>
+                        <type>{$ctx:type}</type>
+                        <serverRelativeUrl>{$ctx:serverRelativeUrl}</serverRelativeUrl>
+                    </sharepoint.createFolder>
+                </case>
+                <case regex="urn:retrieveFolder">
+                    <sharepoint.retrieveFolder>
+                        <folderPath>{$ctx:folderPath}</folderPath>
+                    </sharepoint.retrieveFolder>
+                </case>
+                <case regex="urn:updateFolder">
+                    <sharepoint.updateFolder>
+                        <folderName>{$ctx:folderName}</folderName>
+                        <type>{$ctx:type}</type>
+                        <name>{$ctx:name}</name>
+                        <ifMatch>{$ctx:ifMatch}</ifMatch>
+                    </sharepoint.updateFolder>
+                </case>
+                <case regex="urn:deleteFolder">
+                    <sharepoint.deleteFolder>
+                        <folderPath>{$ctx:folderPath}</folderPath>
+                        <ifMatch>{$ctx:ifMatch}</ifMatch>
+                    </sharepoint.deleteFolder>
+                </case>
+                <case regex="urn:createFileWithinFolder">
+                    <sharepoint.createFileWithinFolder>
+                        <folderName>{$ctx:folderName}</folderName>
+                        <fileName>{$ctx:fileName}</fileName>
+                        <fileContent>{$ctx:fileContent}</fileContent>
+                        <overwrite>{$ctx:overwrite}</overwrite>
+                    </sharepoint.createFileWithinFolder>
+                </case>
+                <case regex="urn:retriveAllFilesWithinFolder">
+                    <sharepoint.retriveAllFilesWithinFolder>
+                        <folderPath>{$ctx:folderPath}</folderPath>
+                    </sharepoint.retriveAllFilesWithinFolder>
+                </case>
+                <case regex="urn:getFile">
+                    <sharepoint.getFile>
+                        <folderPath>{$ctx:folderPath}</folderPath>
+                        <fileName>{$ctx:fileName}</fileName>
+                    </sharepoint.getFile>
+                </case>
+                <case regex="urn:deleteFile">
+                    <sharepoint.deleteFile>
+                        <filePath>{$ctx:filePath}</filePath>
+                        <ifMatch>{$ctx:ifMatch}</ifMatch>
+                    </sharepoint.deleteFile>
+                </case>
+                <case regex="urn:updateFileContent">
+                    <sharepoint.updateFileContent>
+                        <filePath>{$ctx:filePath}</filePath>
+                        <fileContent>{$ctx:fileContent}</fileContent>
+                        <ifMatch>{$ctx:ifMatch}</ifMatch>
+                    </sharepoint.updateFileContent>
+                </case>
+            </switch>
+            <respond/>
+        </inSequence>
+        <outSequence>
+            <log/>
+            <send/>
+        </outSequence>
+    </target>
+    <description/>
+</proxy>
