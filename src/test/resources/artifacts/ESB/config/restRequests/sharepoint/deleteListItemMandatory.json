@@ -1,0 +1,7 @@
+{
+  "accessToken": "%s(accessToken)",
+  "apiUrl": "%s(apiUrl)",
+  "itemId": "%s(itemId)",
+  "title": "%s(ListTitle)",
+  "ifMatch": "%s(ifMatch)"
+}

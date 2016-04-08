@@ -1,0 +1,7 @@
+{
+  "accessToken": "%s(accessToken)",
+  "apiUrl": "%s(apiUrl)",
+  "type": "%s(itemType)",
+  "listTitle":"%s(ListTitle)",
+  "title": "%s(listItemTitle)"
+}

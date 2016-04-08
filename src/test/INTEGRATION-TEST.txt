@@ -1,0 +1,105 @@
+Product: Integration tests for WSO2 ESB Shopify connector
+
+Pre-requisites:
+
+ - Maven 3.x
+ - Java 1.6 or above
+ - The org.wso2.esb.integration.integration-base project is required. The test suite has been configured to download this project automatically.
+   If the automatic download fails, download the following project and compile it using the mvn clean install command to update your local repository:
+   https://github.com/wso2-dev/esb-connectors/tree/master/integration-base
+
+Tested Platform: 
+
+ - Microsoft WINDOWS V-7
+ - UBUNTU 14.04
+ - WSO2 ESB 5.0.0
+
+Note:
+    Set up a new SharePoint account and follow all the instruction given below in step 4 to generate an access token.
+
+Steps to follow in setting integration test.
+
+ 1. Download ESB 5.0.0 from official website.
+ 
+ 2. Please make sure that the below mentioned Axis configurations are enabled (\repository\conf\axis2\axis2.xml).
+    <messageFormatter contentType="application/json;odata=verbose"
+                                    class="org.apache.synapse.commons.json.JsonFormatter"/>
+    <<messageBuilder contentType="application/json;odata=verbose"
+                                    class="org.apache.synapse.commons.json.JsonBuilder"/>
+
+    <messageFormatter contentType="application/octet-stream"
+                                    class="org.apache.axis2.format.BinaryFormatter"/>
+    <messageBuilder contentType="binary/octet-stream"
+                                    class="org.wso2.carbon.relay.BinaryRelayBuilder"/>
+
+ 3. Create a office365 account using URL https://login.microsoftonline.com/ , and click SharePoint.
+        Note: This is a 30-day free trial account.
+
+ 4. Follow the bellow mentioned steps to generate the access token:
+        i)      Log in to your Office365 account, and go to the following URLs:
+                   https://your_site_name.com/_layouts/15/appregnew.aspx
+        ii)     Set the following options:
+                    App Type—Select An app running on a web server.
+                    Client Id—Click Generate, and copy the generated value to a text file.
+                    Client Secret—Click Generate, and copy the generated value to a text file.
+                    Title—Enter a name for the app.
+                    App Domain—Enter the domain name.
+                    Redirect URL— Enter the Callback URL.
+        iii)    Click Create.
+                    Now you’ll configure the newly created app to access SharePoint resources.
+        iv)     Get the Realm of your site.Realm is a constant GUID for a site. Save this realm for future use.
+        vi)     Get the Authorization code from Azure Access Control Service
+                Construct the authorization url as follows:
+                     https://your_site.sharepoint.com/_layouts/15/OAuthAuthorize.aspx?client_id=client_GUID&scope=app_permissions_list&response_type=code&redirect_uri=redirect_uri
+        vii)    Once you grant the permission (by clicking trust), SharePoint Online site asks ACS to create a authorization code unique to this combination of user and app.
+                ACS sends the authorization code to the SharePoint site.
+                SharePoint Online site redirects the browser back to the redirect URI that was specified when the app was registered in step i) and ii).
+                It also includes the authorization code as a query string. The redirect URL is structured like the following:
+                    https://redirect_url/?code=<authcode>
+                Extract query string value code from above url and it will be used in next step.
+        Viii)   Get the access token and refresh token from code:
+                    Construct the below post request:
+                    https://accounts.accesscontrol.windows.net/<site_realm>/tokens/OAuth/2
+                    Post parameters:
+                    grant_type=authorization_code
+                    &client_id=<client_id>@<site_realm>
+                    &client_secret=<client_secret>
+                    &code=<auth_code>
+                    &redirect_uri=<redirect_url>
+                    &resource=< audience principal ID>/<site_host>@<site_realm>
+        ix)    Get the access token and refresh token from code:
+                    This step is almost similar to step   Viii), except 2 differences. Here the difference is that we use:
+                           *    grant_type as refresh_token and
+                           *    refresh_token instead of code in step4 and use the refresh token which we have saved in step4.
+                    https://accounts.accesscontrol.windows.net/<site_realm>/tokens/OAuth/2
+
+ 5. Compress modified ESB as wso2esb-4.9.0.zip and copy that zip file in to location "{SHAREPOINT_CONNECTOR_HOME}/repository/".
+
+ 6. Update the Shopify properties file at location "{SHAREPOINT_CONNECTOR_HOME}/src/test/resources/artifacts/ESB/connector/config" as below.
+
+    i) 		apiUrl					- Use the API URL as "https://your_site_name.sharepoint.com".
+    ii)		accessToken				- Access Token obtained by following the steps in 4.
+    iii) 	intervalTime		    - Accesstoken expiration time interval.
+    iv)		id          			- Realm id, This is a constant GUID for a site.
+    v)		registryPath	 		- Registry Path of the Connector where the credentials are stored
+    vi) 	allowContentTypes	 	- Boolean value, that specifies whether the list supports content types.
+    vii)	baseTemplate			- Specifies list definition type on which the list is based.
+    viii)	contentTypesEnabled		- Boolean value, that specifies whether content types are enabled for the list.
+    ix)		description				- Description of the list..
+    x)		title				    - The title for the list.".
+    xi)		type				    - Type when constructing the metadata variable(eg:SP.List,SP.Folder).
+    xii)	listTitle			    - The title of the list to create list item.
+    xiii)   ifMatch                 - To force an overwrite of the item regardless of version, set the ETag value.
+    xiv)    itemId                  - The ID of the list item to return.
+    xv)     guId                    - The GUID of the list to return list.
+    xvi)    newTitle                - The new title of item to update.
+    xvii)   serverRelativeUrl       - Document library relative url/folder name.
+    xviii)  folderName              - Name of the folder path.
+    xix)    overwrite               - Permition to access the file.
+    xx)     fileName                - Name of the file to create(Eg: abc.txt).
+    xxi)    fileContent             - Content of the file.
+    xxii)   filePath                - Name of the file path that is to be updated.
+    xxiii)
+
+ 7. Navigate to "{SHAREPOINT_CONNECTOR_HOME}" and run the following command.
+      $ mvn clean install

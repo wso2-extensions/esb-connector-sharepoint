@@ -1,0 +1,6 @@
+{
+  "accessToken": "%s(accessToken)",
+  "apiUrl": "%s(apiUrl)",
+  "type": "%s(folderType)",
+  "serverRelativeUrl": "%s(serverRelativeUrl)"
+}

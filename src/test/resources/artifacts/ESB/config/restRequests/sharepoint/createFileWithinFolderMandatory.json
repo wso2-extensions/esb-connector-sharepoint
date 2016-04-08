@@ -1,0 +1,8 @@
+{
+  "accessToken": "%s(accessToken)",
+  "apiUrl": "%s(apiUrl)",
+  "folderName": "%s(serverRelativeUrl)",
+  "overwrite": "%s(overwrite)",
+  "fileName": "%s(fileName)",
+  "fileContent": "%s(fileContent)"
+}
