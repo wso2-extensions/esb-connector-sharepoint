@@ -19,8 +19,8 @@
 <!-- Method Documentation URL: https://msdn.microsoft.com/en-us/library/azure/dn645542.aspx -->
 <template name="init" xmlns="http://ws.apache.org/ns/synapse">
     <parameter name="apiUrl" description="Base endpoint URL of sharepoint API."/>
-    <parameter name="accessToken" description="OAuth Token to read and manipulate data of sharepoint API"/>
-    <parameter name="intervalTime" description="Accesstoken expiration time interval"/>
+    <parameter name="accessToken" description="OAuth Token to read and manipulate data of sharepoint API."/>
+    <parameter name="intervalTime" description="Accesstoken expiration time interval."/>
     <parameter name="resource" description="The App ID URI of the web API."/>
     <parameter name="refreshToken" description="RefreshToken to be used to obtain the access token."/>
     <parameter name="clientId"
@@ -30,7 +30,7 @@
     <parameter name="id" description="Realm id, This is a constant GUID for a site."/>
     <parameter name="redirectUri" description="The redirect url, that you passed to get code."/>
     <parameter name="registryPath"
-               description="Registry Path of the Connector where the values are stored"/>
+               description="Registry Path of the Connector where the values are stored."/>
     <sequence>
         <property name="uri.var.apiUrl" expression="$func:apiUrl"/>
         <property name="uri.var.accessToken" expression="$func:accessToken"/>

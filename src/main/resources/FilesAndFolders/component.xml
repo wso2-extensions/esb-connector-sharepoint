@@ -40,7 +40,7 @@
         </component>
         <component name="getFile">
             <file>getFile.xml</file>
-            <description>Retrieve a specific file</description>
+            <description>Retrieve a specific file.</description>
         </component>
         <component name="createFileWithinFolder">
             <file>createFileWithinFolder.xml</file>

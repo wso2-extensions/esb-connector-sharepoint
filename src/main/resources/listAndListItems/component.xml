@@ -24,7 +24,7 @@
         </component>
         <component name="retriveLists">
             <file>retriveLists.xml</file>
-            <description>Retrieves all the Lists in the site</description>
+            <description>Retrieves all the Lists in the site.</description>
         </component>
         <component name="getListById">
             <file>getListById.xml</file>
@@ -36,11 +36,11 @@
         </component>
         <component name="deleteList">
             <file>deleteList.xml</file>
-            <description>Delete a list</description>
+            <description>Delete a list.</description>
         </component>
         <component name="retriveListItems">
             <file>retriveListItems.xml</file>
-            <description>Retrieves all the Lists items in the list</description>
+            <description>Retrieves all the Lists items in the list.</description>
         </component>
         <component name="createListItem">
             <file>createListItem.xml</file>

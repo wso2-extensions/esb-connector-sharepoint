@@ -20,15 +20,15 @@
     <subComponents>
         <component name="init">
             <file>init.xml</file>
-            <description>Initial configuration file for sharePoint rest connector</description>
+            <description>Initial configuration file for sharePoint rest connector.</description>
         </component>
         <component name="getAccessTokenFromRefreshToken">
             <file>getAccessTokenFromRefreshToken.xml</file>
-            <description>Getting Access Token from refresh token</description>
+            <description>Getting Access Token from refresh token.</description>
         </component>
         <component name="getAccessTokenFromAutherizationCode">
             <file>getAccessTokenFromAutherizationCode.xml</file>
-            <description>Getting Access Token from Autherization code</description>
+            <description>Getting Access Token from Autherization code.</description>
         </component>
     </subComponents>
 </component>

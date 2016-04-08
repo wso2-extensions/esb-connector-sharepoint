@@ -23,7 +23,7 @@
     <groupId>org.wso2.carbon.connector</groupId>
     <artifactId>org.wso2.carbon.connector.sharepoint</artifactId>
     <packaging>jar</packaging>
-    <version>1.0.0</version>
+    <version>1.0.0-SNAPSHOT</version>
     <name>WSO2 Carbon - Mediation Library Connector For sharepoint</name>
     <url>http://wso2.org</url>
     <properties>
@@ -134,9 +134,9 @@
         </dependency>
     </dependencies>
     <scm>
-        <connection>scm:git:https://github.com/wso2-extensions/esb-connector-github.git</connection>
-        <url>https://github.com/wso2-extensions/esb-connector-github.git</url>
-        <developerConnection>scm:git:https://github.com/wso2-extensions/esb-connector-github</developerConnection>
+        <connection>scm:git:https://github.com/wso2-extensions/esb-connector-sharepoint.git</connection>
+        <url>https://github.com/wso2-extensions/esb-connector-sharepoint.git</url>
+        <developerConnection>scm:git:https://github.com/wso2-extensions/esb-connector-sharepoint</developerConnection>
         <tag>HEAD</tag>
     </scm>
     <build>
