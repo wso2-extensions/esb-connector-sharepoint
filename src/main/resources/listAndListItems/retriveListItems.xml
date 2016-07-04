@@ -21,22 +21,9 @@
     <sequence>
         <property name="uri.var.title" expression="$func:title"/>
         <property action="remove" name="Accept-Encoding" scope="transport"/>
-
-        <log level="cumstom">
-            <property name="ccccccccccccccccccccccccccccccccc" expression="get-property('sharepointBlocking')"/>
-        </log>
-
-
-
         <filter source="$ctx:sharepointBlocking" regex="true">
             <then>
-                <log level="cumstom">
-                <property name="222222222222222222222222222222222222222222222222222222" expression="get-property('sharepointBlocking')"/>
-                </log>
                 <call blocking="true">
-                    <log level="cumstom">
-                        <property name="3333333333333333333333333333333333333333333333333" expression="get-property('sharepointBlocking')"/>
-                    </log>
                     <endpoint>
                         <http method="get"
                               uri-template="{uri.var.apiUrl}/_api/web/lists/GetByTitle('{+uri.var.title}')/items"/>
@@ -44,13 +31,7 @@
                 </call>
             </then>
             <else>
-                <log level="cumstom">
-                <property name="1111111111111111111111111111111111111111111111111111111111" expression="get-property('sharepointBlocking')"/>
-                </log>
                 <call>
-                    <log level="cumstom">
-                        <property name="44444444444444444444444444444444444444444444444444" expression="get-property('sharepointBlocking')"/>
-                    </log>
                     <endpoint>
                         <http method="get"
                               uri-template="{uri.var.apiUrl}/_api/web/lists/GetByTitle('{+uri.var.title}')/items"/>
