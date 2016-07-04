@@ -1,4 +1,5 @@
 {
   "accessToken": "%s(accessToken)",
-  "apiUrl": "%s(apiUrl)"
+  "apiUrl": "%s(apiUrl)",
+  "blocking":"%s(blocking)"
 }

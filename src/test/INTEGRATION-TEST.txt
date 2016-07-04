@@ -24,7 +24,7 @@ Steps to follow in setting integration test.
  2. Please make sure that the below mentioned Axis configurations are enabled (\repository\conf\axis2\axis2.xml).
     <messageFormatter contentType="application/json;odata=verbose"
                                     class="org.apache.synapse.commons.json.JsonFormatter"/>
-    <<messageBuilder contentType="application/json;odata=verbose"
+    <messageBuilder contentType="application/json;odata=verbose"
                                     class="org.apache.synapse.commons.json.JsonBuilder"/>
 
     <messageFormatter contentType="application/octet-stream"
@@ -99,7 +99,9 @@ Steps to follow in setting integration test.
     xx)     fileName                - Name of the file to create(Eg: abc.txt).
     xxi)    fileContent             - Content of the file.
     xxii)   filePath                - Name of the file path that is to be updated.
-    xxiii)
-
+    xxiii)  customListTitle         - Title of the custom list (Go to Add lists ---> Custom List in Datasheet View to create custom list) to create item list
+    xxiv)   customListItemType      - Type when constructing the metadata variable(eg:SP.Data.custom002ListItem) (Note custom002 is the title of the custom title which is created in above step)
+    xxv)    customListItems         - List of the items to be created.
+    xxvi)   blocking                - The blocking parameter is helping connector performs the blocking invocations to Sharepoint.
  7. Navigate to "{SHAREPOINT_CONNECTOR_HOME}" and run the following command.
       $ mvn clean install

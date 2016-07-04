@@ -21,12 +21,24 @@
     <sequence>
         <property name="uri.var.folderPath" expression="$func:folderPath"/>
         <property action="remove" name="Accept-Encoding" scope="transport"/>
-        <call>
-            <endpoint>
-                <http method="get"
-                      uri-template="{uri.var.apiUrl}/_api/web/GetFolderByServerRelativeUrl('{uri.var.folderPath}')"/>
-            </endpoint>
-        </call>
+        <filter source="$ctx:sharepointBlocking" regex="true">
+            <then>
+                <call blocking="true">
+                    <endpoint>
+                        <http method="get"
+                              uri-template="{uri.var.apiUrl}/_api/web/GetFolderByServerRelativeUrl('{uri.var.folderPath}')"/>
+                    </endpoint>
+                </call>
+            </then>
+            <else>
+                <call>
+                    <endpoint>
+                        <http method="get"
+                              uri-template="{uri.var.apiUrl}/_api/web/GetFolderByServerRelativeUrl('{uri.var.folderPath}')"/>
+                    </endpoint>
+                </call>
+            </else>
+        </filter>
         <property name="messageType" value="application/json;odata=verbose" scope="axis2"/>
         <property name="Content-Type" value="application/json;odata=verbose" scope="axis2"/>
         <header name="Content-Type" value="application/json;odata=verbose" scope="transport"/>

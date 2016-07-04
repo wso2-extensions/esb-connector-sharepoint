@@ -1,5 +1,6 @@
 {
   "accessToken": "%s(accessToken)",
   "apiUrl": "%s(apiUrl)",
+  "blocking":"%s(blocking)",
   "guId": "%s(listId)"
 }
