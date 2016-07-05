@@ -41,7 +41,7 @@ public class SharepointConnectorIntegrationTest extends ConnectorIntegrationTest
     @BeforeClass(alwaysRun = true)
     public void setEnvironment() throws Exception {
 
-        init("sharepoint-connector-1.0.1");
+        init("sharepoint-connector-1.0.2-SNAPSHOT");
         esbRequestHeadersMap.put("Accept-Charset", "UTF-8");
         esbRequestHeadersMap.put("Content-Type", "application/json; odata=verbose");
 
