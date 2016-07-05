@@ -39,12 +39,24 @@
         </payloadFactory>
         <property name="messageType" value="text/plain" scope="axis2"/>
         <property name="DISABLE_CHUNKING" value="true" scope="axis2"/>
-        <call>
-            <endpoint>
-                <http method="PUT"
-                      uri-template="{uri.var.apiUrl}/_api/web/GetFileByServerRelativeUrl('{uri.var.filePath}')/$value"/>
-            </endpoint>
-        </call>
+        <filter source="$ctx:sharepointBlocking" regex="true">
+            <then>
+                <call blocking="true">
+                    <endpoint>
+                        <http method="PUT"
+                              uri-template="{uri.var.apiUrl}/_api/web/GetFileByServerRelativeUrl('{uri.var.filePath}')/$value"/>
+                    </endpoint>
+                </call>
+            </then>
+            <else>
+                <call>
+                    <endpoint>
+                        <http method="PUT"
+                              uri-template="{uri.var.apiUrl}/_api/web/GetFileByServerRelativeUrl('{uri.var.filePath}')/$value"/>
+                    </endpoint>
+                </call>
+            </else>
+        </filter>
         <!-- Remove custom Headers from the API Response -->
         <header name="X-Frame-Options" action="remove" scope="transport"/>
         <header name="Strict-Transport-Security" action="remove" scope="transport"/>

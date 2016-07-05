@@ -56,12 +56,22 @@
         </payloadFactory>
         <property name="messageType" value="application/json;odata=verbose" scope="axis2"/>
         <property action="remove" name="Accept-Encoding" scope="transport"/>
-        <call>
-            <endpoint>
-                <http method="post"
-                      uri-template="{uri.var.apiUrl}/_api/web/lists"/>
-            </endpoint>
-        </call>
+        <filter source="$ctx:sharepointBlocking" regex="true">
+            <then>
+                <call blocking="true">
+                    <endpoint>
+                        <http method="post" uri-template="{uri.var.apiUrl}/_api/web/lists"/>
+                    </endpoint>
+                </call>
+            </then>
+            <else>
+                <call>
+                    <endpoint>
+                        <http method="post" uri-template="{uri.var.apiUrl}/_api/web/lists"/>
+                    </endpoint>
+                </call>
+            </else>
+        </filter>
         <!-- Remove custom Headers from the API Response -->
         <header name="X-Frame-Options" action="remove" scope="transport"/>
         <header name="Strict-Transport-Security" action="remove" scope="transport"/>

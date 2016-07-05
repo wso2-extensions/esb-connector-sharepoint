@@ -1,6 +1,7 @@
 {
   "accessToken": "%s(accessToken)",
   "apiUrl": "%s(apiUrl)",
+  "blocking":"%s(blocking)",
   "type": "%s(type)",
   "allowContentTypes": "%s(allowContentTypes)",
   "baseTemplate": "%s(baseTemplate)",

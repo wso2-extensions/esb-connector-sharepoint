@@ -1,6 +1,7 @@
 {
   "accessToken": "%s(accessToken)",
   "apiUrl": "%s(apiUrl)",
+  "blocking":"%s(blocking)",
   "type": "%s(itemType)",
   "listTitle":"%s(ListTitle)",
   "title": "%s(listItemTitle)"

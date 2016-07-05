@@ -19,10 +19,12 @@
 <!-- Method Documentation URL: https://msdn.microsoft.com/en-us/library/azure/dn645542.aspx -->
 <template name="init" xmlns="http://ws.apache.org/ns/synapse">
     <parameter name="apiUrl" description="Base endpoint URL of sharepoint API."/>
-    <parameter name="accessToken" description="OAuth Token to read and manipulate data of sharepoint API."/>
+    <parameter name="accessToken"
+               description="OAuth Token to read and manipulate data of sharepoint API."/>
     <parameter name="intervalTime" description="Accesstoken expiration time interval."/>
     <parameter name="resource" description="The App ID URI of the web API."/>
-    <parameter name="refreshToken" description="RefreshToken to be used to obtain the access token."/>
+    <parameter name="refreshToken"
+               description="RefreshToken to be used to obtain the access token."/>
     <parameter name="clientId"
                description="The value of your API Key given when you registered your application with sharepoint."/>
     <parameter name="clientSecret"
@@ -31,6 +33,8 @@
     <parameter name="redirectUri" description="The redirect url, that you passed to get code."/>
     <parameter name="registryPath"
                description="Registry Path of the Connector where the values are stored."/>
+    <parameter name="blocking"
+               description="The blocking parameter is helping connector performs the blocking invocations to Sharepoint."/>
     <sequence>
         <property name="uri.var.apiUrl" expression="$func:apiUrl"/>
         <property name="uri.var.accessToken" expression="$func:accessToken"/>
@@ -93,6 +97,7 @@
                     mc.setProperty("INTERVAL_TIME", timeTaken);
                    ]]>
                 </script>
+                <property name="sharepointBlocking" expression="$func:blocking"/>
                 <filter source="$ctx:INTERVAL_TIME &gt;$ctx:uri.var.intervalTime or $ctx:uri.var.accessToken=''"
                         regex="true">
                     <then>

@@ -26,6 +26,7 @@ import org.testng.annotations.Test;
 import org.wso2.connector.integration.test.base.ConnectorIntegrationTestBase;
 import org.wso2.connector.integration.test.base.RestResponse;
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -40,7 +41,7 @@ public class SharepointConnectorIntegrationTest extends ConnectorIntegrationTest
     @BeforeClass(alwaysRun = true)
     public void setEnvironment() throws Exception {
 
-        init("sharepoint-connector-1.0.1-SNAPSHOT");
+        init("sharepoint-connector-1.0.1");
         esbRequestHeadersMap.put("Accept-Charset", "UTF-8");
         esbRequestHeadersMap.put("Content-Type", "application/json; odata=verbose");
 
@@ -57,23 +58,28 @@ public class SharepointConnectorIntegrationTest extends ConnectorIntegrationTest
      * @throws JSONException
      * @throws IOException
      */
-    @Test(groups = {"wso2.esb"}, description = "sharepoint{createList} integration test with mandatory parameters.")
+    @Test(groups = {"wso2.esb"},
+            description = "sharepoint{createList} integration test with mandatory parameters.")
     public void testCreateListWithMandatoryParameters() throws IOException, JSONException {
 
         esbRequestHeadersMap.put("Action", "urn:createList");
-        RestResponse<JSONObject> esbRestResponse = sendJsonRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<JSONObject> esbRestResponse = sendJsonRestRequest(proxyUrl, "POST",
+                                                                       esbRequestHeadersMap,
                 "createListMandatory.json");
         String listId = esbRestResponse.getBody().getJSONObject("d").getString("Id");
         connectorProperties.setProperty("listId", listId);
-        String itemType = esbRestResponse.getBody().getJSONObject("d").getString("ListItemEntityTypeFullName");
+        String itemType = esbRestResponse.getBody().getJSONObject("d")
+                                         .getString("ListItemEntityTypeFullName");
         connectorProperties.setProperty("itemType", itemType);
 
         String apiEndPoint = connectorProperties.getProperty("apiUrl") + "/_api/web/Lists/GetByTitle('" +
                 connectorProperties.getProperty("ListTitle") + "')";
-        RestResponse<JSONObject> apiRestResponse = sendJsonRestRequest(apiEndPoint, "GET", apiRequestHeadersMap);
+        RestResponse<JSONObject> apiRestResponse = sendJsonRestRequest(apiEndPoint, "GET",
+                                                                       apiRequestHeadersMap);
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 201);
         Assert.assertEquals(apiRestResponse.getHttpStatusCode(), 200);
-        Assert.assertEquals(connectorProperties.getProperty("ListTitle"), apiRestResponse.getBody().getJSONObject("d").getString("Title"));
+        Assert.assertEquals(connectorProperties.getProperty("ListTitle"),
+                            apiRestResponse.getBody().getJSONObject("d").getString("Title"));
     }
 
     /**
@@ -87,14 +93,17 @@ public class SharepointConnectorIntegrationTest extends ConnectorIntegrationTest
     public void testGetListByTitleWithMandatoryParameters() throws IOException, JSONException {
 
         esbRequestHeadersMap.put("Action", "urn:getListByTitle");
-        RestResponse<JSONObject> esbRestResponse = sendJsonRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<JSONObject> esbRestResponse = sendJsonRestRequest(proxyUrl, "POST",
+                                                                       esbRequestHeadersMap,
                 "getListByTitleMandatory.json");
         String apiEndPoint = connectorProperties.getProperty("apiUrl") + "/_api/web/Lists/GetByTitle('" +
                 connectorProperties.getProperty("ListTitle") + "')";
-        RestResponse<JSONObject> apiRestResponse = sendJsonRestRequest(apiEndPoint, "GET", apiRequestHeadersMap);
+        RestResponse<JSONObject> apiRestResponse = sendJsonRestRequest(apiEndPoint, "GET",
+                                                                       apiRequestHeadersMap);
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 200);
         Assert.assertEquals(apiRestResponse.getHttpStatusCode(), 200);
-        Assert.assertEquals(esbRestResponse.getBody().getJSONObject("d").getString("Title"), apiRestResponse.getBody().getJSONObject("d").getString("Title"));
+        Assert.assertEquals(esbRestResponse.getBody().getJSONObject("d").getString("Title"),
+                            apiRestResponse.getBody().getJSONObject("d").getString("Title"));
     }
 
     /**
@@ -103,18 +112,21 @@ public class SharepointConnectorIntegrationTest extends ConnectorIntegrationTest
      * @throws JSONException
      * @throws IOException
      */
-    @Test(groups = {"wso2.esb"}, description = "sharepoint {getListByTitle} integration test negative case.")
+    @Test(groups = {"wso2.esb"}, description = "sharepoint {getListByTitle} integration " +
+                                               "test negative case.")
     public void testGetListByTitleWithNegativeCase() throws IOException, JSONException {
         esbRequestHeadersMap.put("Action", "urn:getListByTitle");
         RestResponse<JSONObject> esbRestResponse =
-                sendJsonRestRequest(proxyUrl, "POST", esbRequestHeadersMap, "getListByTitleNegative.json");
+                sendJsonRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+                                    "getListByTitleNegative.json");
         String apiEndPoint = connectorProperties.getProperty("apiUrl") + "/_api/web/Lists/GetByTitle('" +
                 connectorProperties.getProperty("NegListTitle") + "')";
         RestResponse<JSONObject> apiRestResponse =
                 sendJsonRestRequest(apiEndPoint, "GET", apiRequestHeadersMap);
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 404);
         Assert.assertEquals(apiRestResponse.getHttpStatusCode(), 404);
-        Assert.assertEquals(esbRestResponse.getBody().getString("error"), apiRestResponse.getBody().getString("error"));
+        Assert.assertEquals(esbRestResponse.getBody().getString("error"),
+                            apiRestResponse.getBody().getString("error"));
     }
 
     /**
@@ -128,14 +140,17 @@ public class SharepointConnectorIntegrationTest extends ConnectorIntegrationTest
     public void testGetListByIdWithMandatoryParameters() throws IOException, JSONException {
 
         esbRequestHeadersMap.put("Action", "urn:getListById");
-        RestResponse<JSONObject> esbRestResponse = sendJsonRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<JSONObject> esbRestResponse = sendJsonRestRequest(proxyUrl, "POST",
+                                                                       esbRequestHeadersMap,
                 "getListByIdMandatory.json");
         String apiEndPoint = connectorProperties.getProperty("apiUrl") + "/_api/web/Lists(guid'" +
                 connectorProperties.getProperty("listId") + "')";
-        RestResponse<JSONObject> apiRestResponse = sendJsonRestRequest(apiEndPoint, "GET", apiRequestHeadersMap);
+        RestResponse<JSONObject> apiRestResponse = sendJsonRestRequest(apiEndPoint, "GET",
+                                                                       apiRequestHeadersMap);
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 200);
         Assert.assertEquals(apiRestResponse.getHttpStatusCode(), 200);
-        Assert.assertEquals(esbRestResponse.getBody().getJSONObject("d").getString("Id"), apiRestResponse.getBody().getJSONObject("d").getString("Id"));
+        Assert.assertEquals(esbRestResponse.getBody().getJSONObject("d").getString("Id"),
+                            apiRestResponse.getBody().getJSONObject("d").getString("Id"));
     }
 
     /**
@@ -144,7 +159,8 @@ public class SharepointConnectorIntegrationTest extends ConnectorIntegrationTest
      * @throws JSONException
      * @throws IOException
      */
-    @Test(groups = {"wso2.esb"}, description = "sharepoint {getListById} integration test negative case.")
+    @Test(groups = {"wso2.esb"}, description = "sharepoint {getListById} integration test negative " +
+                                               "case.")
     public void testGetListByIdWithNegativeCase() throws IOException, JSONException {
         esbRequestHeadersMap.put("Action", "urn:getListById");
         RestResponse<JSONObject> esbRestResponse =
@@ -163,14 +179,17 @@ public class SharepointConnectorIntegrationTest extends ConnectorIntegrationTest
      * @throws JSONException
      * @throws IOException
      */
-    @Test(groups = {"wso2.esb"}, description = "sharepoint{retriveLists} integration test with mandatory parameters.")
+    @Test(groups = {"wso2.esb"}, description = "sharepoint{retriveLists} integration test " +
+                                               "with mandatory parameters.")
     public void testRetriveListstWithMandatoryParameters() throws IOException, JSONException {
 
         esbRequestHeadersMap.put("Action", "urn:retriveLists");
-        RestResponse<JSONObject> esbRestResponse = sendJsonRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
-                "retriveListsMandatory.json");
+        RestResponse<JSONObject> esbRestResponse = sendJsonRestRequest(proxyUrl, "POST",
+                                                                       esbRequestHeadersMap,
+                                                                       "retriveListsMandatory.json");
         String apiEndPoint = connectorProperties.getProperty("apiUrl") + "/_api/web/Lists";
-        RestResponse<JSONObject> apiRestResponse = sendJsonRestRequest(apiEndPoint, "GET", apiRequestHeadersMap);
+        RestResponse<JSONObject> apiRestResponse = sendJsonRestRequest(apiEndPoint, "GET",
+                                                                       apiRequestHeadersMap);
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 200);
         Assert.assertEquals(apiRestResponse.getHttpStatusCode(), 200);
     }
@@ -181,21 +200,27 @@ public class SharepointConnectorIntegrationTest extends ConnectorIntegrationTest
      * @throws JSONException
      * @throws IOException
      */
-    @Test(priority = 2, groups = {"wso2.esb"}, dependsOnMethods = {"testCreateListWithMandatoryParameters"},
+    @Test(priority = 2, groups = {"wso2.esb"},
+            dependsOnMethods = {"testCreateListWithMandatoryParameters"},
             description = "sharepoint{createListItem} integration test with mandatory parameters.")
     public void testCreateListItemWithMandatoryParameters() throws IOException, JSONException {
         esbRequestHeadersMap.put("Action", "urn:createListItem");
-        RestResponse<JSONObject> esbRestResponse = sendJsonRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<JSONObject> esbRestResponse = sendJsonRestRequest(proxyUrl, "POST",
+                                                                       esbRequestHeadersMap,
                 "createListItemMandatory.json");
         String itemId = esbRestResponse.getBody().getJSONObject("d").getString("ID");
         connectorProperties.setProperty("itemId", itemId);
-        String itemType = esbRestResponse.getBody().getJSONObject("d").getJSONObject("__metadata").getString("type");
+        String itemType = esbRestResponse.getBody().getJSONObject("d").
+                getJSONObject("__metadata").getString("type");
         connectorProperties.setProperty("itemType", itemType);
         String apiEndPoint = connectorProperties.getProperty("apiUrl") + "/_api/web/lists/GetByTitle('" +
-                connectorProperties.getProperty("ListTitle") + "')/items(" + connectorProperties.getProperty("itemId") + ")";
-        RestResponse<JSONObject> apiRestResponse = sendJsonRestRequest(apiEndPoint, "GET", apiRequestHeadersMap);
+                connectorProperties.getProperty("ListTitle") + "')" +
+                             "/items(" + connectorProperties.getProperty("itemId") + ")";
+        RestResponse<JSONObject> apiRestResponse = sendJsonRestRequest(apiEndPoint, "GET",
+                                                                       apiRequestHeadersMap);
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 201);
-        Assert.assertEquals(connectorProperties.getProperty("listItemTitle"), apiRestResponse.getBody().getJSONObject("d").getString("Title"));
+        Assert.assertEquals(connectorProperties.getProperty("listItemTitle"),
+                            apiRestResponse.getBody().getJSONObject("d").getString("Title"));
     }
 
     /**
@@ -209,14 +234,18 @@ public class SharepointConnectorIntegrationTest extends ConnectorIntegrationTest
     public void testGetItemByIdWithMandatoryParameters() throws IOException, JSONException {
 
         esbRequestHeadersMap.put("Action", "urn:getItemById");
-        RestResponse<JSONObject> esbRestResponse = sendJsonRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<JSONObject> esbRestResponse = sendJsonRestRequest(proxyUrl, "POST",
+                                                                       esbRequestHeadersMap,
                 "getItemByIdMandatory.json");
         String apiEndPoint = connectorProperties.getProperty("apiUrl") + "/_api/web/lists/GetByTitle('" +
-                connectorProperties.getProperty("ListTitle") + "')/items(" + connectorProperties.getProperty("itemId") + ")";
-        RestResponse<JSONObject> apiRestResponse = sendJsonRestRequest(apiEndPoint, "GET", apiRequestHeadersMap);
+                connectorProperties.getProperty("ListTitle") + "')" +
+                             "/items(" + connectorProperties.getProperty("itemId") + ")";
+        RestResponse<JSONObject> apiRestResponse = sendJsonRestRequest(apiEndPoint, "GET",
+                                                                       apiRequestHeadersMap);
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 200);
         Assert.assertEquals(apiRestResponse.getHttpStatusCode(), 200);
-        Assert.assertEquals(esbRestResponse.getBody().getJSONObject("d").getString("Id"), apiRestResponse.getBody().getJSONObject("d").getString("Id"));
+        Assert.assertEquals(esbRestResponse.getBody().getJSONObject("d").getString("Id"),
+                            apiRestResponse.getBody().getJSONObject("d").getString("Id"));
     }
 
     /**
@@ -231,8 +260,10 @@ public class SharepointConnectorIntegrationTest extends ConnectorIntegrationTest
         RestResponse<JSONObject> esbRestResponse =
                 sendJsonRestRequest(proxyUrl, "POST", esbRequestHeadersMap, "getItemByIdNegative.json");
         String apiEndPoint = connectorProperties.getProperty("apiUrl") + "/_api/web/lists/GetByTitle('" +
-                connectorProperties.getProperty("ListTitle") + "')/items(" + connectorProperties.getProperty("negItemId") + ")";
-        RestResponse<JSONObject> apiRestResponse = sendJsonRestRequest(apiEndPoint, "GET", apiRequestHeadersMap);
+                connectorProperties.getProperty("ListTitle") + "')" +
+                             "/items(" + connectorProperties.getProperty("negItemId") + ")";
+        RestResponse<JSONObject> apiRestResponse = sendJsonRestRequest(apiEndPoint, "GET",
+                                                                       apiRequestHeadersMap);
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 400);
         Assert.assertEquals(apiRestResponse.getHttpStatusCode(), 400);
     }
@@ -247,11 +278,13 @@ public class SharepointConnectorIntegrationTest extends ConnectorIntegrationTest
             description = "sharepoint{retriveListItems} integration test with mandatory parameters.")
     public void testRetriveListItemsWithMandatoryParameters() throws IOException, JSONException {
         esbRequestHeadersMap.put("Action", "urn:retriveListItems");
-        RestResponse<JSONObject> esbRestResponse = sendJsonRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
-                "retriveListItemsMandatory.json");
+        RestResponse<JSONObject> esbRestResponse = sendJsonRestRequest(proxyUrl, "POST",
+                                                                       esbRequestHeadersMap,
+                                                                       "retriveListItemsMandatory.json");
         String apiEndPoint = connectorProperties.getProperty("apiUrl") + "/_api/web/Lists/getbytitle('"
                 + connectorProperties.getProperty("ListTitle") + "')/Items";
-        RestResponse<JSONObject> apiRestResponse = sendJsonRestRequest(apiEndPoint, "GET", apiRequestHeadersMap);
+        RestResponse<JSONObject> apiRestResponse = sendJsonRestRequest(apiEndPoint, "GET",
+                                                                       apiRequestHeadersMap);
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 200);
         Assert.assertEquals(apiRestResponse.getHttpStatusCode(), 200);
     }
@@ -268,13 +301,17 @@ public class SharepointConnectorIntegrationTest extends ConnectorIntegrationTest
 
         esbRequestHeadersMap.put("Action", "urn:updateListItems");
         RestResponse<JSONObject> esbRestResponse =
-                sendJsonRestRequest(proxyUrl, "POST", esbRequestHeadersMap, "updateListItemsMandatory.json");
+                sendJsonRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+                                    "updateListItemsMandatory.json");
         String apiEndPoint = connectorProperties.getProperty("apiUrl") + "/_api/web/lists/GetByTitle('" +
-                connectorProperties.getProperty("ListTitle") + "')/items(" + connectorProperties.getProperty("itemId") + ")";
-        RestResponse<JSONObject> apiRestResponse = sendJsonRestRequest(apiEndPoint, "GET", apiRequestHeadersMap);
+                connectorProperties.getProperty("ListTitle") + "')" +
+                             "/items(" + connectorProperties.getProperty("itemId") + ")";
+        RestResponse<JSONObject> apiRestResponse = sendJsonRestRequest(apiEndPoint, "GET",
+                                                                       apiRequestHeadersMap);
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 204);
         Assert.assertEquals(apiRestResponse.getHttpStatusCode(), 200);
-        Assert.assertEquals(connectorProperties.getProperty("updateListItemTitle"), apiRestResponse.getBody().getJSONObject("d").getString("Title"));
+        Assert.assertEquals(connectorProperties.getProperty("updateListItemTitle"),
+                            apiRestResponse.getBody().getJSONObject("d").getString("Title"));
     }
 
     /**
@@ -283,16 +320,20 @@ public class SharepointConnectorIntegrationTest extends ConnectorIntegrationTest
      * @throws JSONException
      * @throws IOException
      */
-    @Test(priority = 2, groups = {"wso2.esb"}, dependsOnMethods = {"testUpdateListItemsWithMandatoryParameters"},
+    @Test(priority = 2, groups = {"wso2.esb"},
+            dependsOnMethods = {"testUpdateListItemsWithMandatoryParameters"},
             description = "sharepoint{deleteListItem} integration test with mandatory parameters.")
     public void testDeleteListItemtWithMandatoryParameters() throws IOException, JSONException {
 
         esbRequestHeadersMap.put("Action", "urn:deleteListItem");
-        RestResponse<JSONObject> esbRestResponse = sendJsonRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<JSONObject> esbRestResponse = sendJsonRestRequest(proxyUrl, "POST",
+                                                                       esbRequestHeadersMap,
                 "deleteListItemMandatory.json");
         String apiEndPoint = connectorProperties.getProperty("apiUrl") + "/_api/web/lists/GetByTitle('" +
-                connectorProperties.getProperty("ListTitle") + "')/items(" + connectorProperties.getProperty("itemId") + ")";
-        RestResponse<JSONObject> apiRestResponse = sendJsonRestRequest(apiEndPoint, "GET", apiRequestHeadersMap);
+                connectorProperties.getProperty("ListTitle") + "')" +
+                             "/items(" + connectorProperties.getProperty("itemId") + ")";
+        RestResponse<JSONObject> apiRestResponse = sendJsonRestRequest(apiEndPoint, "GET",
+                                                                       apiRequestHeadersMap);
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 200);
         Assert.assertEquals(apiRestResponse.getHttpStatusCode(), 404);
     }
@@ -312,10 +353,12 @@ public class SharepointConnectorIntegrationTest extends ConnectorIntegrationTest
                 sendJsonRestRequest(proxyUrl, "POST", esbRequestHeadersMap, "updateListMandatory.json");
         String apiEndPoint = connectorProperties.getProperty("apiUrl") + "/_api/web/Lists/GetByTitle('" +
                 connectorProperties.getProperty("updateTitle") + "')";
-        RestResponse<JSONObject> apiRestResponse = sendJsonRestRequest(apiEndPoint, "GET", apiRequestHeadersMap);
+        RestResponse<JSONObject> apiRestResponse = sendJsonRestRequest(apiEndPoint, "GET",
+                                                                       apiRequestHeadersMap);
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 204);
         Assert.assertEquals(apiRestResponse.getHttpStatusCode(), 200);
-        Assert.assertEquals(connectorProperties.getProperty("updateTitle"), apiRestResponse.getBody().getJSONObject("d").getString("Title"));
+        Assert.assertEquals(connectorProperties.getProperty("updateTitle"),
+                            apiRestResponse.getBody().getJSONObject("d").getString("Title"));
     }
 
     /**
@@ -324,16 +367,20 @@ public class SharepointConnectorIntegrationTest extends ConnectorIntegrationTest
      * @throws JSONException
      * @throws IOException
      */
-    @Test(priority = 2, groups = {"wso2.esb"}, dependsOnMethods = {"testUpdateListWithMandatoryParameters"},
+    @Test(priority = 2, groups = {"wso2.esb"},
+            dependsOnMethods = {"testUpdateListWithMandatoryParameters"},
             description = "sharepoint{deleteList} integration test with mandatory parameters.")
     public void testDeleteListWithMandatoryParameters() throws IOException, JSONException {
 
         esbRequestHeadersMap.put("Action", "urn:deleteList");
-        RestResponse<JSONObject> esbRestResponse = sendJsonRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<JSONObject> esbRestResponse = sendJsonRestRequest(proxyUrl, "POST",
+                                                                       esbRequestHeadersMap,
                 "deleteListMandatory.json");
-        String apiEndPoint = connectorProperties.getProperty("apiUrl") + "/_api/web/Lists/GetByTitle('" +
-                connectorProperties.getProperty("ListTitle") + "')";
-        RestResponse<JSONObject> apiRestResponse = sendJsonRestRequest(apiEndPoint, "GET", apiRequestHeadersMap);
+        String apiEndPoint = connectorProperties.getProperty("apiUrl")
+                             + "/_api/web/Lists/GetByTitle('" +
+                             connectorProperties.getProperty("ListTitle") + "')";
+        RestResponse<JSONObject> apiRestResponse = sendJsonRestRequest(apiEndPoint, "GET",
+                                                                       apiRequestHeadersMap);
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 200);
         Assert.assertEquals(apiRestResponse.getHttpStatusCode(), 404);
     }
@@ -344,19 +391,24 @@ public class SharepointConnectorIntegrationTest extends ConnectorIntegrationTest
      * @throws JSONException
      * @throws IOException
      */
-    @Test(priority = 1, groups = {"wso2.esb"}, description = "sharepoint{createFolder} integration test with mandatory parameters.")
-    public void testCreateFoldertWithMandatoryParameters() throws IOException, JSONException {
+    @Test(priority = 1, groups = {"wso2.esb"},
+            description = "sharepoint{createFolder} integration test with mandatory parameters.")
+    public void testCreateFoldertWithMandatoryParameters()
+            throws IOException, JSONException, InterruptedException {
         esbRequestHeadersMap.put("Action", "urn:createFolder");
-        RestResponse<JSONObject> esbRestResponse = sendJsonRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<JSONObject> esbRestResponse = sendJsonRestRequest(proxyUrl, "POST",
+                                                                       esbRequestHeadersMap,
                 "createFolderMandatory.json");
         String folderName = esbRestResponse.getBody().getJSONObject("d").getString("Name");
         connectorProperties.setProperty("folderName", folderName);
-        String apiEndPoint = connectorProperties.getProperty("apiUrl") + "/_api/web/GetFolderByServerRelativeUrl('" +
-                connectorProperties.getProperty("serverRelativeUrl") + "')";
-        RestResponse<JSONObject> apiRestResponse = sendJsonRestRequest(apiEndPoint, "GET", apiRequestHeadersMap);
+        String apiEndPoint=esbRestResponse.getBody().getJSONObject("d").getJSONObject("__metadata").
+                getString("uri");
+        RestResponse<JSONObject> apiRestResponse = sendJsonRestRequest(apiEndPoint, "GET",
+                                                                       apiRequestHeadersMap);
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 201);
         Assert.assertEquals(apiRestResponse.getHttpStatusCode(), 200);
-        Assert.assertEquals(connectorProperties.getProperty("folderName"), apiRestResponse.getBody().getJSONObject("d").getString("Name"));
+        Assert.assertEquals(connectorProperties.getProperty("folderName"),
+                            apiRestResponse.getBody().getJSONObject("d").getString("Name"));
     }
 
     /**
@@ -365,16 +417,21 @@ public class SharepointConnectorIntegrationTest extends ConnectorIntegrationTest
      * @throws JSONException
      * @throws IOException
      */
-    @Test(priority = 1, groups = {"wso2.esb"}, dependsOnMethods = {"testCreateFoldertWithMandatoryParameters"},
+    @Test(priority = 1, groups = {"wso2.esb"},
+            dependsOnMethods = {"testCreateFoldertWithMandatoryParameters"},
             description = "sharepoint{retrieveFolder} integration test with mandatory parameters.")
     public void testRetrieveFolderWithMandatoryParameters() throws IOException, JSONException {
 
         esbRequestHeadersMap.put("Action", "urn:retrieveFolder");
-        RestResponse<JSONObject> esbRestResponse = sendJsonRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<JSONObject> esbRestResponse = sendJsonRestRequest(proxyUrl, "POST",
+                                                                       esbRequestHeadersMap,
                 "retrieveFolderMandatory.json");
-        String apiEndPoint = connectorProperties.getProperty("apiUrl") + "/_api/web/GetFolderByServerRelativeUrl('" +
-                connectorProperties.getProperty("serverRelativeUrl") + "')";
-        RestResponse<JSONObject> apiRestResponse = sendJsonRestRequest(apiEndPoint, "GET", apiRequestHeadersMap);
+        String serverRelativeUrl=connectorProperties.getProperty("serverRelativeUrl").
+                replaceAll(" ", "%20");
+        String apiEndPoint = connectorProperties.getProperty("apiUrl") +
+                             "/_api/web/GetFolderByServerRelativeUrl('" + serverRelativeUrl + "')";
+        RestResponse<JSONObject> apiRestResponse = sendJsonRestRequest(apiEndPoint, "GET",
+                                                                       apiRequestHeadersMap);
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 200);
         Assert.assertEquals(apiRestResponse.getHttpStatusCode(), 200);
     }
@@ -385,22 +442,30 @@ public class SharepointConnectorIntegrationTest extends ConnectorIntegrationTest
      * @throws JSONException
      * @throws IOException
      */
-    @Test(priority = 1, groups = {"wso2.esb"}, dependsOnMethods = {"testCreateFoldertWithMandatoryParameters"},
-            description = "sharepoint{createFileWithinFolder} integration test with mandatory parameters.")
+    @Test(priority = 1, groups = {"wso2.esb"},
+            dependsOnMethods = {"testCreateFoldertWithMandatoryParameters"},
+            description = "sharepoint{createFileWithinFolder} integration test with mandatory" +
+                          " parameters.")
     public void testCreateFileWithinFolderWithMandatoryParameters() throws IOException, JSONException {
 
         esbRequestHeadersMap.put("Action", "urn:createFileWithinFolder");
-        RestResponse<JSONObject> esbRestResponse = sendJsonRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<JSONObject> esbRestResponse = sendJsonRestRequest(proxyUrl, "POST",
+                                                                       esbRequestHeadersMap,
                 "createFileWithinFolderMandatory.json");
         String filePath = esbRestResponse.getBody().getJSONObject("d").getString("ServerRelativeUrl");
         connectorProperties.setProperty("filePath", filePath);
-        String apiEndPoint = connectorProperties.getProperty("apiUrl") + "/_api/web/GetFolderByServerRelativeUrl('" +
-                connectorProperties.getProperty("serverRelativeUrl") + "')/Files('" +
+        String serverRelativeUrl=connectorProperties.getProperty("serverRelativeUrl").
+                replaceAll(" ", "%20");
+        String apiEndPoint = connectorProperties.getProperty("apiUrl")
+                             + "/_api/web/GetFolderByServerRelativeUrl('" +
+                             serverRelativeUrl + "')/Files('" +
                 connectorProperties.getProperty("fileName") + "')";
-        RestResponse<JSONObject> apiRestResponse = sendJsonRestRequest(apiEndPoint, "GET", apiRequestHeadersMap);
+        RestResponse<JSONObject> apiRestResponse = sendJsonRestRequest(apiEndPoint, "GET",
+                                                                       apiRequestHeadersMap);
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 200);
         Assert.assertEquals(apiRestResponse.getHttpStatusCode(), 200);
-        Assert.assertEquals(connectorProperties.getProperty("fileName"), apiRestResponse.getBody().getJSONObject("d").getString("Name"));
+        Assert.assertEquals(connectorProperties.getProperty("fileName"),
+                            apiRestResponse.getBody().getJSONObject("d").getString("Name"));
     }
 
     /**
@@ -410,15 +475,21 @@ public class SharepointConnectorIntegrationTest extends ConnectorIntegrationTest
      * @throws IOException
      */
     @Test(priority = 1, groups = {"wso2.esb"},
-            description = "sharepoint{retriveAllFilesWithinFolder} integration test with mandatory parameters.")
+            description = "sharepoint{retriveAllFilesWithinFolder} integration test with mandatory " +
+                          "parameters.")
     public void testRetriveAllFilesWithinFolderMandatoryParameters() throws IOException, JSONException {
 
         esbRequestHeadersMap.put("Action", "urn:retriveAllFilesWithinFolder");
-        RestResponse<JSONObject> esbRestResponse = sendJsonRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<JSONObject> esbRestResponse = sendJsonRestRequest(proxyUrl, "POST",
+                                                                       esbRequestHeadersMap,
                 "retriveAllFilesWithinFolderMandatory.json");
-        String apiEndPoint = connectorProperties.getProperty("apiUrl") + "/_api/web/GetFolderByServerRelativeUrl('" +
-                connectorProperties.getProperty("serverRelativeUrl") + "')";
-        RestResponse<JSONObject> apiRestResponse = sendJsonRestRequest(apiEndPoint, "GET", apiRequestHeadersMap);
+        String serverRelativeUrl=connectorProperties.getProperty("serverRelativeUrl").
+                replaceAll(" ", "%20");
+        String apiEndPoint = connectorProperties.getProperty("apiUrl")
+                             + "/_api/web/GetFolderByServerRelativeUrl('" +
+                             serverRelativeUrl + "')";
+        RestResponse<JSONObject> apiRestResponse = sendJsonRestRequest(apiEndPoint, "GET",
+                                                                       apiRequestHeadersMap);
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 200);
         Assert.assertEquals(apiRestResponse.getHttpStatusCode(), 200);
     }
@@ -429,18 +500,26 @@ public class SharepointConnectorIntegrationTest extends ConnectorIntegrationTest
      * @throws JSONException
      * @throws IOException
      */
-    @Test(priority = 1, groups = {"wso2.esb"}, description = "sharepoint{getFile} integration test with mandatory parameters.")
+    @Test(priority = 1, groups = {"wso2.esb"}, description = "sharepoint{getFile} integration test" +
+                                                             " with mandatory parameters.")
     public void testGetFileWithMandatoryParameters() throws IOException, JSONException {
 
         esbRequestHeadersMap.put("Action", "urn:getFile");
-        RestResponse<JSONObject> esbRestResponse = sendJsonRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<JSONObject> esbRestResponse = sendJsonRestRequest(proxyUrl, "POST",
+                                                                       esbRequestHeadersMap,
                 "getFileMandatory.json");
-        String apiEndPoint = connectorProperties.getProperty("apiUrl") + "/_api/web/GetFolderByServerRelativeUrl('" +
-                connectorProperties.getProperty("serverRelativeUrl") + "')/Files('" +
+        String serverRelativeUrl=connectorProperties.getProperty("serverRelativeUrl").
+                replaceAll(" ", "%20");
+        String apiEndPoint = connectorProperties.getProperty("apiUrl")
+                             + "/_api/web/GetFolderByServerRelativeUrl('" +
+                             serverRelativeUrl + "')/Files('" +
                 connectorProperties.getProperty("fileName") + "')/$value";
-        RestResponse<JSONObject> apiRestResponse = sendJsonRestRequest(apiEndPoint, "GET", apiRequestHeadersMap);
+        RestResponse<JSONObject> apiRestResponse = sendJsonRestRequest(apiEndPoint, "GET",
+                                                                       apiRequestHeadersMap);
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 200);
-        Assert.assertEquals(esbRestResponse.getBody().getString("output"), apiRestResponse.getBody().getString("output"));
+        Assert.assertEquals(esbRestResponse.getBody().getString("output"),
+                            apiRestResponse.getBody().getString("output"));
+
     }
 
     /**
@@ -449,20 +528,27 @@ public class SharepointConnectorIntegrationTest extends ConnectorIntegrationTest
      * @throws JSONException
      * @throws IOException
      */
-    @Test(priority = 1, groups = {"wso2.esb"}, dependsOnMethods = {"testCreateFileWithinFolderWithMandatoryParameters"},
+    @Test(priority = 1, groups = {"wso2.esb"},
+            dependsOnMethods = {"testCreateFileWithinFolderWithMandatoryParameters"},
             description = "sharepoint {updateFileContent} integration test with mandatory parameters.")
     public void testUpdateFileContenttWithMandatoryParameters() throws IOException, JSONException {
 
         esbRequestHeadersMap.put("Action", "urn:updateFileContent");
         RestResponse<JSONObject> esbRestResponse =
-                sendJsonRestRequest(proxyUrl, "POST", esbRequestHeadersMap, "updateFileContentMandatory.json");
-        String apiEndPoint = connectorProperties.getProperty("apiUrl") + "/_api/web/GetFolderByServerRelativeUrl('" +
-                connectorProperties.getProperty("serverRelativeUrl") + "')/Files('" +
+                sendJsonRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+                                    "updateFileContentMandatory.json");
+        String serverRelativeUrl=connectorProperties.getProperty("serverRelativeUrl").
+                replaceAll(" ", "%20");
+        String apiEndPoint = connectorProperties.getProperty("apiUrl")
+                             + "/_api/web/GetFolderByServerRelativeUrl('" +
+                serverRelativeUrl + "')/Files('" +
                 connectorProperties.getProperty("fileName") + "')/$value";
-        RestResponse<JSONObject> apiRestResponse = sendJsonRestRequest(apiEndPoint, "GET", apiRequestHeadersMap);
+        RestResponse<JSONObject> apiRestResponse = sendJsonRestRequest(apiEndPoint, "GET",
+                                                                       apiRequestHeadersMap);
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 204);
         Assert.assertEquals(apiRestResponse.getHttpStatusCode(), 200);
-        Assert.assertEquals(connectorProperties.getProperty("updateCondent"), apiRestResponse.getBody().getString("output"));
+        Assert.assertEquals(connectorProperties.getProperty("updateCondent"),
+                            apiRestResponse.getBody().getString("output"));
     }
 
     /**
@@ -472,11 +558,13 @@ public class SharepointConnectorIntegrationTest extends ConnectorIntegrationTest
      * @throws IOException
      */
     @Test(priority = 2, groups = {"wso2.esb"},
-            dependsOnMethods = {"testUpdateFileContenttWithMandatoryParameters", "testGetFileWithMandatoryParameters"},
+            dependsOnMethods = {"testUpdateFileContenttWithMandatoryParameters",
+                                "testGetFileWithMandatoryParameters"},
             description = "sharepoint{deleteFile} integration test with mandatory parameters.")
     public void testDeleteFileWithMandatoryParameters() throws IOException, JSONException {
         esbRequestHeadersMap.put("Action", "urn:deleteFile");
-        RestResponse<JSONObject> esbRestResponse = sendJsonRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<JSONObject> esbRestResponse = sendJsonRestRequest(proxyUrl, "POST",
+                                                                       esbRequestHeadersMap,
                 "deleteFileMandatory.json");
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 200);
     }
@@ -488,16 +576,58 @@ public class SharepointConnectorIntegrationTest extends ConnectorIntegrationTest
      * @throws IOException
      */
     @Test(priority = 2, groups = {"wso2.esb"},
-            dependsOnMethods = {"testDeleteFileWithMandatoryParameters", "testRetriveAllFilesWithinFolderMandatoryParameters"},
+            dependsOnMethods = {"testDeleteFileWithMandatoryParameters",
+                                "testRetriveAllFilesWithinFolderMandatoryParameters"},
             description = "sharepoint{deleteFolder} integration test with mandatory parameters.")
     public void testDeleteFolderWithMandatoryParameters() throws IOException, JSONException {
         esbRequestHeadersMap.put("Action", "urn:deleteFolder");
-        RestResponse<JSONObject> esbRestResponse = sendJsonRestRequest(proxyUrl, "POST", esbRequestHeadersMap,
+        RestResponse<JSONObject> esbRestResponse = sendJsonRestRequest(proxyUrl, "POST",
+                                                                       esbRequestHeadersMap,
                 "deleteFolderMandatory.json");
-        String apiEndPoint = connectorProperties.getProperty("apiUrl") + "/_api/web/GetFolderByServerRelativeUrl('" +
-                connectorProperties.getProperty("serverRelativeUrl") + "')";
-        RestResponse<JSONObject> apiRestResponse = sendJsonRestRequest(apiEndPoint, "GET", apiRequestHeadersMap);
+        String serverRelativeUrl=connectorProperties.getProperty("serverRelativeUrl").
+                replaceAll(" ", "%20");
+        String apiEndPoint = connectorProperties.getProperty("apiUrl")
+                             + "/_api/web/GetFolderByServerRelativeUrl('" +
+              serverRelativeUrl + "')";
+        RestResponse<JSONObject> apiRestResponse = sendJsonRestRequest(apiEndPoint, "GET",
+                                                                       apiRequestHeadersMap);
         Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 200);
         Assert.assertEquals(apiRestResponse.getHttpStatusCode(), 500);
+    }
+
+    /**
+     * Positive test case for createCustomListItem method with mandatory parameters.
+     *
+     * @throws JSONException
+     * @throws IOException
+     */
+    @Test(priority = 2, groups = {"wso2.esb"},
+            description = "sharepoint{createCustomListItem} integration test with mandatory" +
+                          " parameters.")
+    public void testCreateCustomListItemMandatoryParameters() throws IOException, JSONException {
+        esbRequestHeadersMap.put("Action", "urn:createCustomListItem");
+        RestResponse<JSONObject> esbRestResponse = sendJsonRestRequest(proxyUrl, "POST",
+                                                                       esbRequestHeadersMap,
+                                                                       "createCustomListItemMandatory.json");
+        Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 201);
+        Assert.assertEquals(connectorProperties.getProperty("customListItemType"), esbRestResponse
+                .getBody().
+                getJSONObject("d").getJSONObject("__metadata").getString("type"));
+    }
+
+    /**
+     * Negative test case for createCustomListItem method with mandatory parameters.
+     *
+     * @throws JSONException
+     * @throws IOException
+     */
+    @Test(priority = 2, groups = {"wso2.esb"},
+            description = "sharepoint{createCustomListItem} integration test with negative parameters.")
+    public void testCreateCustomListItemNegativecase() throws IOException, JSONException {
+        esbRequestHeadersMap.put("Action", "urn:createCustomListItem");
+        RestResponse<JSONObject> esbRestResponse = sendJsonRestRequest(proxyUrl, "POST",
+                                                                       esbRequestHeadersMap,
+                                                                       "createCustomListItemNegative.json");
+        Assert.assertEquals(esbRestResponse.getHttpStatusCode(), 404);
     }
 }

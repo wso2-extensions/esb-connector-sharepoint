@@ -16,30 +16,37 @@
   ~ specific language governing permissions and limitations
   ~ under the License.
   -->
-<template name="updateListItems" xmlns="http://ws.apache.org/ns/synapse">
-    <parameter name="title" description="The title of the list."/>
+<template name="createCustomListItem" xmlns="http://ws.apache.org/ns/synapse">
+    <parameter name="customListItems" description="The list of items to be created."/>
     <parameter name="type" description="Type use when constructing the metadata variable."/>
-    <parameter name="itemId" description="The ID of the list item to update."/>
-    <parameter name="newTitle" description="The new title of item to update."/>
-    <parameter name="ifMatch" description="To force an overwrite of the item regardless of version, set the ETag value."/>
+    <parameter name="listTitle" description="The title of the list to create list item."/>
     <sequence>
-        <property name="uri.var.title" expression="$func:title"/>
-        <property name="uri.var.newTitle" expression="$func:newTitle"/>
+        <property name="uri.var.customListItems" expression="$func:customListItems"/>
+        <property name="uri.var.listTitle" expression="$func:listTitle"/>
         <property name="uri.var.type" expression="$func:type"/>
-        <property name="uri.var.itemId" expression="$func:itemId"/>
-        <property name="uri.var.ifMatch" expression="$func:ifMatch"/>
-        <header name="If-Match"
-                expression="$ctx:uri.var.ifMatch" scope="transport"/>
+        <script language="js"><![CDATA[
+            var customListItems=mc.getProperty('uri.var.customListItems');
+            if (customListItems != null && customListItems != "") {
+                var obj = eval ("(" + customListItems + ")");
+                var listItems = "";
+                for(var key in obj){
+                    listItems += "'" + key + "':'" + obj[key] + "',";
+                }
+                listItems = listItems.toString().substring(0, listItems.toString().lastIndexOf(","));
+            }
+            mc.setProperty('uri.var.customListItems', listItems);
+            ]]>
+        </script>
         <payloadFactory media-type="json">
             <format>
                 {
-                    "__metadata": {"type":"$1"},
-                    "Title":"$2"
+                    "__metadata": { "type":"$1" },
+                    $2
                 }
             </format>
             <args>
                 <arg expression="$ctx:uri.var.type"/>
-                <arg expression="$ctx:uri.var.newTitle"/>
+                <arg expression="$ctx:uri.var.customListItems"/>
             </args>
         </payloadFactory>
         <property name="messageType" value="application/json;odata=verbose" scope="axis2"/>
@@ -48,16 +55,16 @@
             <then>
                 <call blocking="true">
                     <endpoint>
-                        <http method="PATCH"
-                              uri-template="{uri.var.apiUrl}/_api/web/lists/GetByTitle('{uri.var.title}')/items({uri.var.itemId})"/>
+                        <http method="post"
+                              uri-template="{uri.var.apiUrl}/_api/web/lists/GetByTitle('{uri.var.listTitle}')/items"/>
                     </endpoint>
                 </call>
             </then>
             <else>
                 <call>
                     <endpoint>
-                        <http method="PATCH"
-                              uri-template="{uri.var.apiUrl}/_api/web/lists/GetByTitle('{uri.var.title}')/items({uri.var.itemId})"/>
+                        <http method="post"
+                              uri-template="{uri.var.apiUrl}/_api/web/lists/GetByTitle('{uri.var.listTitle}')/items"/>
                     </endpoint>
                 </call>
             </else>

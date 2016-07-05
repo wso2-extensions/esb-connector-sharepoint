@@ -54,6 +54,8 @@
             <property name="itemId" expression="json-eval($.itemId)"/>
             <property name="newTitle" expression="json-eval($.newTitle)"/>
             <property name="intervalTime" expression="json-eval($.intervalTime)"/>
+            <property name="blocking" expression="json-eval($.blocking)"/>
+            <property name="customListItems" expression="json-eval($.customListItems)"/>
             <sharepoint.init>
                 <apiUrl>{$ctx:apiUrl}</apiUrl>
                 <accessToken>{$ctx:accessToken}</accessToken>
@@ -65,6 +67,7 @@
                 <resource>{$ctx:resource}</resource>
                 <registryPath>{$ctx:registryPath}</registryPath>
                 <intervalTime>{$ctx:intervalTime}</intervalTime>
+                <blocking>{$ctx:blocking}</blocking>
             </sharepoint.init>
             <switch source="get-property('transport','Action')">
                 <case regex="urn:createList">
@@ -194,6 +197,14 @@
                         <fileContent>{$ctx:fileContent}</fileContent>
                         <ifMatch>{$ctx:ifMatch}</ifMatch>
                     </sharepoint.updateFileContent>
+                </case>
+                <case regex="urn:createCustomListItem">
+                    <sharepoint.createCustomListItem>
+                        <customListItems>{$ctx:customListItems}</customListItems>
+                        <type>{$ctx:type}</type>
+                        <listTitle>{$ctx:listTitle}</listTitle>
+                        <blocking>{$ctx:blocking}</blocking>
+                    </sharepoint.createCustomListItem>
                 </case>
             </switch>
             <respond/>
