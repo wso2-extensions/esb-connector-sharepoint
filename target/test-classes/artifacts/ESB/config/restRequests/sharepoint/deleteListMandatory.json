@@ -1,7 +1,0 @@
-{
-  "accessToken": "%s(accessToken)",
-  "apiUrl": "%s(apiUrl)",
-  "blocking":"%s(blocking)",
-  "title": "%s(updateTitle)",
-  "ifMatch": "%s(ifMatch)"
-}

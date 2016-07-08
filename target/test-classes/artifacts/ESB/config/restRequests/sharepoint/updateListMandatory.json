@@ -1,9 +1,0 @@
-{
-  "accessToken": "%s(accessToken)",
-  "apiUrl": "%s(apiUrl)",
-  "blocking":"%s(blocking)",
-  "type": "%s(type)",
-  "guId": "%s(listId)",
-  "title": "%s(updateTitle)",
-  "ifMatch": "%s(ifMatch)"
-}

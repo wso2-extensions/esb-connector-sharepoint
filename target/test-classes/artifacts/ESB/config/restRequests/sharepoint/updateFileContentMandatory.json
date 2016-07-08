@@ -1,7 +1,0 @@
-{
-  "accessToken": "%s(accessToken)",
-  "apiUrl": "%s(apiUrl)",
-  "blocking":"%s(blocking)",
-  "filePath": "%s(filePath)",
-  "fileContent": "%s(updateCondent)"
-}

@@ -1,7 +1,0 @@
-{
-  "accessToken": "%s(accessToken)",
-  "apiUrl": "%s(apiUrl)",
-  "blocking":"%s(blocking)",
-  "itemId": "%s(negItemId)",
-  "title": "%s(ListTitle)"
-}
