@@ -53,6 +53,7 @@
             </args>
         </payloadFactory>
         <property name="messageType" value="application/x-www-form-urlencoded" scope="axis2"/>
+        <property name="DISABLE_CHUNKING" value="true" scope="axis2"/>
         <filter source="$ctx:sharepointBlocking" regex="true">
             <then>
                 <call blocking="true">
