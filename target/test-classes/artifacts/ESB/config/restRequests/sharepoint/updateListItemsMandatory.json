@@ -1,0 +1,10 @@
+{
+  "accessToken": "%s(accessToken)",
+  "apiUrl": "%s(apiUrl)",
+  "blocking":"%s(blocking)",
+  "type": "%s(itemType)",
+  "itemId": "%s(itemId)",
+  "newTitle": "%s(updateListItemTitle)",
+  "title": "%s(ListTitle)",
+  "ifMatch": "%s(ifMatch)"
+}

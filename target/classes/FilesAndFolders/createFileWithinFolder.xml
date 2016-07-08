@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2016, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+  ~
+  ~ WSO2 Inc. licenses this file to you under the Apache License,
+  ~ Version 2.0 (the "License"); you may not use this file except
+  ~ in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~    http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing,
+  ~ software distributed under the License is distributed on an
+  ~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+  ~ KIND, either express or implied.  See the License for the
+  ~ specific language governing permissions and limitations
+  ~ under the License.
+  -->
+<template name="createFileWithinFolder" xmlns="http://ws.apache.org/ns/synapse">
+    <parameter name="folderName" description="Name of the folder path."/>
+    <parameter name="overwrite"
+               description="Permition to access the file."/>
+    <parameter name="fileName" description="Name of the file to create(Eg: abc.txt)."/>
+    <parameter name="fileContent" description="Content of the file."/>
+    <sequence>
+        <property name="uri.var.folderName" expression="$func:folderName"/>
+        <property name="uri.var.fileName" expression="$func:fileName"/>
+        <property name="uri.var.overwrite" expression="$func:overwrite"/>
+        <property name="uri.var.fileContent" expression="$func:fileContent"/>
+        <payloadFactory media-type="xml">
+            <format>
+                <ms11:text xmlns:ms11="http://ws.apache.org/commons/ns/payload">$1</ms11:text>
+            </format>
+            <args>
+                <arg expression="$ctx:uri.var.fileContent"/>
+            </args>
+        </payloadFactory>
+        <property name="messageType" value="text/plain" scope="axis2"/>
+        <property action="remove" name="Accept-Encoding" scope="transport"/>
+        <property name="DISABLE_CHUNKING" value="true" scope="axis2"/>
+        <filter source="$ctx:sharepointBlocking" regex="true">
+            <then>
+                <call blocking="true">
+                    <endpoint>
+                        <http method="post"
+                              uri-template="{uri.var.apiUrl}/_api/web/GetFolderByServerRelativeUrl('{uri.var.folderName}')/Files/add(url='{uri.var.fileName}',overwrite={uri.var.overwrite})"/>
+                    </endpoint>
+                </call>
+            </then>
+            <else>
+                <call>
+                    <endpoint>
+                        <http method="post"
+                              uri-template="{uri.var.apiUrl}/_api/web/GetFolderByServerRelativeUrl('{uri.var.folderName}')/Files/add(url='{uri.var.fileName}',overwrite={uri.var.overwrite})"/>
+                    </endpoint>
+                </call>
+            </else>
+        </filter>
+        <!-- Remove custom Headers from the API Response -->
+        <header name="X-Frame-Options" action="remove" scope="transport"/>
+        <header name="Strict-Transport-Security" action="remove" scope="transport"/>
+        <header name="RequestId" action="remove" scope="transport"/>
+        <header name="X-Content-Type-Options" action="remove" scope="transport"/>
+        <header name="OData-Version" action="remove" scope="transport"/>
+        <header name="Cache-Control" action="remove" scope="transport"/>
+    </sequence>
+</template>

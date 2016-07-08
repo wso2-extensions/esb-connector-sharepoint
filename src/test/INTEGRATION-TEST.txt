@@ -32,6 +32,19 @@ Steps to follow in setting integration test.
     <messageBuilder contentType="binary/octet-stream"
                                     class="org.wso2.carbon.relay.BinaryRelayBuilder"/>
 
+    When you call createCustomListItem connector method with blocking mode and getAccessTokenFromRefreshToken, you need to add the following
+    builders and formatter in axis2_blocking_client.xml
+
+    <messageFormatter contentType="application/json;odata=verbose"
+                                    class="org.apache.synapse.commons.json.JsonStreamFormatter"/>
+    <messageBuilder contentType="application/json;odata=verbose"
+                                    class="org.apache.synapse.commons.json.JsonStreamBuilder"/>
+
+    <messageFormatter contentType="application/octet-stream"
+                                    class="org.apache.axis2.format.BinaryFormatter"/>
+    <messageBuilder contentType="binary/octet-stream"
+                                    class="org.wso2.carbon.relay.BinaryRelayBuilder"/>
+
  3. Create a office365 account using URL https://login.microsoftonline.com/ , and click SharePoint.
         Note: This is a 30-day free trial account.
 

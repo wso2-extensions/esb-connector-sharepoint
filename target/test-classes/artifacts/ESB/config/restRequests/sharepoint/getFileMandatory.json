@@ -1,0 +1,8 @@
+{
+  "accessToken": "%s(accessToken)",
+  "apiUrl": "%s(apiUrl)",
+  "blocking":"%s(blocking)",
+  "folderPath": "%s(serverRelativeUrl)",
+  "fileName": "%s(fileName)"
+
+}

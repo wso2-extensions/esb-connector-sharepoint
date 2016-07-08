@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2016, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+  ~
+  ~ WSO2 Inc. licenses this file to you under the Apache License,
+  ~ Version 2.0 (the "License"); you may not use this file except
+  ~ in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~    http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing,
+  ~ software distributed under the License is distributed on an
+  ~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+  ~ KIND, either express or implied.  See the License for the
+  ~ specific language governing permissions and limitations
+  ~ under the License.
+  -->
+<!-- Method Documentation URL: https://msdn.microsoft.com/en-us/library/azure/dn645542.aspx -->
+<template name="getAccessTokenFromRefreshToken" xmlns="http://ws.apache.org/ns/synapse">
+    <parameter name="resource" description="The App ID URI of the web API."/>
+    <parameter name="refreshToken" description="RefreshToken to be used to obtain the access token."/>
+    <parameter name="clientId"
+               description="The value of your API Key given when you registered your application with sharepoint."/>
+    <parameter name="clientSecret"
+               description="The value of your secret key given when you registered your application with sharepoint."/>
+    <parameter name="id" description="Realm id, This is a constant GUID for a site."/>
+    <parameter name="redirectUri" description="The redirect url, that you passed to get code."/>
+    <sequence>
+        <property name="uri.var.resource" expression="$func:resource"/>
+        <property name="uri.var.refreshToken" expression="$func:refreshToken"/>
+        <property name="uri.var.clientId" expression="$func:clientId"/>
+        <property name="uri.var.clientSecret" expression="$func:clientSecret"/>
+        <property name="uri.var.redirectUri" expression="$func:redirectUri"/>
+        <property name="uri.var.id" expression="$func:id"/>
+        <payloadFactory media-type="json">
+            <format>
+                {
+                    "grant_type":"refresh_token",
+                    "client_id":"$1",
+                    "client_secret":"$2",
+                    "refresh_token":"$3",
+                    "redirect_uri":"$4",
+                    "resource":"$5"
+                }
+            </format>
+            <args>
+                <arg expression="$ctx:uri.var.clientId"/>
+                <arg expression="$ctx:uri.var.clientSecret"/>
+                <arg expression="$ctx:uri.var.refreshToken"/>
+                <arg expression="$ctx:uri.var.redirectUri"/>
+                <arg expression="$ctx:uri.var.resource"/>
+            </args>
+        </payloadFactory>
+        <property name="messageType" value="application/x-www-form-urlencoded" scope="axis2"/>
+        <property name="DISABLE_CHUNKING" value="true" scope="axis2"/>
+        <filter source="$ctx:sharepointBlocking" regex="true">
+            <then>
+                <call blocking="true">
+                    <endpoint>
+                        <http method="post"
+                              uri-template="https://accounts.accesscontrol.windows.net/{uri.var.id}/tokens/OAuth/2"/>
+                    </endpoint>
+                </call>
+            </then>
+            <else>
+                <call>
+                    <endpoint>
+                        <http method="post"
+                              uri-template="https://accounts.accesscontrol.windows.net/{uri.var.id}/tokens/OAuth/2"/>
+                    </endpoint>
+                </call>
+            </else>
+        </filter>
+        <property name="uri.var.accessToken" expression="json-eval($.access_token)"/>
+        <property name="systemTime" expression="$ctx:SYSTEM_TIME" scope="default"/>
+        <script language="js">
+            <![CDATA[
+            importPackage(Packages.org.apache.synapse.config);
+            var newAccessToken = mc.getProperty('uri.var.accessToken');
+            var newSystemTime = mc.getProperty('systemTime');
+            var newAccessRegistryPath = mc.getProperty('uri.var.accessTokenRegistryPath');
+            var newTimeRegistryPath = mc.getProperty('uri.var.timeRegistryPath');
+            if(newAccessToken != null && newAccessToken != ''){
+                var existingAccessToken = mc.getConfiguration().getRegistry().getResource(newAccessRegistryPath);
+                var existingTime = mc.getConfiguration().getRegistry().getResource(newTimeRegistryPath);
+                if(existingAccessToken == null){
+                    // Create the registry entry if no such entry exists.
+                    mc.getConfiguration().getRegistry().newResource(newAccessRegistryPath, false);
+                    mc.getConfiguration().getRegistry().updateResource(newAccessRegistryPath, newAccessToken);
+                    mc.getConfiguration().getRegistry().newResource(newTimeRegistryPath, false);
+                    mc.getConfiguration().getRegistry().updateResource(newTimeRegistryPath, newSystemTime);
+                }else {
+                    // Update the registry entry if it already exists.
+                    mc.getConfiguration().getRegistry().updateResource(newAccessRegistryPath, newAccessToken);
+                    mc.getConfiguration().getRegistry().updateResource(newTimeRegistryPath, newSystemTime);
+                }
+            }
+            ]]>
+        </script>
+        <header name="Authorization" expression="fn:concat('Bearer ', $ctx:uri.var.accessToken)"
+                scope="transport"/>
+        <!-- Remove custom Headers from the API Response -->
+        <header name="P3P" action="remove" scope="transport"/>
+        <header name="Pragma" action="remove" scope="transport"/>
+        <header name="Server" action="remove" scope="transport"/>
+        <header name="Strict-Transport-Security" action="remove" scope="transport"/>
+        <header name="X-Content-Type-Options" action="remove" scope="transport"/>
+        <header name="X-Powered-By" action="remove" scope="transport"/>
+        <header name="client-request-id" action="remove" scope="transport"/>
+        <header name="x-ms-gateway-service-instanceid" action="remove" scope="transport"/>
+        <header name="x-ms-request-id" action="remove" scope="transport"/>
+    </sequence>
+</template>

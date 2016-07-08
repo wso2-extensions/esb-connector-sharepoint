@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2016, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+  ~
+  ~ WSO2 Inc. licenses this file to you under the Apache License,
+  ~ Version 2.0 (the "License"); you may not use this file except
+  ~ in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~    http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing,
+  ~ software distributed under the License is distributed on an
+  ~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+  ~ KIND, either express or implied.  See the License for the
+  ~ specific language governing permissions and limitations
+  ~ under the License.
+  -->
+<template name="createList" xmlns="http://ws.apache.org/ns/synapse">
+    <parameter name="allowContentTypes"
+               description="Boolean value, that specifies whether the list supports content types."/>
+    <parameter name="baseTemplate"
+               description="Specifies list definition type on which the list is based."/>
+    <parameter name="contentTypesEnabled"
+               description="Boolean value, that specifies whether content types are enabled for the list."/>
+    <parameter name="description" description="Description of the list."/>
+    <parameter name="title"
+               description="The title for the list. Its length must be less than or equal 255 characters."/>
+    <parameter name="type" description="Type when constructing the metadata variable."/>
+    <sequence>
+        <property name="uri.var.allowContentTypes" expression="$func:allowContentTypes"/>
+        <property name="uri.var.baseTemplate" expression="$func:baseTemplate"/>
+        <property name="uri.var.contentTypesEnabled" expression="$func:contentTypesEnabled"/>
+        <property name="uri.var.description" expression="$func:description"/>
+        <property name="uri.var.title" expression="$func:title"/>
+        <property name="uri.var.type" expression="$func:type"/>
+        <payloadFactory media-type="json">
+            <format>
+                {
+                    "__metadata":{"type":"$1"},
+                    "AllowContentTypes":"$2",
+                    "BaseTemplate":"$3",
+                    "ContentTypesEnabled":"$4",
+                    "Description":"$5",
+                    "Title":"$6"
+                }
+            </format>
+            <args>
+                <arg expression="$ctx:uri.var.type"/>
+                <arg expression="$ctx:uri.var.allowContentTypes"/>
+                <arg expression="$ctx:uri.var.baseTemplate"/>
+                <arg expression="$ctx:uri.var.contentTypesEnabled"/>
+                <arg expression="$ctx:uri.var.description"/>
+                <arg expression="$ctx:uri.var.title"/>
+            </args>
+        </payloadFactory>
+        <property name="messageType" value="application/json;odata=verbose" scope="axis2"/>
+        <property action="remove" name="Accept-Encoding" scope="transport"/>
+        <filter source="$ctx:sharepointBlocking" regex="true">
+            <then>
+                <call blocking="true">
+                    <endpoint>
+                        <http method="post" uri-template="{uri.var.apiUrl}/_api/web/lists"/>
+                    </endpoint>
+                </call>
+            </then>
+            <else>
+                <call>
+                    <endpoint>
+                        <http method="post" uri-template="{uri.var.apiUrl}/_api/web/lists"/>
+                    </endpoint>
+                </call>
+            </else>
+        </filter>
+        <!-- Remove custom Headers from the API Response -->
+        <header name="X-Frame-Options" action="remove" scope="transport"/>
+        <header name="Strict-Transport-Security" action="remove" scope="transport"/>
+        <header name="RequestId" action="remove" scope="transport"/>
+        <header name="X-Content-Type-Options" action="remove" scope="transport"/>
+        <header name="OData-Version" action="remove" scope="transport"/>
+        <header name="Cache-Control" action="remove" scope="transport"/>
+    </sequence>
+</template>

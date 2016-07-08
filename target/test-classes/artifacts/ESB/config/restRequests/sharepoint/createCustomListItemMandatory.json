@@ -1,0 +1,8 @@
+{
+  "accessToken": "%s(accessToken)",
+  "apiUrl": "%s(apiUrl)",
+  "type": "%s(customListItemType)",
+  "blocking":"%s(blocking)",
+  "customListItems":%s(customListItems),
+  "listTitle": "%s(customListTitle)"
+}
