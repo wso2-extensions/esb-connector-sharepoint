@@ -24,32 +24,35 @@
         <property name="uri.var.customListItems" expression="$func:customListItems"/>
         <property name="uri.var.listTitle" expression="$func:listTitle"/>
         <property name="uri.var.type" expression="$func:type"/>
+        <property name="uri.var.blocking" expression="$ctx:sharepointBlocking"/>
         <script language="js"><![CDATA[
             var customListItems=mc.getProperty('uri.var.customListItems');
+            var blocking=mc.getProperty('uri.var.blocking');
+            var payload= '{"__metadata": { "type":';
+            var type= mc.getProperty('uri.var.type');
+            payload = payload + '"'+type+'"' + '},';
             if (customListItems != null && customListItems != "") {
                 var obj = eval ("(" + customListItems + ")");
                 var listItems = "";
-                for(var key in obj){
+                if( blocking == "false") {
+                    for(var key in obj) {
                     listItems += "'" + key + "':'" + obj[key] + "',";
+                    }
+                    listItems = listItems.substring(0, listItems.lastIndexOf(","));
+                     mc.setProperty('uri.var.customListItems', listItems);
+               }
+
+                if( blocking == "true") {
+                    listItems = customListItems.substring(1, customListItems.lastIndexOf("}"));
+                    mc.setProperty('uri.var.customListItems', listItems);
+                    payload = payload + listItems + "}";
+                    mc.setPayloadJSON(payload);
                 }
-                listItems = listItems.toString().substring(0, listItems.toString().lastIndexOf(","));
             }
-            mc.setProperty('uri.var.customListItems', listItems);
             ]]>
         </script>
-        <payloadFactory media-type="json">
-            <format>
-                {
-                    "__metadata": { "type":"$1" },
-                    $2
-                }
-            </format>
-            <args>
-                <arg expression="$ctx:uri.var.type"/>
-                <arg expression="$ctx:uri.var.customListItems"/>
-            </args>
-        </payloadFactory>
         <property name="messageType" value="application/json;odata=verbose" scope="axis2"/>
+        <property name="Content-Type" value="application/json;odata=verbose" scope="transport"/>
         <property action="remove" name="Accept-Encoding" scope="transport"/>
         <filter source="$ctx:sharepointBlocking" regex="true">
             <then>
@@ -61,6 +64,21 @@
                 </call>
             </then>
             <else>
+                <payloadFactory media-type="json">
+                    <format>
+                        {
+                        "__metadata": { "type":"$1" },
+                        $2
+                        }
+                    </format>
+                    <args>
+                        <arg expression="$ctx:uri.var.type"/>
+                        <arg expression="get-property('uri.var.customListItems')"/>
+                    </args>
+                </payloadFactory>
+                <property name="messageType" value="application/json;odata=verbose" scope="axis2"/>
+                <property name="Content-Type" value="application/json;odata=verbose" scope="transport"/>
+                <property action="remove" name="Accept-Encoding" scope="transport"/>
                 <call>
                     <endpoint>
                         <http method="post"
