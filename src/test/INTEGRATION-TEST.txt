@@ -1,4 +1,4 @@
-Product: Integration tests for WSO2 ESB Shopify connector
+Product: Integration tests for WSO2 ESB Sharepoint connector
 
 Pre-requisites:
 
@@ -88,7 +88,7 @@ Steps to follow in setting integration test.
 
  5. Compress modified ESB as wso2esb-4.9.0.zip and copy that zip file in to location "{SHAREPOINT_CONNECTOR_HOME}/repository/".
 
- 6. Update the Shopify properties file at location "{SHAREPOINT_CONNECTOR_HOME}/src/test/resources/artifacts/ESB/connector/config" as below.
+ 6. Update the Sharepoint properties file at location "{SHAREPOINT_CONNECTOR_HOME}/src/test/resources/artifacts/ESB/connector/config" as below.
 
     i) 		apiUrl					- Use the API URL as "https://your_site_name.sharepoint.com".
     ii)		accessToken				- Access Token obtained by following the steps in 4.

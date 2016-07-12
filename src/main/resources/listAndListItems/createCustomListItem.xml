@@ -35,14 +35,14 @@
                 var obj = eval ("(" + customListItems + ")");
                 var listItems = "";
                  if( blocking == "true") {
-                    listItems = customListItems.substring(1, customListItems.lastIndexOf("}"));
+                    listItems = customListItems.toString().substring(1, customListItems.toString().lastIndexOf("}"));
                     payload = payload + listItems + "}";
                     mc.setPayloadJSON(payload);
                  } else {
                     for(var key in obj) {
                      listItems += "'" + key + "':'" + obj[key] + "',";
                     }
-                    listItems = listItems.substring(0, listItems.lastIndexOf(","));
+                    listItems = listItems.toString().substring(0, listItems.toString().lastIndexOf(","));
                     mc.setProperty('uri.var.customListItems', listItems);
                  }
             }
