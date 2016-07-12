@@ -43,6 +43,10 @@
                     <endpoint>
                         <http method="post"
                               uri-template="{uri.var.apiUrl}/_api/web/folders"/>
+                        <timeout>
+                            <duration>{$ctx:sharepoint.timeout}</duration>
+                            <responseAction>fault</responseAction>
+                        </timeout>
                     </endpoint>
                 </call>
             </then>
@@ -51,6 +55,10 @@
                     <endpoint>
                         <http method="post"
                               uri-template="{uri.var.apiUrl}/_api/web/folders"/>
+                        <timeout>
+                            <duration>{$ctx:sharepoint.timeout}</duration>
+                            <responseAction>fault</responseAction>
+                        </timeout>
                     </endpoint>
                 </call>
             </else>

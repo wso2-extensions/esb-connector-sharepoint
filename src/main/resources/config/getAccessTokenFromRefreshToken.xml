@@ -60,6 +60,10 @@
                     <endpoint>
                         <http method="post"
                               uri-template="https://accounts.accesscontrol.windows.net/{uri.var.id}/tokens/OAuth/2"/>
+                        <timeout>
+                            <duration>{$ctx:sharepoint.timeout}</duration>
+                            <responseAction>fault</responseAction>
+                        </timeout>
                     </endpoint>
                 </call>
             </then>
@@ -68,6 +72,10 @@
                     <endpoint>
                         <http method="post"
                               uri-template="https://accounts.accesscontrol.windows.net/{uri.var.id}/tokens/OAuth/2"/>
+                        <timeout>
+                            <duration>{$ctx:sharepoint.timeout}</duration>
+                            <responseAction>fault</responseAction>
+                        </timeout>
                     </endpoint>
                 </call>
             </else>

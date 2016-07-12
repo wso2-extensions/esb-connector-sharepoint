@@ -25,6 +25,10 @@
                     <endpoint>
                         <http method="get"
                               uri-template="{uri.var.apiUrl}/_api/web/lists"/>
+                        <timeout>
+                            <duration>{$ctx:sharepoint.timeout}</duration>
+                            <responseAction>fault</responseAction>
+                        </timeout>
                     </endpoint>
                 </call>
             </then>
@@ -33,6 +37,10 @@
                     <endpoint>
                         <http method="get"
                               uri-template="{uri.var.apiUrl}/_api/web/lists"/>
+                        <timeout>
+                            <duration>{$ctx:sharepoint.timeout}</duration>
+                            <responseAction>fault</responseAction>
+                        </timeout>
                     </endpoint>
                 </call>
             </else>

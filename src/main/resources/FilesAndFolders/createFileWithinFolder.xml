@@ -45,6 +45,10 @@
                         <http method="post"
                               uri-template="{uri.var.apiUrl}/_api/web/GetFolderByServerRelativeUrl('{uri.var.folderName}')/Files/add(url='{uri.var.fileName}',overwrite={uri.var.overwrite})"/>
                     </endpoint>
+                    <timeout>
+                        <duration>{$ctx:sharepoint.timeout}</duration>
+                        <responseAction>fault</responseAction>
+                    </timeout>
                 </call>
             </then>
             <else>
@@ -52,6 +56,10 @@
                     <endpoint>
                         <http method="post"
                               uri-template="{uri.var.apiUrl}/_api/web/GetFolderByServerRelativeUrl('{uri.var.folderName}')/Files/add(url='{uri.var.fileName}',overwrite={uri.var.overwrite})"/>
+                        <timeout>
+                            <duration>{$ctx:sharepoint.timeout}</duration>
+                            <responseAction>fault</responseAction>
+                        </timeout>
                     </endpoint>
                 </call>
             </else>

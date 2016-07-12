@@ -35,6 +35,7 @@
                description="Registry Path of the Connector where the values are stored."/>
     <parameter name="blocking"
                description="The blocking parameter is helping connector performs the blocking invocations to Sharepoint."/>
+    <parameter name="timeout" description="Timeout duration of the API request."/>
     <sequence>
         <property name="uri.var.apiUrl" expression="$func:apiUrl"/>
         <property name="uri.var.accessToken" expression="$func:accessToken"/>
@@ -46,8 +47,17 @@
         <property name="uri.var.redirectUri" expression="$func:redirectUri"/>
         <property name="uri.var.id" expression="$func:id"/>
         <property name="uri.var.registryPath" expression="$func:registryPath"/>
+        <property name="sharepoint.timeout" expression="$func:timeout"/>
         <header name="Content-Type" value="application/json;odata=verbose" scope="transport"/>
         <header name="Accept" value="application/json;odata=verbose" scope="transport"/>
+        <filter source="boolean($ctx:sharepoint.timeout)" regex="false">
+            <then>
+                <property name="sharepoint.timeout" value="60000"/>
+            </then>
+            <else>
+                <property name="sharepoint.timeout" expression="$ctx:sharepoint.timeout"/>
+            </else>
+        </filter>
         <filter source="boolean($ctx:uri.var.refreshToken) and boolean($ctx:uri.var.clientSecret) and boolean($ctx:uri.var.clientId) and
                 boolean($ctx:uri.var.accessToken) and boolean($ctx:uri.var.intervalTime) and boolean($ctx:uri.var.redirectUri) and boolean($ctx:uri.var.id)"
                 regex="true">
