@@ -45,6 +45,10 @@
                     <endpoint>
                         <http method="PUT"
                               uri-template="{uri.var.apiUrl}/_api/web/GetFileByServerRelativeUrl('{uri.var.filePath}')/$value"/>
+                        <timeout>
+                            <duration>{$ctx:sharepoint.timeout}</duration>
+                            <responseAction>fault</responseAction>
+                        </timeout>
                     </endpoint>
                 </call>
             </then>
@@ -53,6 +57,10 @@
                     <endpoint>
                         <http method="PUT"
                               uri-template="{uri.var.apiUrl}/_api/web/GetFileByServerRelativeUrl('{uri.var.filePath}')/$value"/>
+                        <timeout>
+                            <duration>{$ctx:sharepoint.timeout}</duration>
+                            <responseAction>fault</responseAction>
+                        </timeout>
                     </endpoint>
                 </call>
             </else>

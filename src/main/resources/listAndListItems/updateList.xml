@@ -52,6 +52,10 @@
                     <endpoint>
                         <http method="PATCH"
                               uri-template="{uri.var.apiUrl}/_api/web/lists(guid'{+uri.var.guId}')"/>
+                        <timeout>
+                            <duration>{$ctx:sharepoint.timeout}</duration>
+                            <responseAction>fault</responseAction>
+                        </timeout>
                     </endpoint>
                 </call>
             </then>
@@ -60,6 +64,10 @@
                     <endpoint>
                         <http method="PATCH"
                               uri-template="{uri.var.apiUrl}/_api/web/lists(guid'{+uri.var.guId}')"/>
+                        <timeout>
+                            <duration>{$ctx:sharepoint.timeout}</duration>
+                            <responseAction>fault</responseAction>
+                        </timeout>
                     </endpoint>
                 </call>
             </else>

@@ -61,6 +61,10 @@
                 <call blocking="true">
                     <endpoint>
                         <http method="post" uri-template="{uri.var.apiUrl}/_api/web/lists"/>
+                        <timeout>
+                            <duration>{$ctx:sharepoint.timeout}</duration>
+                            <responseAction>fault</responseAction>
+                        </timeout>
                     </endpoint>
                 </call>
             </then>
@@ -68,6 +72,10 @@
                 <call>
                     <endpoint>
                         <http method="post" uri-template="{uri.var.apiUrl}/_api/web/lists"/>
+                        <timeout>
+                            <duration>{$ctx:sharepoint.timeout}</duration>
+                            <responseAction>fault</responseAction>
+                        </timeout>
                     </endpoint>
                 </call>
             </else>
