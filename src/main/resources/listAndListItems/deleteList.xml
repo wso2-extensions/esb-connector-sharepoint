@@ -31,10 +31,6 @@
                     <endpoint>
                         <http method="delete"
                               uri-template="{uri.var.apiUrl}/_api/web/lists/GetByTitle('{uri.var.title}')"/>
-                        <timeout>
-                            <duration>{$ctx:sharepoint.timeout}</duration>
-                            <responseAction>fault</responseAction>
-                        </timeout>
                     </endpoint>
                 </call>
             </then>
@@ -43,10 +39,6 @@
                     <endpoint>
                         <http method="delete"
                               uri-template="{uri.var.apiUrl}/_api/web/lists/GetByTitle('{uri.var.title}')"/>
-                        <timeout>
-                            <duration>{$ctx:sharepoint.timeout}</duration>
-                            <responseAction>fault</responseAction>
-                        </timeout>
                     </endpoint>
                 </call>
             </else>
