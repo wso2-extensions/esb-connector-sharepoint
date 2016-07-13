@@ -29,10 +29,6 @@
                     <endpoint>
                         <http method="get"
                               uri-template="{uri.var.apiUrl}/_api/web/GetFolderByServerRelativeUrl('{uri.var.folderPath}')/Files('{uri.var.fileName}')/$value"/>
-                        <timeout>
-                            <duration>{$ctx:sharepoint.timeout}</duration>
-                            <responseAction>fault</responseAction>
-                        </timeout>
                     </endpoint>
                 </call>
             </then>
@@ -41,10 +37,6 @@
                     <endpoint>
                         <http method="get"
                               uri-template="{uri.var.apiUrl}/_api/web/GetFolderByServerRelativeUrl('{uri.var.folderPath}')/Files('{uri.var.fileName}')/$value"/>
-                        <timeout>
-                            <duration>{$ctx:sharepoint.timeout}</duration>
-                            <responseAction>fault</responseAction>
-                        </timeout>
                     </endpoint>
                 </call>
             </else>
