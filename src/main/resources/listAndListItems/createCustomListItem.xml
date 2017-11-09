@@ -30,13 +30,13 @@
             var blocking=mc.getProperty('uri.var.blocking');
             var payload= '{"__metadata": { "type":';
             var type= mc.getProperty('uri.var.type');
-            payload = payload + '"'+type+'"' + '},';
+            payload = payload.concat('"').concat(type).concat('"').concat('},');
             if (customListItems != null && customListItems != "") {
                 var obj = eval ("(" + customListItems + ")");
                 var listItems = "";
                  if( blocking == "true") {
                     listItems = customListItems.toString().substring(1, customListItems.toString().lastIndexOf("}"));
-                    payload = payload + listItems + "}";
+                    payload = payload.concat(listItems).concat("}");
                     mc.setPayloadJSON(payload);
                  } else {
                     for(var key in obj) {
