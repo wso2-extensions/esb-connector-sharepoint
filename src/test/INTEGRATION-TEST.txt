@@ -44,11 +44,11 @@ Steps to follow in setting integration test.
  3. Create a office365 account using URL https://login.microsoftonline.com/ , and click SharePoint.
         Note: This is a 30-day free trial account.
 
- 4. Follow the bellow mentioned steps to generate the access token:
+ 4. Follow the below mentioned steps to generate the access token:
         i)      Log in to your Office365 account, and go to the following URLs:
-                   https://your_site_name.com/_layouts/15/appregnew.aspx
+                   https://your_site_name.sharepoint.com/_layouts/15/appregnew.aspx
         ii)     Set the following options:
-                    App Type—Select An app running on a web server.
+                    App Type—Select An app running on a web server.(You may not have this option)
                     Client Id—Click Generate, and copy the generated value to a text file.
                     Client Secret—Click Generate, and copy the generated value to a text file.
                     Title—Enter a name for the app.
@@ -56,18 +56,21 @@ Steps to follow in setting integration test.
                     Redirect URL— Enter the Callback URL.
         iii)    Click Create.
                     Now you’ll configure the newly created app to access SharePoint resources.
-        iv)     Get the Realm of your site.Realm is a constant GUID for a site. Save this realm for future use.
-        vi)     Get the Authorization code from Azure Access Control Service
+        iv)     Go to Site settings > Site app permissions.
+                The realm ID is displayed under App Identifier to the right of the @ sign. It will display with the format
+                i:0i.t|ms.sp.ext|<audience principal ID>@<site_realm>
+                Get the Realm of your site.Realm is a constant GUID for a site. Save this realm for future use.
+        v)      Get the Authorization code from Azure Access Control Service
                 Construct the authorization url as follows:
                      https://your_site.sharepoint.com/_layouts/15/OAuthAuthorize.aspx?client_id=client_GUID&scope=app_permissions_list&response_type=code&redirect_uri=redirect_uri
-                Set the scop=Web.Manage
-        vii)    Once you grant the permission (by clicking trust), SharePoint Online site asks ACS to create a authorization code unique to this combination of user and app.
+                Set the scope=Web.Manage
+        vi)     Once you grant the permission (by clicking trust), SharePoint Online site asks ACS to create an authorization code unique to this combination of user and app.
                 ACS sends the authorization code to the SharePoint site.
                 SharePoint Online site redirects the browser back to the redirect URI that was specified when the app was registered in step i) and ii).
                 It also includes the authorization code as a query string. The redirect URL is structured like the following:
                     https://redirect_url/?code=<authcode>
                 Extract query string value code from above url and it will be used in next step.
-        Viii)   Get the access token and refresh token from code:
+        Vii)    Get the access token and refresh token from code:
                     Construct the below post request:
                     https://accounts.accesscontrol.windows.net/<site_realm>/tokens/OAuth/2
                     Post parameters:
@@ -76,8 +79,9 @@ Steps to follow in setting integration test.
                     &client_secret=<client_secret>
                     &code=<auth_code>
                     &redirect_uri=<redirect_url>
-                    &resource=< audience principal ID>/<site_host>@<site_realm>
-        ix)    Get the access token and refresh token from code:
+                    &resource=<audience principal ID>/<site_host>@<site_realm>
+               The example for the site_host is nirthikacompany.sharepoint.com
+        viii)   Get the access token and refresh token from code:
                     This step is almost similar to step   Viii), except 2 differences. Here the difference is that we use:
                            *    grant_type as refresh_token and
                            *    refresh_token instead of code in step4 and use the refresh token which we have saved in step4.
