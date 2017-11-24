@@ -118,4 +118,4 @@ Steps to follow in setting integration test.
     xxv)    customListItems         - List of the items to be created.
     xxvi)   blocking                - The blocking parameter is helping connector performs the blocking invocations to Sharepoint.
  7. Navigate to "{SHAREPOINT_CONNECTOR_HOME}" and run the following command.
-      $ mvn clean install
+      $ mvn clean install -Dskip-tests=false
