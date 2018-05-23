@@ -8,14 +8,14 @@ Pre-requisites:
 Tested Platform: 
 
  - UBUNTU 16.04 LTS
- - WSO2 EI 6.1.1
+ - WSO2 EI 6.2.0
 
 Note:
     Set up a new SharePoint account and follow all the instruction given below in step 4 to generate an access token.
 
 Steps to follow in setting integration test.
 
- 1. Download EI 6.1.1 from official website.
+ 1. Download EI pack from official website.
  
  2. Please make sure that the below mentioned Axis configurations are add and enabled (conf\axis2\axis2.xml).
     <messageFormatter contentType="application/json;odata=verbose"
@@ -82,12 +82,12 @@ Steps to follow in setting integration test.
                     &resource=<audience principal ID>/<site_host>@<site_realm>
                The example for the site_host is nirthikacompany.sharepoint.com
         viii)   Get the access token from refresh token:
-                    This step is almost similar to step   Viii), except 2 differences. Here the difference is that we use:
+                    This step is almost similar to step   viii), except 2 differences. Here the difference is that we use:
                            *    grant_type as refresh_token and
                            *    refresh_token instead of code in step4 and use the refresh token which we have saved in step4.
                     https://accounts.accesscontrol.windows.net/<site_realm>/tokens/OAuth/2
 
- 5. Compress modified EI as wso2ei-6.1.1.zip and copy that zip file in to location "{SHAREPOINT_CONNECTOR_HOME}/repository/".
+ 5. Compress modified EI as wso2ei-6.2.0.zip and copy that zip file in to location "{SHAREPOINT_CONNECTOR_HOME}/repository/".
 
  6. Update the Sharepoint properties file at location "{SHAREPOINT_CONNECTOR_HOME}/src/test/resources/artifacts/ESB/connector/config" as below.
 
