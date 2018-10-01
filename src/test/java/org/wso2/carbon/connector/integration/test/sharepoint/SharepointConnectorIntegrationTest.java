@@ -26,7 +26,6 @@ import org.testng.annotations.Test;
 import org.wso2.connector.integration.test.base.ConnectorIntegrationTestBase;
 import org.wso2.connector.integration.test.base.RestResponse;
 import java.io.IOException;
-import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -43,6 +42,7 @@ public class SharepointConnectorIntegrationTest extends ConnectorIntegrationTest
         String connectorName = System.getProperty("connector_name") + "-connector-" +
                 System.getProperty("connector_version") + ".zip";
         init(connectorName);
+        getApiConfigProperties();
         esbRequestHeadersMap.put("Accept-Charset", "UTF-8");
         esbRequestHeadersMap.put("Content-Type", "application/json; odata=verbose");
 
@@ -51,6 +51,9 @@ public class SharepointConnectorIntegrationTest extends ConnectorIntegrationTest
         apiRequestHeadersMap.put("Accept", "application/json; odata=verbose");
         String accessToken = connectorProperties.getProperty("accessToken");
         apiRequestHeadersMap.put("Authorization", "Bearer " + accessToken);
+        String customListTitle = connectorProperties.getProperty("customListTitle");
+        connectorProperties.setProperty("customListItemType", connectorProperties.getProperty("customListItemType")
+                .replace("<customListTitle>", customListTitle));
     }
 
     /**
