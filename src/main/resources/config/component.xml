@@ -22,13 +22,28 @@
             <file>init.xml</file>
             <description>Initial configuration file for sharePoint rest connector.</description>
         </component>
+        <component name="callEndpoint">
+            <file>callEndpoint.xml</file>
+            <description>Templating the http call types GET, POST, etc.</description>
+            <hidden>true</hidden>
+        </component>
+        <component name="callOperation">
+            <file>callOperation.xml</file>
+            <description>Templating the http call types GET, POST, etc.</description>
+            <hidden>true</hidden>
+        </component>
+        <component name="callWithRetry">
+            <file>callWithRetry.xml</file>
+            <description>Templating the retry call</description>
+            <hidden>true</hidden>
+        </component>
         <component name="getAccessTokenFromRefreshToken">
             <file>getAccessTokenFromRefreshToken.xml</file>
             <description>Getting Access Token from refresh token.</description>
         </component>
-        <component name="getAccessTokenFromAutherizationCode">
-            <file>getAccessTokenFromAutherizationCode.xml</file>
-            <description>Getting Access Token from Autherization code.</description>
+        <component name="getAccessTokenFromClientCredentials">
+            <file>getAccessTokenFromClientCredentials.xml</file>
+            <description>Getting Access Token from the client credentials.</description>
         </component>
     </subComponents>
 </component>

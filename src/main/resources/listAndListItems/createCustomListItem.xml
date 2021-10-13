@@ -26,70 +26,20 @@
         <property name="uri.var.type" expression="$func:type"/>
         <property name="uri.var.blocking" expression="$ctx:sharepointBlocking"/>
         <script language="js"><![CDATA[
-            var customListItems=mc.getProperty('uri.var.customListItems');
-            var blocking=mc.getProperty('uri.var.blocking');
-            var payload= '{"__metadata": { "type":';
-            var type= mc.getProperty('uri.var.type');
-            payload = payload.concat('"').concat(type).concat('"').concat('},');
+            var customListItems = mc.getProperty('uri.var.customListItems');
+            var payload = '{"__metadata": { "type":';
+            var type = mc.getProperty('uri.var.type');
+            payload = payload.concat('"').concat(type).concat('"').concat('}');
             if (customListItems != null && customListItems != "") {
-                var obj = eval ("(" + customListItems + ")");
-                var listItems = "";
-                 if( blocking == "true") {
-                    listItems = customListItems.toString().substring(1, customListItems.toString().lastIndexOf("}"));
-                    payload = payload.concat(listItems).concat("}");
-                    mc.setPayloadJSON(payload);
-                 } else {
-                    for(var key in obj) {
-                     listItems += "'" + key + "':'" + obj[key] + "',";
-                    }
-                    listItems = listItems.toString().substring(0, listItems.toString().lastIndexOf(","));
-                    mc.setProperty('uri.var.customListItems', listItems);
-                 }
+                var listItems = customListItems.toString().substring(1);
+                payload = payload.concat(",").concat(listItems);
+                mc.setPayloadJSON(payload);
             }
             ]]>
         </script>
-        <property name="messageType" value="application/json;odata=verbose" scope="axis2"/>
-        <property action="remove" name="Accept-Encoding" scope="transport"/>
-        <filter source="$ctx:sharepointBlocking" regex="true">
-            <then>
-                <property name="Content-Type" value="application/json;odata=verbose" scope="transport"/>
-                <call blocking="true">
-                    <endpoint>
-                        <http method="post"
-                              uri-template="{uri.var.apiUrl}/_api/web/lists/GetByTitle('{uri.var.listTitle}')/items"/>
-                    </endpoint>
-                </call>
-            </then>
-            <else>
-                <payloadFactory media-type="json">
-                    <format>
-                        {
-                        "__metadata": { "type":"$1" },
-                        $2
-                        }
-                    </format>
-                    <args>
-                        <arg expression="$ctx:uri.var.type"/>
-                        <arg expression="get-property('uri.var.customListItems')"/>
-                    </args>
-                </payloadFactory>
-                <property name="messageType" value="application/json;odata=verbose" scope="axis2"/>
-                <property name="Content-Type" value="application/json;odata=verbose" scope="transport"/>
-                <property action="remove" name="Accept-Encoding" scope="transport"/>
-                <call>
-                    <endpoint>
-                        <http method="post"
-                              uri-template="{uri.var.apiUrl}/_api/web/lists/GetByTitle('{uri.var.listTitle}')/items"/>
-                    </endpoint>
-                </call>
-            </else>
-        </filter>
-        <!-- Remove custom Headers from the API Response -->
-        <header name="X-Frame-Options" action="remove" scope="transport"/>
-        <header name="Strict-Transport-Security" action="remove" scope="transport"/>
-        <header name="RequestId" action="remove" scope="transport"/>
-        <header name="X-Content-Type-Options" action="remove" scope="transport"/>
-        <header name="OData-Version" action="remove" scope="transport"/>
-        <header name="Cache-Control" action="remove" scope="transport"/>
+        <property name="messageType" value="application/json;odata=verbose"/>
+        <property name="uri.var.callEndpointUri" expression="fn:concat($ctx:uri.var.apiUrl, '/_api/web/lists/GetByTitle(', $ctx:uri.var.quotationMark, $ctx:uri.var.listTitle, $ctx:uri.var.quotationMark, ')/items')"/>
+        <property name="httpMethod" value="POST"/>
+        <sharepoint.callOperation/>
     </sequence>
 </template>

@@ -19,7 +19,7 @@
 <template name="createFileWithinFolder" xmlns="http://ws.apache.org/ns/synapse">
     <parameter name="folderName" description="Name of the folder path."/>
     <parameter name="overwrite"
-               description="Permition to access the file."/>
+               description="Permission to access the file."/>
     <parameter name="fileName" description="Name of the file to create(Eg: abc.txt)."/>
     <parameter name="fileContent" description="Content of the file."/>
     <sequence>
@@ -35,33 +35,10 @@
                 <arg expression="$ctx:uri.var.fileContent"/>
             </args>
         </payloadFactory>
-        <property name="messageType" value="text/plain" scope="axis2"/>
-        <property action="remove" name="Accept-Encoding" scope="transport"/>
+        <property name="messageType" value="text/plain"/>
         <property name="DISABLE_CHUNKING" value="true" scope="axis2"/>
-        <filter source="$ctx:sharepointBlocking" regex="true">
-            <then>
-                <call blocking="true">
-                    <endpoint>
-                        <http method="post"
-                              uri-template="{uri.var.apiUrl}/_api/web/GetFolderByServerRelativeUrl('{uri.var.folderName}')/Files/add(url='{uri.var.fileName}',overwrite={uri.var.overwrite})"/>
-                    </endpoint>
-                </call>
-            </then>
-            <else>
-                <call>
-                    <endpoint>
-                        <http method="post"
-                              uri-template="{uri.var.apiUrl}/_api/web/GetFolderByServerRelativeUrl('{uri.var.folderName}')/Files/add(url='{uri.var.fileName}',overwrite={uri.var.overwrite})"/>
-                    </endpoint>
-                </call>
-            </else>
-        </filter>
-        <!-- Remove custom Headers from the API Response -->
-        <header name="X-Frame-Options" action="remove" scope="transport"/>
-        <header name="Strict-Transport-Security" action="remove" scope="transport"/>
-        <header name="RequestId" action="remove" scope="transport"/>
-        <header name="X-Content-Type-Options" action="remove" scope="transport"/>
-        <header name="OData-Version" action="remove" scope="transport"/>
-        <header name="Cache-Control" action="remove" scope="transport"/>
+        <property name="uri.var.callEndpointUri" expression="fn:concat($ctx:uri.var.apiUrl, '/_api/web/GetFolderByServerRelativeUrl(', $ctx:uri.var.quotationMark, $ctx:uri.var.folderName, $ctx:uri.var.quotationMark, ')/Files/add(url=', $ctx:uri.var.quotationMark, $ctx:uri.var.fileName, $ctx:uri.var.quotationMark, ',overwrite=', $ctx:uri.var.overwrite, ')')"/>
+        <property name="httpMethod" value="POST"/>
+        <sharepoint.callOperation/>
     </sequence>
 </template>

@@ -21,7 +21,6 @@
     <parameter name="apiUrl" description="Base endpoint URL of sharepoint API."/>
     <parameter name="accessToken"
                description="OAuth Token to read and manipulate data of sharepoint API."/>
-    <parameter name="intervalTime" description="Accesstoken expiration time interval."/>
     <parameter name="resource" description="The App ID URI of the web API."/>
     <parameter name="refreshToken"
                description="RefreshToken to be used to obtain the access token."/>
@@ -38,7 +37,6 @@
     <sequence>
         <property name="uri.var.apiUrl" expression="$func:apiUrl"/>
         <property name="uri.var.accessToken" expression="$func:accessToken"/>
-        <property name="uri.var.intervalTime" expression="$func:intervalTime"/>
         <property name="uri.var.resource" expression="$func:resource"/>
         <property name="uri.var.refreshToken" expression="$func:refreshToken"/>
         <property name="uri.var.clientId" expression="$func:clientId"/>
@@ -46,67 +44,14 @@
         <property name="uri.var.redirectUri" expression="$func:redirectUri"/>
         <property name="uri.var.id" expression="$func:id"/>
         <property name="uri.var.registryPath" expression="$func:registryPath"/>
-        <header name="Content-Type" value="application/json;odata=verbose" scope="transport"/>
-        <header name="Accept" value="application/json;odata=verbose" scope="transport"/>
-        <filter source="boolean($ctx:uri.var.refreshToken) and boolean($ctx:uri.var.clientSecret) and boolean($ctx:uri.var.clientId) and
-                boolean($ctx:uri.var.accessToken) and boolean($ctx:uri.var.intervalTime) and boolean($ctx:uri.var.redirectUri) and boolean($ctx:uri.var.id)"
-                regex="true">
+        <filter source="boolean($ctx:uri.var.registryPath)" regex="true">
             <then>
-                <filter source="boolean($ctx:uri.var.registryPath)" regex="true">
-                    <then>
-                        <property name="uri.var.accessTokenRegistryPath"
-                                  expression="fn:concat($ctx:uri.var.registryPath, '/accessToken' )"/>
-                        <property name="uri.var.timeRegistryPath"
-                                  expression="fn:concat($ctx:uri.var.registryPath, '/time' )"/>
-                    </then>
-                </filter>
-                <property name="uri.var.accessToken.reg"
-                          expression="get-property('registry', $ctx:uri.var.accessTokenRegistryPath)"/>
-                <property name="systemTime" expression="get-property('SYSTEM_TIME')"
-                          scope="default"/>
-                <filter source="$ctx:uri.var.accessToken.reg=''" regex="true">
-                    <then>
-                        <script language="js">
-                            <![CDATA[
-                            importPackage(Packages.org.apache.synapse.config);
-                            var newAccess = mc.getProperty('uri.var.accessToken');
-                            var newAccessRegistryPath = mc.getProperty('uri.var.accessTokenRegistryPath');
-                            var newSysTime = mc.getProperty('systemTime');
-                            var newTimeRegistryPath = mc.getProperty('uri.var.timeRegistryPath');
-                            if(newAccess != null && newAccess != ''){
-                                //Create the registry entry if no such entry exists.
-                                mc.getConfiguration().getRegistry().newResource(newAccessRegistryPath,false);
-                                mc.getConfiguration().getRegistry().updateResource(newAccessRegistryPath,newAccess);
-                                mc.getConfiguration().getRegistry().newResource(newTimeRegistryPath, false);
-                                mc.getConfiguration().getRegistry().updateResource(newTimeRegistryPath, newSysTime);
-                            }
-                            ]]>
-                        </script>
-                    </then>
-                    <else>
-                        <property name="uri.var.accessToken"
-                                  expression="$ctx:uri.var.accessToken.reg"/>
-                    </else>
-                </filter>
-                <property name="registryTime"
-                          expression="get-property('registry', $ctx:uri.var.timeRegistryPath)"/>
-                <script language="js"><![CDATA[
-                    var time1 = mc.getProperty("systemTime");
-                    var time2 = mc.getProperty("registryTime");
-                    var timeTaken = time1 - time2;
-                    mc.setProperty("INTERVAL_TIME", timeTaken);
-                   ]]>
-                </script>
-                <property name="sharepointBlocking" expression="$func:blocking"/>
-                <filter source="$ctx:INTERVAL_TIME &gt;$ctx:uri.var.intervalTime or $ctx:uri.var.accessToken=''"
-                        regex="true">
-                    <then>
-                        <sharepoint.getAccessTokenFromRefreshToken/>
-                    </then>
-                </filter>
+                <property name="uri.var.accessTokenRegistryPath"
+                          expression="fn:concat($ctx:uri.var.registryPath, '/accessToken' )"/>
             </then>
         </filter>
-        <header name="Authorization" expression="fn:concat('Bearer ', $ctx:uri.var.accessToken)"
-                scope="transport"/>
+        <property name="uri.var.tokenEndpointUrl"
+                  expression="fn:concat('https://accounts.accesscontrol.windows.net/', $ctx:uri.var.id,'/tokens/OAuth/2')"/>
+        <property name="uri.var.quotationMark" value="'"/>
     </sequence>
 </template>
