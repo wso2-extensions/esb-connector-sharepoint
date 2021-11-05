@@ -18,21 +18,7 @@
   -->
 <!-- Method Documentation URL: https://msdn.microsoft.com/en-us/library/azure/dn645542.aspx -->
 <template name="getAccessTokenFromRefreshToken" xmlns="http://ws.apache.org/ns/synapse">
-    <parameter name="resource" description="The App ID URI of the web API."/>
-    <parameter name="refreshToken" description="RefreshToken to be used to obtain the access token."/>
-    <parameter name="clientId"
-               description="The value of your API Key given when you registered your application with sharepoint."/>
-    <parameter name="clientSecret"
-               description="The value of your secret key given when you registered your application with sharepoint."/>
-    <parameter name="id" description="Realm id, This is a constant GUID for a site."/>
-    <parameter name="redirectUri" description="The redirect url, that you passed to get code."/>
     <sequence>
-        <property name="uri.var.resource" expression="$func:resource"/>
-        <property name="uri.var.refreshToken" expression="$func:refreshToken"/>
-        <property name="uri.var.clientId" expression="$func:clientId"/>
-        <property name="uri.var.clientSecret" expression="$func:clientSecret"/>
-        <property name="uri.var.redirectUri" expression="$func:redirectUri"/>
-        <property name="uri.var.id" expression="$func:id"/>
         <payloadFactory media-type="json">
             <format>
                 {
@@ -58,47 +44,39 @@
             <then>
                 <call blocking="true">
                     <endpoint>
-                        <http method="post"
-                              uri-template="https://accounts.accesscontrol.windows.net/{uri.var.id}/tokens/OAuth/2"/>
+                        <http method="POST" uri-template="{uri.var.tokenEndpointUrl}"/>
                     </endpoint>
                 </call>
             </then>
             <else>
                 <call>
                     <endpoint>
-                        <http method="post"
-                              uri-template="https://accounts.accesscontrol.windows.net/{uri.var.id}/tokens/OAuth/2"/>
+                        <http method="POST" uri-template="{uri.var.tokenEndpointUrl}"/>
                     </endpoint>
                 </call>
             </else>
         </filter>
         <property name="uri.var.accessToken" expression="json-eval($.access_token)"/>
-        <property name="systemTime" expression="$ctx:SYSTEM_TIME" scope="default"/>
         <script language="js">
             <![CDATA[
             importPackage(Packages.org.apache.synapse.config);
             var newAccessToken = mc.getProperty('uri.var.accessToken');
-            var newSystemTime = mc.getProperty('systemTime');
-            var newAccessRegistryPath = mc.getProperty('uri.var.accessTokenRegistryPath');
-            var newTimeRegistryPath = mc.getProperty('uri.var.timeRegistryPath');
+            var accessTokenRegistryPath = mc.getProperty('uri.var.accessTokenRegistryPath');
             if(newAccessToken != null && newAccessToken != ''){
-                var existingAccessToken = mc.getConfiguration().getRegistry().getResource(newAccessRegistryPath);
-                var existingTime = mc.getConfiguration().getRegistry().getResource(newTimeRegistryPath);
+                var existingAccessToken = mc.getConfiguration().getRegistry().getResource(accessTokenRegistryPath);
                 if(existingAccessToken == null){
                     // Create the registry entry if no such entry exists.
-                    mc.getConfiguration().getRegistry().newResource(newAccessRegistryPath, false);
-                    mc.getConfiguration().getRegistry().updateResource(newAccessRegistryPath, newAccessToken);
-                    mc.getConfiguration().getRegistry().newResource(newTimeRegistryPath, false);
-                    mc.getConfiguration().getRegistry().updateResource(newTimeRegistryPath, newSystemTime);
+                    mc.getConfiguration().getRegistry().newResource(accessTokenRegistryPath, false);
+                    mc.getConfiguration().getRegistry().updateResource(accessTokenRegistryPath, newAccessToken);
                 }else {
                     // Update the registry entry if it already exists.
-                    mc.getConfiguration().getRegistry().updateResource(newAccessRegistryPath, newAccessToken);
-                    mc.getConfiguration().getRegistry().updateResource(newTimeRegistryPath, newSystemTime);
+                    mc.getConfiguration().getRegistry().updateResource(accessTokenRegistryPath, newAccessToken);
                 }
             }
             ]]>
         </script>
-        <header name="Authorization" expression="fn:concat('Bearer ', $ctx:uri.var.accessToken)"
+        <header name="Authorization"
+                expression="fn:concat('Bearer ', $ctx:uri.var.accessToken)"
                 scope="transport"/>
         <!-- Remove custom Headers from the API Response -->
         <header name="P3P" action="remove" scope="transport"/>

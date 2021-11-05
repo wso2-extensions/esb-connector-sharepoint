@@ -25,30 +25,8 @@
         <property name="uri.var.ifMatch" expression="$func:ifMatch"/>
         <header name="If-Match"
                 expression="$ctx:uri.var.ifMatch" scope="transport"/>
-        <filter source="$ctx:sharepointBlocking" regex="true">
-            <then>
-                <call blocking="true">
-                    <endpoint>
-                        <http method="delete"
-                              uri-template="{uri.var.apiUrl}/_api/web/GetFileByServerRelativeUrl('{uri.var.filePath}')"/>
-                    </endpoint>
-                </call>
-            </then>
-            <else>
-                <call>
-                    <endpoint>
-                        <http method="delete"
-                              uri-template="{uri.var.apiUrl}/_api/web/GetFileByServerRelativeUrl('{uri.var.filePath}')"/>
-                    </endpoint>
-                </call>
-            </else>
-        </filter>
-        <!-- Remove custom Headers from the API Response -->
-        <header name="X-Frame-Options" action="remove" scope="transport"/>
-        <header name="Strict-Transport-Security" action="remove" scope="transport"/>
-        <header name="RequestId" action="remove" scope="transport"/>
-        <header name="X-Content-Type-Options" action="remove" scope="transport"/>
-        <header name="OData-Version" action="remove" scope="transport"/>
-        <header name="Cache-Control" action="remove" scope="transport"/>
+        <property name="uri.var.callEndpointUri" expression="fn:concat($ctx:uri.var.apiUrl, '/_api/web/GetFileByServerRelativeUrl(', $ctx:uri.var.quotationMark, $ctx:uri.var.filePath, $ctx:uri.var.quotationMark, ')')"/>
+        <property name="httpMethod" value="DELETE"/>
+        <sharepoint.callOperation/>
     </sequence>
 </template>

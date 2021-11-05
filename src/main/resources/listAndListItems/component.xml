@@ -22,8 +22,8 @@
             <file>createList.xml</file>
             <description>Create a List.</description>
         </component>
-        <component name="retriveLists">
-            <file>retriveLists.xml</file>
+        <component name="retrieveLists">
+            <file>retrieveLists.xml</file>
             <description>Retrieves all the Lists in the site.</description>
         </component>
         <component name="getListById">
@@ -38,8 +38,8 @@
             <file>deleteList.xml</file>
             <description>Delete a list.</description>
         </component>
-        <component name="retriveListItems">
-            <file>retriveListItems.xml</file>
+        <component name="retrieveListItems">
+            <file>retrieveListItems.xml</file>
             <description>Retrieves all the Lists items in the list.</description>
         </component>
         <component name="createListItem">
@@ -68,5 +68,3 @@
         </component>
     </subComponents>
 </component>
-
-

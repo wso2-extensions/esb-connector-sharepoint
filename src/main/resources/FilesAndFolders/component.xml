@@ -34,8 +34,8 @@
             <file>deleteFolder.xml</file>
             <description>Delete a folder.</description>
         </component>
-        <component name="retriveAllFilesWithinFolder">
-            <file>retriveAllFilesWithinFolder.xml</file>
+        <component name="retrieveAllFilesWithinFolder">
+            <file>retrieveAllFilesWithinFolder.xml</file>
             <description>Retrieve all of the files in a folder.</description>
         </component>
         <component name="getFile">

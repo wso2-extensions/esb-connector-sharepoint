@@ -20,34 +20,9 @@
     <parameter name="folderPath" description="Document library relative url/folder name."/>
     <sequence>
         <property name="uri.var.folderPath" expression="$func:folderPath"/>
-        <property action="remove" name="Accept-Encoding" scope="transport"/>
-        <filter source="$ctx:sharepointBlocking" regex="true">
-            <then>
-                <call blocking="true">
-                    <endpoint>
-                        <http method="get"
-                              uri-template="{uri.var.apiUrl}/_api/web/GetFolderByServerRelativeUrl('{uri.var.folderPath}')"/>
-                    </endpoint>
-                </call>
-            </then>
-            <else>
-                <call>
-                    <endpoint>
-                        <http method="get"
-                              uri-template="{uri.var.apiUrl}/_api/web/GetFolderByServerRelativeUrl('{uri.var.folderPath}')"/>
-                      </endpoint>
-                </call>
-            </else>
-        </filter>
-        <property name="messageType" value="application/json;odata=verbose" scope="axis2"/>
-        <property name="Content-Type" value="application/json;odata=verbose" scope="axis2"/>
-        <header name="Content-Type" value="application/json;odata=verbose" scope="transport"/>
-        <!-- Remove custom Headers from the API Response -->
-        <header name="X-Frame-Options" action="remove" scope="transport"/>
-        <header name="Strict-Transport-Security" action="remove" scope="transport"/>
-        <header name="RequestId" action="remove" scope="transport"/>
-        <header name="X-Content-Type-Options" action="remove" scope="transport"/>
-        <header name="OData-Version" action="remove" scope="transport"/>
-        <header name="Cache-Control" action="remove" scope="transport"/>
+        <property name="messageType" value="application/json;odata=verbose"/>
+        <property name="uri.var.callEndpointUri" expression="fn:concat($ctx:uri.var.apiUrl, '/_api/web/GetFolderByServerRelativeUrl(', $ctx:uri.var.quotationMark, $ctx:uri.var.folderPath, $ctx:uri.var.quotationMark, ')')"/>
+        <property name="httpMethod" value="GET"/>
+        <sharepoint.callOperation/>
     </sequence>
 </template>

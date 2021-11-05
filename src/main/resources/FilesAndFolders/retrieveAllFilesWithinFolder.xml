@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ~ Copyright (c) 2016, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+  ~ Copyright (c) 2021, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
   ~
   ~ WSO2 Inc. licenses this file to you under the Apache License,
   ~ Version 2.0 (the "License"); you may not use this file except
@@ -16,11 +16,11 @@
   ~ specific language governing permissions and limitations
   ~ under the License.
   -->
-<template name="getListByTitle" xmlns="http://ws.apache.org/ns/synapse">
-    <parameter name="title" description="The title of the list to return."/>
+<template name="retrieveAllFilesWithinFolder" xmlns="http://ws.apache.org/ns/synapse">
+    <parameter name="folderPath" description="Path of folder to retrieve all files within that folder."/>
     <sequence>
-        <property name="uri.var.title" expression="$func:title"/>
-        <property name="uri.var.callEndpointUri" expression="fn:concat($ctx:uri.var.apiUrl, '/_api/web/lists/GetByTitle(', $ctx:uri.var.quotationMark, $ctx:uri.var.title, $ctx:uri.var.quotationMark, ')')"/>
+        <property name="uri.var.folderPath" expression="$func:folderPath"/>
+        <property name="uri.var.callEndpointUri" expression="fn:concat($ctx:uri.var.apiUrl, '/_api/web/GetFolderByServerRelativeUrl(', $ctx:uri.var.quotationMark, $ctx:uri.var.folderPath, $ctx:uri.var.quotationMark, ')/Files')"/>
         <property name="httpMethod" value="GET"/>
         <sharepoint.callOperation/>
     </sequence>

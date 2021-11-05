@@ -22,31 +22,8 @@
     <sequence>
         <property name="uri.var.itemId" expression="$func:itemId"/>
         <property name="uri.var.title" expression="$func:title"/>
-        <property action="remove" name="Accept-Encoding" scope="transport"/>
-        <filter source="$ctx:sharepointBlocking" regex="true">
-            <then>
-                <call blocking="true">
-                    <endpoint>
-                        <http method="get"
-                              uri-template="{uri.var.apiUrl}/_api/web/lists/GetByTitle('{uri.var.title}')/items({uri.var.itemId})"/>
-                    </endpoint>
-                </call>
-            </then>
-            <else>
-                <call>
-                    <endpoint>
-                        <http method="get"
-                              uri-template="{uri.var.apiUrl}/_api/web/lists/GetByTitle('{uri.var.title}')/items({uri.var.itemId})"/>
-                        </endpoint>
-                </call>
-            </else>
-        </filter>
-        <!-- Remove custom Headers from the API Response -->
-        <header name="X-Frame-Options" action="remove" scope="transport"/>
-        <header name="Strict-Transport-Security" action="remove" scope="transport"/>
-        <header name="RequestId" action="remove" scope="transport"/>
-        <header name="X-Content-Type-Options" action="remove" scope="transport"/>
-        <header name="OData-Version" action="remove" scope="transport"/>
-        <header name="Cache-Control" action="remove" scope="transport"/>
+        <property name="uri.var.callEndpointUri" expression="fn:concat($ctx:uri.var.apiUrl, '/_api/web/lists/GetByTitle(', $ctx:uri.var.quotationMark, $ctx:uri.var.title, $ctx:uri.var.quotationMark, ')/items(', $ctx:uri.var.itemId, ')')"/>
+        <property name="httpMethod" value="GET"/>
+        <sharepoint.callOperation/>
     </sequence>
 </template>
