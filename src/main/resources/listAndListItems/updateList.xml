@@ -44,7 +44,8 @@
                 <arg expression="$ctx:uri.var.title"/>
             </args>
         </payloadFactory>
-        <property name="messageType" value="application/json;odata=verbose"/>
+        <property name="messageType" value="application/json"/>
+        <property name="contentTypeHeader" value="application/json;odata=verbose"/>
         <property name="uri.var.callEndpointUri" expression="fn:concat($ctx:uri.var.apiUrl, '/_api/web/lists(guid', $ctx:uri.var.quotationMark, $ctx:uri.var.guId, $ctx:uri.var.quotationMark, ')')"/>
         <property name="httpMethod" value="PATCH"/>
         <sharepoint.callOperation/>

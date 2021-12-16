@@ -22,7 +22,7 @@
     <sequence>
         <property name="uri.var.folderPath" expression="$func:folderPath"/>
         <property name="uri.var.fileName" expression="$func:fileName"/>
-        <property name="uri.var.callEndpointUri" expression="fn:concat($ctx:uri.var.apiUrl, '/_api/web/GetFolderByServerRelativeUrl(', $ctx:uri.var.quotationMark, $ctx:uri.var.folderPath, $ctx:uri.var.quotationMark, ')/Files(', $ctx:uri.var.quotationMark, $ctx:uri.var.fileName, $ctx:uri.var.quotationMark, ')/$value')"/>
+        <property name="uri.var.callEndpointUri" expression="fn:concat($ctx:uri.var.apiUrl, '/_api/web/GetFolderByServerRelativeUrl(', $ctx:uri.var.quotationMark, $ctx:uri.var.folderPath, $ctx:uri.var.quotationMark, ')/Files(', $ctx:uri.var.quotationMark, url-encode($ctx:uri.var.fileName), $ctx:uri.var.quotationMark, ')/%24value')"/>
         <property name="httpMethod" value="GET"/>
         <sharepoint.callOperation/>
     </sequence>

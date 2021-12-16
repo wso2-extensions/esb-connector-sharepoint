@@ -42,7 +42,8 @@
                 <arg expression="$ctx:uri.var.newTitle"/>
             </args>
         </payloadFactory>
-        <property name="messageType" value="application/json;odata=verbose"/>
+        <property name="messageType" value="application/json"/>
+        <property name="contentTypeHeader" value="application/json;odata=verbose"/>
         <property name="uri.var.callEndpointUri" expression="fn:concat($ctx:uri.var.apiUrl, '/_api/web/lists/GetByTitle(', $ctx:uri.var.quotationMark, $ctx:uri.var.title, $ctx:uri.var.quotationMark, ')/items(', $ctx:uri.var.itemId, ')')"/>
         <property name="httpMethod" value="PATCH"/>
         <sharepoint.callOperation/>

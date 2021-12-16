@@ -53,5 +53,6 @@
         <property name="uri.var.tokenEndpointUrl"
                   expression="fn:concat('https://accounts.accesscontrol.windows.net/', $ctx:uri.var.id,'/tokens/OAuth/2')"/>
         <property name="uri.var.quotationMark" value="'"/>
+        <property name="uri.var.dollarMark" value="$"/>
     </sequence>
 </template>
