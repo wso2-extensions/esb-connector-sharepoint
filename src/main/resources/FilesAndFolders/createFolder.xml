@@ -35,7 +35,8 @@
                 <arg expression="$ctx:uri.var.serverRelativeUrl"/>
             </args>
         </payloadFactory>
-        <property name="messageType" value="application/json;odata=verbose"/>
+        <property name="contentTypeHeader" value="application/json;odata=verbose"/>
+        <property name="messageType" value="application/json"/>
         <property name="uri.var.callEndpointUri" expression="fn:concat($ctx:uri.var.apiUrl, '/_api/web/folders')"/>
         <property name="httpMethod" value="POST"/>
         <sharepoint.callOperation/>

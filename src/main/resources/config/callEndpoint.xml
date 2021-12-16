@@ -19,6 +19,9 @@
 <template name="callEndpoint" xmlns="http://ws.apache.org/ns/synapse">
     <sequence>
         <property name="messageType" expression="$ctx:messageType" scope="axis2"/>
+        <property name="DISABLE_CHUNKING" expression="$ctx:disableChunking" scope="axis2"/>
+        <property name="ContentType" expression="$ctx:contentTypeHeader" scope="axis2"/>
+        <header name="If-Match" expression="$ctx:uri.var.ifMatch" scope="transport"/>
         <!--for HTTP method GET-->
         <filter source="$ctx:httpMethod" regex="GET">
             <property action="remove" name="Accept-Encoding" scope="transport"/>
@@ -100,6 +103,28 @@
                     <call>
                         <endpoint>
                             <http method="PATCH"
+                                  uri-template="{uri.var.callEndpointUri}"/>
+                        </endpoint>
+                    </call>
+                </else>
+            </filter>
+        </filter>
+        <!--for HTTP method PUT-->
+        <filter source="$ctx:httpMethod" regex="PUT">
+            <property action="remove" name="Accept-Encoding" scope="transport"/>
+            <filter source="$ctx:sharepointBlocking" regex="true">
+                <then>
+                    <call blocking="true">
+                        <endpoint>
+                            <http method="PUT"
+                                  uri-template="{uri.var.callEndpointUri}"/>
+                        </endpoint>
+                    </call>
+                </then>
+                <else>
+                    <call>
+                        <endpoint>
+                            <http method="PUT"
                                   uri-template="{uri.var.callEndpointUri}"/>
                         </endpoint>
                     </call>

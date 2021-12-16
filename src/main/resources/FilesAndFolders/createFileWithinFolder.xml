@@ -36,7 +36,7 @@
             </args>
         </payloadFactory>
         <property name="messageType" value="text/plain"/>
-        <property name="DISABLE_CHUNKING" value="true" scope="axis2"/>
+        <property name="disableChunking" value="true"/>
         <property name="uri.var.callEndpointUri" expression="fn:concat($ctx:uri.var.apiUrl, '/_api/web/GetFolderByServerRelativeUrl(', $ctx:uri.var.quotationMark, $ctx:uri.var.folderName, $ctx:uri.var.quotationMark, ')/Files/add(url=', $ctx:uri.var.quotationMark, $ctx:uri.var.fileName, $ctx:uri.var.quotationMark, ',overwrite=', $ctx:uri.var.overwrite, ')')"/>
         <property name="httpMethod" value="POST"/>
         <sharepoint.callOperation/>
