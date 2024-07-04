@@ -6,22 +6,20 @@
     "description": "The sharePoint connector allows you to access the SharePoint REST API through WSO2 ESB. SharePoint is a web application platform.SharePoint combines various functions which are traditionally separate applications: intranet, extranet, content management, document management, enterprise search, workflow management and web content management. ",
     "status": "Active",
     "labels": [
-        "Storage"
+        "storage"
     ],
     "releases": [
         {
-            "tagName": "1.0.5",
+            "tagName": "v1.0.5",
             "products": [
-                "EI 6.6.0",
-                "MI 1.2.0"
-            ]
-        },
-        {
-            "tagName": "1.0.4",
-            "products": [
-                "ESB 4.9.0",
-                "EI 6.1.1"
-            ]
+                "EI 6.4.0",
+                "EI 6.3.0",
+                "EI 6.2.0",
+                "EI 6.1.1",
+                "ESB 5.0.0",
+                "ESB 4.9.0"
+            ],
+            "isHidden": false
         }
     ]
 }
