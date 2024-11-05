@@ -1,0 +1,91 @@
+{
+  "connectorName": "sharepoint",
+  "operationName": "uploadFile",
+  "title": "Upload File",
+  "help": "Uploads a new file to the specified folder.",
+  "elements": [
+    {
+      "type": "attributeGroup",
+      "value": {
+        "groupName": "General",
+        "elements": [
+          {
+            "type": "attribute",
+            "value": {
+              "name": "configRef",
+              "displayName": "Connection",
+              "inputType": "connection",
+              "allowedConnectionTypes": [
+                "sharepoint"
+              ],
+              "defaultType": "connection.sharepoint",
+              "defaultValue": "",
+              "required": "true",
+              "helpTip": "Connection to be used."
+            }
+          },
+          {
+            "type": "attributeGroup",
+            "value": {
+              "groupName": "Search",
+              "elements": [
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "search",
+                    "displayName": "Search",
+                    "inputType": "searchBox",
+                    "defaultValue": "",
+                    "required": "false",
+                    "helpTip": "Search for an attribute using the display name."
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "type": "attributeGroup",
+            "value": {
+              "groupName": "Parameters",
+              "elements": [
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "siteId",
+                    "displayName": "Site Id",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "true",
+                    "helpTip": "The unique identifier of the site."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "parentItemId",
+                    "displayName": "Parent Item Id",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "true",
+                    "helpTip": "The ID of the parent folder. Use 'root' for the root directory."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "fileName",
+                    "displayName": "File Name",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "true",
+                    "helpTip": "The name of the file."
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

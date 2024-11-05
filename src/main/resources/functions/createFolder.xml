@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ ~  Copyright (c) 2024, WSO2 LLC. (http://www.wso2.org) All Rights Reserved.
+ ~
+ ~  WSO2 LLC. licenses this file to you under the Apache License,
+ ~  Version 2.0 (the "License"); you may not use this file except
+ ~  in compliance with the License.
+ ~  You may obtain a copy of the License at
+ ~
+ ~    http://www.apache.org/licenses/LICENSE-2.0
+ ~
+ ~  Unless required by applicable law or agreed to in writing,
+ ~  software distributed under the License is distributed on an
+ ~  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ ~  KIND, either express or implied.  See the License for the
+ ~  specific language governing permissions and limitations
+ ~  under the License.
+-->
+
+<!-- Generated on 31-Thu, 10, 2024 21:21:45+0530 -->
+
+<template xmlns="http://ws.apache.org/ns/synapse" name="createFolder">
+    <!-- Path Parameter List -->
+    <parameter name="siteId" description="The unique identifier of the site."/>
+    <parameter name="parentItemId"
+               description="The ID of the parent folder. Use &apos;root&apos; for the root directory."/>
+    <!-- Request Body Parameter List -->
+    <parameter name="name" description=" Type: string"/>
+    <parameter name="folder" description="Empty object to indicate this item is a folder. Type: object"/>
+    <parameter name="MicrosoftGraphConflictBehavior" description=" Type: string"/>
+    <sequence>
+        <class name="org.wso2.carbon.sharepoint.connector.RestURLBuilder">
+            <property name="operationPath" value="/sites/{siteId}/drive/items/{parentItemId}/children"/>
+            <property name="pathParameters" value="siteId,parentItemId"/>
+        </class>
+        <payloadFactory media-type="json" template-type="freemarker">
+            <format>
+                <![CDATA[{
+                                                                                        <#if (args.arg1)?has_content>
+                                    "name": "${args.arg1}",                                </#if>
+                                                                                            <#if (args.arg2)?has_content>
+                                    "folder": ${args.arg2},                                </#if>
+                                                                                            <#if (args.arg3)?has_content>
+                                    "@microsoft.graph.conflictBehavior": "${args.arg3}"                                </#if>
+                                                                                        }]]>
+            </format>
+            <args>
+                <arg evaluator="xml" expression="$func:name"/>
+                <arg evaluator="xml" expression="$func:folder"/>
+                <arg evaluator="xml" expression="$func:MicrosoftGraphConflictBehavior"/>
+            </args>
+        </payloadFactory>
+        <property name="DISABLE_CHUNKING" scope="axis2" type="STRING" value="true"/>
+        <property name="messageType" value="application/json" scope="axis2"/>
+        <property name="ContentType" value="application/json" scope="axis2"/>
+        <header name="Authorization" expression="get-property('_ACCESS_TOKEN_')" scope="transport"/>
+        <call>
+            <endpoint>
+                <http method="POST" uri-template="{uri.var.base}{+uri.var.urlPath}{+uri.var.urlQuery}"/>
+            </endpoint>
+        </call>
+    </sequence>
+</template>

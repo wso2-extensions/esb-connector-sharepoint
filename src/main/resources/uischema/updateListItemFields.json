@@ -1,0 +1,110 @@
+{
+  "connectorName": "sharepoint",
+  "operationName": "updateListItemFields",
+  "title": "Update List Item Fields",
+  "help": "Updates the fields of the specified list item.",
+  "elements": [
+    {
+      "type": "attributeGroup",
+      "value": {
+        "groupName": "General",
+        "elements": [
+          {
+            "type": "attribute",
+            "value": {
+              "name": "configRef",
+              "displayName": "Connection",
+              "inputType": "connection",
+              "allowedConnectionTypes": [
+                "sharepoint"
+              ],
+              "defaultType": "connection.sharepoint",
+              "defaultValue": "",
+              "required": "true",
+              "helpTip": "Connection to be used."
+            }
+          },
+          {
+            "type": "attributeGroup",
+            "value": {
+              "groupName": "Search",
+              "elements": [
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "search",
+                    "displayName": "Search",
+                    "inputType": "searchBox",
+                    "defaultValue": "",
+                    "required": "false",
+                    "helpTip": "Search for an attribute using the display name."
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "type": "attributeGroup",
+            "value": {
+              "groupName": "Parameters",
+              "elements": [
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "siteId",
+                    "displayName": "Site Id",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "true",
+                    "helpTip": "The unique identifier of the site."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "listId",
+                    "displayName": "List Id",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "true",
+                    "helpTip": "The unique identifier of the list."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "itemId",
+                    "displayName": "Item Id",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "true",
+                    "helpTip": "The unique identifier of the item (file or folder)."
+                  }
+                },
+                {
+                  "type": "attributeGroup",
+                  "value": {
+                    "groupName": "Request Body",
+                    "elements": [
+                      {
+                        "type": "attribute",
+                        "value": {
+                          "name": "properties",
+                          "displayName": "Properties",
+                          "inputType": "stringOrExpression",
+                          "defaultValue": "",
+                          "required": "true",
+                          "helpTip": "Specifies the properties of the item to be updated."
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

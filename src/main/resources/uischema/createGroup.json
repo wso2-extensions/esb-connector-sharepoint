@@ -1,0 +1,135 @@
+{
+  "connectorName": "sharepoint",
+  "operationName": "createGroup",
+  "title": "Create Group",
+  "help": "Creates a new Microsoft 365 Group, which provisions a connected SharePoint site.",
+  "elements": [
+    {
+      "type": "attributeGroup",
+      "value": {
+        "groupName": "General",
+        "elements": [
+          {
+            "type": "attribute",
+            "value": {
+              "name": "configRef",
+              "displayName": "Connection",
+              "inputType": "connection",
+              "allowedConnectionTypes": [
+                "sharepoint"
+              ],
+              "defaultType": "connection.sharepoint",
+              "defaultValue": "",
+              "required": "true",
+              "helpTip": "Connection to be used"
+            }
+          },
+          {
+            "type": "attributeGroup",
+            "value": {
+              "groupName": "Search",
+              "elements": [
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "search",
+                    "displayName": "Search",
+                    "inputType": "searchBox",
+                    "defaultValue": "",
+                    "required": "false",
+                    "helpTip": "Search for an attribute using the display name."
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "type": "attributeGroup",
+            "value": {
+              "groupName": "Request Body",
+              "elements": [
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "description",
+                    "displayName": "Description",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "true",
+                    "helpTip": "A brief description of the group, outlining its purpose and intended use."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "displayName",
+                    "displayName": "Display Name",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "true",
+                    "helpTip": "The display name of the group, visible in Microsoft 365 applications and directories."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "groupTypes",
+                    "displayName": "Group Types",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "true",
+                    "helpTip": "An array specifying the types of the group. For Microsoft 365 groups, set this to ['Unified']"
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "mailEnabled",
+                    "displayName": "Mail Enabled",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "true",
+                    "helpTip": "Indicates whether the group is mail-enabled. Set to true to enable email functionalities for the group."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "mailNickname",
+                    "displayName": "Mail Nickname",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "true",
+                    "helpTip": "The mail alias for the group, used in its email address. This must be unique within the organization."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "securityEnabled",
+                    "displayName": "Security Enabled",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "true",
+                    "helpTip": "Determines whether the group is a security group. For Microsoft 365 groups, set this to false."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "visibility",
+                    "displayName": "Visibility",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "false",
+                    "helpTip": "Defines the visibility of the group. Acceptable values are 'Private' or 'Public'."
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

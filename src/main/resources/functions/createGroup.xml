@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ ~  Copyright (c) 2024, WSO2 LLC. (http://www.wso2.org) All Rights Reserved.
+ ~
+ ~  WSO2 LLC. licenses this file to you under the Apache License,
+ ~  Version 2.0 (the "License"); you may not use this file except
+ ~  in compliance with the License.
+ ~  You may obtain a copy of the License at
+ ~
+ ~    http://www.apache.org/licenses/LICENSE-2.0
+ ~
+ ~  Unless required by applicable law or agreed to in writing,
+ ~  software distributed under the License is distributed on an
+ ~  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ ~  KIND, either express or implied.  See the License for the
+ ~  specific language governing permissions and limitations
+ ~  under the License.
+-->
+
+<!-- Generated on 31-Thu, 10, 2024 21:21:45+0530 -->
+
+<template xmlns="http://ws.apache.org/ns/synapse" name="createGroup">
+    <!-- Request Body Parameter List -->
+    <parameter name="description" description="A brief description of the group, outlining its purpose and intended use."/>
+    <parameter name="displayName" description="The display name of the group, visible in Microsoft 365 applications and directories."/>
+    <parameter name="groupTypes" description="An array specifying the types of the group. For Microsoft 365 groups, set this to ['Unified']."/>
+    <parameter name="mailEnabled" description="Indicates whether the group is mail-enabled. Set to true to enable email functionalities for the group."/>
+    <parameter name="mailNickname" description="The mail alias for the group, used in its email address. This must be unique within the organization."/>
+    <parameter name="securityEnabled" description="Determines whether the group is a security group. For Microsoft 365 groups, set this to false."/>
+    <parameter name="visibility" description="Defines the visibility of the group. Acceptable values are 'Private' or 'Public'."/>
+
+    <sequence>
+        <class name="org.wso2.carbon.sharepoint.connector.RestURLBuilder">
+            <property name="operationPath" value="/groups"/>
+        </class>
+        <payloadFactory media-type="json" template-type="freemarker">
+            <format>
+                <![CDATA[{
+                                                                                        <#if (args.arg1)?has_content>
+                                    "description": "${args.arg1}",                                </#if>
+                                                                                            <#if (args.arg2)?has_content>
+                                    "displayName": "${args.arg2}",                                </#if>
+                                                                                            <#if (args.arg3)?has_content>
+                                    "groupTypes": ${args.arg3},                                </#if>
+                                                                                            <#if (args.arg4)?has_content>
+                                    "mailEnabled": "${args.arg4}",                                </#if>
+                                                                                            <#if (args.arg5)?has_content>
+                                    "mailNickname": "${args.arg5}",                                </#if>
+                                                                                            <#if (args.arg6)?has_content>
+                                    "securityEnabled": "${args.arg6}",                                </#if>
+                                                                                            <#if (args.arg7)?has_content>
+                                    "visibility": "${args.arg7}"                                </#if>
+                                                                                        }]]>
+            </format>
+            <args>
+                <arg evaluator="xml" expression="$func:description"/>
+                <arg evaluator="xml" expression="$func:displayName"/>
+                <arg evaluator="xml" expression="$func:groupTypes"/>
+                <arg evaluator="xml" expression="$func:mailEnabled"/>
+                <arg evaluator="xml" expression="$func:mailNickname"/>
+                <arg evaluator="xml" expression="$func:securityEnabled"/>
+                <arg evaluator="xml" expression="$func:visibility"/>
+            </args>
+        </payloadFactory>
+        <property name="DISABLE_CHUNKING" scope="axis2" type="STRING" value="true"/>
+        <property name="messageType" value="application/json" scope="axis2"/>
+        <property name="ContentType" value="application/json" scope="axis2"/>
+        <header name="Authorization" expression="get-property('_ACCESS_TOKEN_')" scope="transport"/>
+        <call>
+            <endpoint>
+                <http method="POST" uri-template="{uri.var.base}{+uri.var.urlPath}{+uri.var.urlQuery}"/>
+            </endpoint>
+        </call>
+    </sequence>
+</template>
