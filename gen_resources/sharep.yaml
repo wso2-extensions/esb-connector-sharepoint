@@ -1,0 +1,691 @@
+openapi: 3.0.0
+info:
+  title: SharePoint Management API
+  description: API for managing folders, files, lists, and list items in SharePoint via Microsoft Graph.
+  version: 1.0.0
+servers:
+  - url: https://graph.microsoft.com/v1.0
+
+paths:
+  /sites/{site-id}/drive/items/{parent-item-id}/children:
+    post:
+      summary: Create a Folder
+      description: Create a new folder within the specified parent folder.
+      operationId: createFolder
+      parameters:
+        - $ref: '#/components/parameters/SiteId'
+        - $ref: '#/components/parameters/ParentItemId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateFolderRequest'
+      responses:
+        '201':
+          description: Folder created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DriveItem'
+        default:
+          $ref: '#/components/responses/ErrorResponse'
+
+  /sites/{site-id}/drive/root/children:
+    get:
+      summary: Retrieve Folders
+      description: Retrieves all items in the root directory of the drive.
+      operationId: getRootChildren
+      parameters:
+        - $ref: '#/components/parameters/SiteId'
+      responses:
+        '200':
+          description: List of items retrieved successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  value:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/DriveItem'
+        default:
+          $ref: '#/components/responses/ErrorResponse'
+
+  /sites/{site-id}/drive/items/{item-id}:
+    get:
+      summary: Retrieve a Specific File or Folder
+      description: Retrieves metadata about the specified file or folder.
+      operationId: getDriveItemById
+      parameters:
+        - $ref: '#/components/parameters/SiteId'
+        - $ref: '#/components/parameters/ItemId'
+      responses:
+        '200':
+          description: Item retrieved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DriveItem'
+        default:
+          $ref: '#/components/responses/ErrorResponse'
+    delete:
+      summary: Delete a File or Folder
+      description: Deletes the specified file or folder.
+      operationId: deleteDriveItem
+      parameters:
+        - $ref: '#/components/parameters/SiteId'
+        - $ref: '#/components/parameters/ItemId'
+      responses:
+        '204':
+          description: Item deleted successfully.
+        default:
+          $ref: '#/components/responses/ErrorResponse'
+    patch:
+      summary: Update a Folder
+      description: Updates the properties of the specified folder.
+      operationId: updateFolder
+      parameters:
+        - $ref: '#/components/parameters/SiteId'
+        - $ref: '#/components/parameters/ItemId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateFolderRequest'
+      responses:
+        '200':
+          description: Folder updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DriveItem'
+        default:
+          $ref: '#/components/responses/ErrorResponse'
+
+  /sites/{site-id}/drive/items/{item-id}/children:
+    get:
+      summary: Retrieve All Files Within Folder
+      description: Retrieves all items within the specified folder.
+      operationId: getFolderChildren
+      parameters:
+        - $ref: '#/components/parameters/SiteId'
+        - $ref: '#/components/parameters/ItemId'
+      responses:
+        '200':
+          description: Items retrieved successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  value:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/DriveItem'
+        default:
+          $ref: '#/components/responses/ErrorResponse'
+
+  /sites/{site-id}/drive/items/{parent-item-id}:/{file-name}:/content:
+    put:
+      summary: Create a File Within a Folder
+      description: Uploads a new file to the specified folder.
+      operationId: uploadFile
+      parameters:
+        - $ref: '#/components/parameters/SiteId'
+        - $ref: '#/components/parameters/ParentItemId'
+        - $ref: '#/components/parameters/FileName'
+      requestBody:
+        required: true
+        content:
+          application/octet-stream:
+            schema:
+              type: string
+              format: binary
+      responses:
+        '201':
+          description: File created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DriveItem'
+        default:
+          $ref: '#/components/responses/ErrorResponse'
+
+  /sites/{site-id}/drive/items/{item-id}/content:
+    put:
+      summary: Update File Content
+      description: Updates the content of the specified file.
+      operationId: updateFileContent
+      parameters:
+        - $ref: '#/components/parameters/SiteId'
+        - $ref: '#/components/parameters/ItemId'
+      requestBody:
+        required: true
+        content:
+          application/octet-stream:
+            schema:
+              type: string
+              format: binary
+      responses:
+        '200':
+          description: File content updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DriveItem'
+        default:
+          $ref: '#/components/responses/ErrorResponse'
+
+  /sites/{site-id}/lists:
+    post:
+      summary: Create a List
+      description: Creates a new list in the specified site.
+      operationId: createList
+      parameters:
+        - $ref: '#/components/parameters/SiteId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateListRequest'
+      responses:
+        '201':
+          description: List created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/List'
+        default:
+          $ref: '#/components/responses/ErrorResponse'
+    get:
+      summary: Retrieve Lists
+      description: Retrieves all lists in the specified site.
+      operationId: getLists
+      parameters:
+        - $ref: '#/components/parameters/SiteId'
+      responses:
+        '200':
+          description: Lists retrieved successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  value:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/List'
+        default:
+          $ref: '#/components/responses/ErrorResponse'
+
+  /sites/{site-id}/lists/{list-id}:
+    get:
+      summary: Get List by ID
+      description: Retrieves a list by its ID (GUID).
+      operationId: getListById
+      parameters:
+        - $ref: '#/components/parameters/SiteId'
+        - $ref: '#/components/parameters/ListId'
+      responses:
+        '200':
+          description: List retrieved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/List'
+        default:
+          $ref: '#/components/responses/ErrorResponse'
+    patch:
+      summary: Update a List
+      description: Updates properties of the specified list.
+      operationId: updateList
+      parameters:
+        - $ref: '#/components/parameters/SiteId'
+        - $ref: '#/components/parameters/ListId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateListRequest'
+      responses:
+        '200':
+          description: List updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/List'
+        default:
+          $ref: '#/components/responses/ErrorResponse'
+    delete:
+      summary: Delete a List
+      description: Deletes the specified list.
+      operationId: deleteList
+      parameters:
+        - $ref: '#/components/parameters/SiteId'
+        - $ref: '#/components/parameters/ListId'
+      responses:
+        '204':
+          description: List deleted successfully.
+        default:
+          $ref: '#/components/responses/ErrorResponse'
+
+  /sites/{site-id}/lists/{list-id}/items:
+    get:
+      summary: Retrieve List Items
+      description: Retrieves all items in the specified list.
+      operationId: getListItems
+      parameters:
+        - $ref: '#/components/parameters/SiteId'
+        - $ref: '#/components/parameters/ListId'
+      responses:
+        '200':
+          description: List items retrieved successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  value:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ListItem'
+        default:
+          $ref: '#/components/responses/ErrorResponse'
+    post:
+      summary: Create a List Item
+      description: Creates a new item in the specified list.
+      operationId: createListItem
+      parameters:
+        - $ref: '#/components/parameters/SiteId'
+        - $ref: '#/components/parameters/ListId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateListItemRequest'
+      responses:
+        '201':
+          description: List item created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListItem'
+        default:
+          $ref: '#/components/responses/ErrorResponse'
+
+  /sites/{site-id}/lists/{list-id}/items/{item-id}:
+    get:
+      summary: Get Item by ID
+      description: Retrieves a list item by its ID.
+      operationId: getListItemById
+      parameters:
+        - $ref: '#/components/parameters/SiteId'
+        - $ref: '#/components/parameters/ListId'
+        - $ref: '#/components/parameters/ItemId'
+      responses:
+        '200':
+          description: List item retrieved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListItem'
+        default:
+          $ref: '#/components/responses/ErrorResponse'
+    delete:
+      summary: Delete a List Item
+      description: Deletes the specified list item.
+      operationId: deleteListItem
+      parameters:
+        - $ref: '#/components/parameters/SiteId'
+        - $ref: '#/components/parameters/ListId'
+        - $ref: '#/components/parameters/ItemId'
+      responses:
+        '204':
+          description: List item deleted successfully.
+        default:
+          $ref: '#/components/responses/ErrorResponse'
+
+  /sites/{site-id}/lists/{list-id}/items/{item-id}/fields:
+    patch:
+      summary: Update a List Item
+      description: Updates the fields of the specified list item.
+      operationId: updateListItemFields
+      parameters:
+        - $ref: '#/components/parameters/SiteId'
+        - $ref: '#/components/parameters/ListId'
+        - $ref: '#/components/parameters/ItemId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Object containing field names and values to update.
+      responses:
+        '200':
+          description: List item updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListItem'
+        default:
+          $ref: '#/components/responses/ErrorResponse'
+
+  # === Added Group APIs ===
+  /groups:
+    post:
+      summary: Create a Microsoft 365 Group
+      description: Creates a new Microsoft 365 Group, which provisions a connected SharePoint site.
+      operationId: createGroup
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateGroupRequest'
+      responses:
+        '201':
+          description: Group created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Group'
+        default:
+          $ref: '#/components/responses/ErrorResponse'
+    get:
+      summary: Retrieve All Groups
+      description: Retrieves all Microsoft 365 Groups in the tenant.
+      operationId: getGroups
+      responses:
+        '200':
+          description: Groups retrieved successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  value:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Group'
+        default:
+          $ref: '#/components/responses/ErrorResponse'
+
+  /groups/{group-id}/sites/root:
+    get:
+      summary: Retrieve SharePoint Site Associated with a Group
+      description: Retrieves the root SharePoint site associated with the specified Microsoft 365 Group.
+      operationId: getGroupSite
+      parameters:
+        - $ref: '#/components/parameters/GroupId'
+      responses:
+        '200':
+          description: SharePoint site retrieved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Site'
+        default:
+          $ref: '#/components/responses/ErrorResponse'
+
+components:
+  parameters:
+    SiteId:
+      name: site-id
+      in: path
+      required: true
+      schema:
+        type: string
+      description: The unique identifier of the site.
+    ParentItemId:
+      name: parent-item-id
+      in: path
+      required: true
+      schema:
+        type: string
+      description: The ID of the parent folder. Use 'root' for the root directory.
+    ItemId:
+      name: item-id
+      in: path
+      required: true
+      schema:
+        type: string
+      description: The unique identifier of the item (file or folder).
+    ListId:
+      name: list-id
+      in: path
+      required: true
+      schema:
+        type: string
+      description: The unique identifier of the list.
+    FileName:
+      name: file-name
+      in: path
+      required: true
+      schema:
+        type: string
+      description: The name of the file.
+    GroupId:
+      name: group-id
+      in: path
+      required: true
+      schema:
+        type: string
+      description: The unique identifier of the Microsoft 365 Group.
+
+  schemas:
+    DriveItem:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        webUrl:
+          type: string
+        folder:
+          type: object
+        file:
+          type: object
+      required:
+        - id
+        - name
+
+    CreateFolderRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        folder:
+          type: object
+          description: Empty object to indicate this item is a folder.
+        '@microsoft.graph.conflictBehavior':
+          type: string
+          enum:
+            - rename
+            - replace
+            - fail
+          default: fail
+      required:
+        - name
+        - folder
+
+    UpdateFolderRequest:
+      type: object
+      properties:
+        name:
+          type: string
+      required:
+        - name
+
+    List:
+      type: object
+      properties:
+        id:
+          type: string
+        displayName:
+          type: string
+        description:
+          type: string
+        createdDateTime:
+          type: string
+          format: date-time
+        lastModifiedDateTime:
+          type: string
+          format: date-time
+      required:
+        - id
+        - displayName
+
+    CreateListRequest:
+      type: object
+      properties:
+        displayName:
+          type: string
+        list:
+          type: object
+          properties:
+            template:
+              type: string
+              default: genericList
+      required:
+        - displayName
+        - list
+
+    UpdateListRequest:
+      type: object
+      properties:
+        displayName:
+          type: string
+        description:
+          type: string
+
+    ListItem:
+      type: object
+      properties:
+        id:
+          type: string
+        fields:
+          type: object
+      required:
+        - id
+        - fields
+
+    CreateListItemRequest:
+      type: object
+      properties:
+        fields:
+          type: object
+      required:
+        - fields
+
+    Group:
+      type: object
+      properties:
+        id:
+          type: string
+        displayName:
+          type: string
+        description:
+          type: string
+        groupTypes:
+          type: array
+          items:
+            type: string
+        mailEnabled:
+          type: boolean
+        mailNickname:
+          type: string
+        securityEnabled:
+          type: boolean
+        createdDateTime:
+          type: string
+          format: date-time
+        visibility:
+          type: string
+        webUrl:
+          type: string
+      required:
+        - id
+        - displayName
+
+    Site:
+      type: object
+      properties:
+        id:
+          type: string
+        displayName:
+          type: string
+        name:
+          type: string
+        webUrl:
+          type: string
+        createdDateTime:
+          type: string
+          format: date-time
+        lastModifiedDateTime:
+          type: string
+          format: date-time
+      required:
+        - id
+        - displayName
+        - webUrl
+
+    CreateGroupRequest:
+      type: object
+      properties:
+        description:
+          type: string
+        displayName:
+          type: string
+        groupTypes:
+          type: array
+          items:
+            type: string
+        mailEnabled:
+          type: boolean
+        mailNickname:
+          type: string
+        securityEnabled:
+          type: boolean
+        visibility:
+          type: string
+          enum:
+            - Private
+            - Public
+      required:
+        - description
+        - displayName
+        - groupTypes
+        - mailEnabled
+        - mailNickname
+        - securityEnabled
+
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+            message:
+              type: string
+            innerError:
+              type: object
+      required:
+        - error
+
+  responses:
+    ErrorResponse:
+      description: An error response.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
