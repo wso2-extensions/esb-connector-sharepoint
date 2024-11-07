@@ -34,5 +34,18 @@
                 <http method="GET" uri-template="{uri.var.base}{+uri.var.urlPath}{+uri.var.urlQuery}"/>
             </endpoint>
         </call>
+
+        <!-- Remove unnecessary headers from the response -->
+        <header name="request-id" scope="transport" action="remove"/>
+        <header name="x-xss-protection" scope="transport" action="remove"/>
+        <header name="vary" scope="transport" action="remove"/>
+        <header name="alt-svc" scope="transport" action="remove"/>
+        <header name="server" scope="transport" action="remove"/>
+        <header name="access-control-allow-origin" scope="transport" action="remove"/>
+        <header name="access-control-allow-methods" scope="transport" action="remove"/>
+        <header name="x-content-type-options" scope="transport" action="remove"/>
+        <header name="access-control-allow-headers" scope="transport" action="remove"/>
+        <header name="x-frame-options" scope="transport" action="remove"/>
+        <header name="cache-control" scope="transport" action="remove"/>
     </sequence>
 </template>
