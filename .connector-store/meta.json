@@ -4,7 +4,7 @@
   "category": "Storage and Content Management",
   "documentationUrl": "https://mi.docs.wso2.com/en/latest/reference/connectors/sharepoint-connector/sharepoint-overview/",
   "description": "The sharePoint connector allows you to access the SharePoint REST API. SharePoint is a web application platform.SharePoint combines various functions which are traditionally separate applications: intranet, extranet, content management, document management, enterprise search, workflow management and web content management.",
-  "status": "Inactive",
+  "status": "Active",
   "releases": [
     {
       "tagName": "v1.1.0",
