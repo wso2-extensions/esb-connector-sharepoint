@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ ~  Copyright (c) 2024, WSO2 LLC. (http://www.wso2.org) All Rights Reserved.
+ ~
+ ~  WSO2 LLC. licenses this file to you under the Apache License,
+ ~  Version 2.0 (the "License"); you may not use this file except
+ ~  in compliance with the License.
+ ~  You may obtain a copy of the License at
+ ~
+ ~    http://www.apache.org/licenses/LICENSE-2.0
+ ~
+ ~  Unless required by applicable law or agreed to in writing,
+ ~  software distributed under the License is distributed on an
+ ~  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ ~  KIND, either express or implied.  See the License for the
+ ~  specific language governing permissions and limitations
+ ~  under the License.
+-->
+
+<!-- Generated on 31-Thu, 10, 2024 21:21:45+0530 -->
+
+<component name="functions" type="synapse/template">
+    <subComponents>
+        <component name="createFolder">
+            <file>createFolder.xml</file>
+            <description>Create a new folder within the specified parent folder.</description>
+        </component>
+        <component name="createGroup">
+            <file>createGroup.xml</file>
+            <description>Creates a new Microsoft 365 Group, which provisions a connected SharePoint site.</description>
+        </component>
+        <component name="createList">
+            <file>createList.xml</file>
+            <description>Creates a new list in the specified site.</description>
+        </component>
+        <component name="createListItem">
+            <file>createListItem.xml</file>
+            <description>Creates a new item in the specified list.</description>
+        </component>
+        <component name="deleteDriveItem">
+            <file>deleteDriveItem.xml</file>
+            <description>Deletes the specified file or folder.</description>
+        </component>
+        <component name="deleteList">
+            <file>deleteList.xml</file>
+            <description>Deletes the specified list.</description>
+        </component>
+        <component name="deleteListItem">
+            <file>deleteListItem.xml</file>
+            <description>Deletes the specified list item.</description>
+        </component>
+        <component name="getDriveItemById">
+            <file>getDriveItemById.xml</file>
+            <description>Retrieves metadata about the specified file or folder.</description>
+        </component>
+        <component name="getFolderChildren">
+            <file>getFolderChildren.xml</file>
+            <description>Retrieves all items within the specified folder.</description>
+        </component>
+        <component name="getGroupSite">
+            <file>getGroupSite.xml</file>
+            <description>Retrieves the root SharePoint site associated with the specified Microsoft 365 Group.
+            </description>
+        </component>
+        <component name="getListById">
+            <file>getListById.xml</file>
+            <description>Retrieves a list by its ID (GUID).</description>
+        </component>
+        <component name="getListItemById">
+            <file>getListItemById.xml</file>
+            <description>Retrieves a list item by its ID.</description>
+        </component>
+        <component name="getListItems">
+            <file>getListItems.xml</file>
+            <description>Retrieves all items in the specified list.</description>
+        </component>
+        <component name="getLists">
+            <file>getLists.xml</file>
+            <description>Retrieves all lists in the specified site.</description>
+        </component>
+        <component name="getRootChildren">
+            <file>getRootChildren.xml</file>
+            <description>Retrieves all items in the root directory of the drive.</description>
+        </component>
+        <component name="updateFileContent">
+            <file>updateFileContent.xml</file>
+            <description>Updates the content of the specified file.</description>
+        </component>
+        <component name="updateFolder">
+            <file>updateFolder.xml</file>
+            <description>Updates the properties of the specified folder.</description>
+        </component>
+        <component name="updateList">
+            <file>updateList.xml</file>
+            <description>Updates properties of the specified list.</description>
+        </component>
+        <component name="updateListItemFields">
+            <file>updateListItemFields.xml</file>
+            <description>Updates the fields of the specified list item.</description>
+        </component>
+        <component name="uploadFile">
+            <file>uploadFile.xml</file>
+            <description>Uploads a new file to the specified folder.</description>
+        </component>
+    </subComponents>
+</component>

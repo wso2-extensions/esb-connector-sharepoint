@@ -1,0 +1,80 @@
+{
+  "connectorName": "sharepoint",
+  "connectionName": "sharepoint",
+  "title": "Sharepoint Connection",
+  "help": "<h1>Sharepoint Connection</h1> <b>The Sharepoint Connector allows you to access the REST API of Sharepoint.</b>",
+  "elements": [
+    {
+      "type": "attribute",
+      "value": {
+        "name": "connectionName",
+        "displayName": "Connection Name",
+        "inputType": "string",
+        "defaultValue": "SHAREPOINT_CONNECTION_1",
+        "required": "true",
+        "helpTip": "The name for the Sharepoint connection.",
+        "validation": "nameWithoutSpecialCharacters"
+      }
+    },
+    {
+      "type": "attributeGroup",
+      "value": {
+        "groupName": "General",
+        "elements": [
+          {
+            "type": "attributeGroup",
+            "value": {
+              "groupName": "Basic",
+              "elements": [
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "base",
+                    "displayName": "Base URL",
+                    "inputType": "string",
+                    "defaultValue": "https://graph.microsoft.com/v1.0",
+                    "required": "true",
+                    "helpTip": "The service root URL."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "clientId",
+                    "displayName": "Client ID",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "true",
+                    "helpTip": "Client ID of the registered application."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "clientSecret",
+                    "displayName": "Client Secret",
+                    "inputType": "stringOrExpression",
+                    "defaultValue": "",
+                    "required": "true",
+                    "helpTip": "Client secret of the registered application."
+                  }
+                },
+                {
+                  "type": "attribute",
+                  "value": {
+                    "name": "tenant",
+                    "displayName": "Tenant ID",
+                    "inputType": "string",
+                    "defaultValue": "",
+                    "required": "true",
+                    "helpTip": "Enter 'common', 'organizations', 'consumers', or your Azure AD tenant ID or domain name."
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

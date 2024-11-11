@@ -19,9 +19,8 @@
 <connector>
     <component name="sharepoint" package="org.wso2.carbon.connector">
         <dependency component="config"/>
-        <dependency component="listAndListItems"/>
-        <dependency component="FilesAndFolders"/>
-        <description>WSO2 ESB Connector Library for sharePoint API.</description>
+        <dependency component="functions"/>
+        <description>WSO2 sharepoint Connector Library</description>
     </component>
-    <icon>icon/icon-small.gif</icon>
+    <icon>icon/icon-small.png</icon>
 </connector>
