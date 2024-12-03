@@ -8,7 +8,7 @@
   "mavenArtifactId": "org.wso2.carbon.connector.redis",
   "description": "The sharePoint connector allows you to access the SharePoint REST API. SharePoint is a web application platform.SharePoint combines various functions which are traditionally separate applications: intranet, extranet, content management, document management, enterprise search, workflow management and web content management.",
   "status": "Active",
-  "connectorRank": 52,
+  "rank": 52,
   "type": "Connector",
   "releases": [
     {
