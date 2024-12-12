@@ -22,5 +22,6 @@
         <dependency component="functions"/>
         <description>WSO2 sharepoint Connector Library</description>
     </component>
+    <displayName>SharePoint</displayName>
     <icon>icon/icon-small.gif</icon>
 </connector>
