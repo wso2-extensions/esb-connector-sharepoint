@@ -1,0 +1,88 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "title": "Output Schema for Create List Item Operation",
+  "description": "Output schema for the create list item operation in the connector.",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "The unique identifier of the list item."
+    },
+    "createdDateTime": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The date and time when the list item was created."
+    },
+    "createdBy": {
+      "type": "object",
+      "description": "Information about the user who created the list item.",
+      "properties": {
+        "user": {
+          "type": "object",
+          "description": "Details of the user.",
+          "properties": {
+            "displayName": {
+              "type": "string",
+              "description": "The display name of the user."
+            },
+            "id": {
+              "type": "string",
+              "description": "The unique identifier of the user."
+            }
+          },
+          "required": [
+            "displayName",
+            "id"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "user"
+      ],
+      "additionalProperties": false
+    },
+    "lastModifiedDateTime": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The date and time when the list item was last modified."
+    },
+    "lastModifiedBy": {
+      "type": "object",
+      "description": "Information about the user who last modified the list item.",
+      "properties": {
+        "user": {
+          "type": "object",
+          "description": "Details of the user.",
+          "properties": {
+            "displayName": {
+              "type": "string",
+              "description": "The display name of the user."
+            },
+            "id": {
+              "type": "string",
+              "description": "The unique identifier of the user."
+            }
+          },
+          "required": [
+            "displayName",
+            "id"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "user"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "id",
+    "createdDateTime",
+    "createdBy",
+    "lastModifiedDateTime",
+    "lastModifiedBy"
+  ],
+  "additionalProperties": false
+}

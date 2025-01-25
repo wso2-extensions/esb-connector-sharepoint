@@ -1,0 +1,46 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "title": "Output Schema for Get List by ID Operation",
+  "description": "Output schema for retrieving list details by ID.",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "createdDateTime": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "lastModifiedDateTime": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "list": {
+      "type": "object",
+      "properties": {
+        "hidden": {
+          "type": "boolean"
+        },
+        "template": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "hidden",
+        "template"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "id",
+    "name",
+    "createdDateTime",
+    "lastModifiedDateTime",
+    "list"
+  ],
+  "additionalProperties": false
+}

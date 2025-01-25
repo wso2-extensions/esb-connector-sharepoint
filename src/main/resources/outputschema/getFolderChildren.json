@@ -1,0 +1,53 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "title": "Output Schema for Get Folder Children Operation",
+  "description": "Output schema for retrieving children of a folder.",
+  "properties": {
+    "value": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "size": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "file": {
+            "type": "object",
+            "additionalProperties": false
+          },
+          "folder": {
+            "type": "object",
+            "properties": {
+              "childCount": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "required": [
+              "childCount"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "name"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "@odata.nextLink": {
+      "type": "string",
+      "format": "uri"
+    }
+  },
+  "required": [
+    "value",
+    "@odata.nextLink"
+  ],
+  "additionalProperties": false
+}
