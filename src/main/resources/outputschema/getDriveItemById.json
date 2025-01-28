@@ -1,0 +1,117 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "title": "Output Schema for Get Drive Item by ID Operation",
+  "description": "Output schema for retrieving a drive item by its ID.",
+  "properties": {
+    "createdBy": {
+      "type": "object",
+      "properties": {
+        "user": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "displayName": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "displayName"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "user"
+      ],
+      "additionalProperties": false
+    },
+    "createdDateTime": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "cTag": {
+      "type": "string"
+    },
+    "eTag": {
+      "type": "string"
+    },
+    "folder": {
+      "type": "object",
+      "properties": {
+        "childCount": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "childCount"
+      ],
+      "additionalProperties": false
+    },
+    "id": {
+      "type": "string"
+    },
+    "lastModifiedBy": {
+      "type": "object",
+      "properties": {
+        "user": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "displayName": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "displayName"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "user"
+      ],
+      "additionalProperties": false
+    },
+    "lastModifiedDateTime": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "name": {
+      "type": "string"
+    },
+    "root": {
+      "type": "object"
+    },
+    "size": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "webUrl": {
+      "type": "string",
+      "format": "uri"
+    }
+  },
+  "required": [
+    "createdBy",
+    "createdDateTime",
+    "cTag",
+    "eTag",
+    "folder",
+    "id",
+    "lastModifiedBy",
+    "lastModifiedDateTime",
+    "name",
+    "root",
+    "size",
+    "webUrl"
+  ],
+  "additionalProperties": false
+}

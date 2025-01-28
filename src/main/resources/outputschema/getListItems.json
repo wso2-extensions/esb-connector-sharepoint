@@ -1,0 +1,35 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "title": "Output Schema for Get List Items Operation",
+  "description": "Output schema for retrieving multiple list items.",
+  "properties": {
+    "value": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The unique identifier of the list item."
+          },
+          "fields": {
+            "type": "object",
+            "description": "Dynamic set of fields for each list item.",
+            "additionalProperties": true
+          }
+        },
+        "required": [
+          "id",
+          "fields"
+        ],
+        "additionalProperties": false
+      },
+      "description": "The array containing multiple list items."
+    }
+  },
+  "required": [
+    "value"
+  ],
+  "additionalProperties": false
+}

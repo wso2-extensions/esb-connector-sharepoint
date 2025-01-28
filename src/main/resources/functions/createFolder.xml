@@ -28,6 +28,8 @@
     <parameter name="name" description=" Type: string"/>
     <parameter name="folder" description="Empty object to indicate this item is a folder. Type: object"/>
     <parameter name="MicrosoftGraphConflictBehavior" description=" Type: string"/>
+    <parameter name="responseVariable" description="The name of the variable to which the response should be stored."/>
+    <parameter name="overwriteBody" description="Replace the Message Body in Message Context with the response of the operation."/>
     <sequence>
         <class name="org.wso2.carbon.sharepoint.connector.RestURLBuilder">
             <property name="operationPath" value="/sites/{siteId}/drive/items/{parentItemId}/children"/>

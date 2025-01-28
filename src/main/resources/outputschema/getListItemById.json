@@ -1,0 +1,22 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "title": "Output Schema for Get List Item by ID Operation",
+  "description": "Output schema for retrieving list item details by ID.",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "The unique identifier of the list item."
+    },
+    "fields": {
+      "type": "object",
+      "description": "Dynamic set of fields for the list item.",
+      "additionalProperties": true
+    }
+  },
+  "required": [
+    "id",
+    "fields"
+  ],
+  "additionalProperties": false
+}

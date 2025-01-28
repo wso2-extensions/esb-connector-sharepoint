@@ -23,6 +23,8 @@
     <parameter name="siteId" description="The unique identifier of the site."/>
     <parameter name="parentItemId" description="The ID of the parent folder. Use 'root' for the root directory."/>
     <parameter name="fileName" description="The name of the file."/>
+    <parameter name="responseVariable" description="The name of the variable to which the response should be stored."/>
+    <parameter name="overwriteBody" description="Replace the Message Body in Message Context with the response of the operation."/>
     <sequence>
         <class name="org.wso2.carbon.sharepoint.connector.RestURLBuilder">
             <property name="operationPath" value="/sites/{siteId}/drive/items/{parentItemId}:/{fileName}:/content"/>

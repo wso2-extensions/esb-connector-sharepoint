@@ -1,0 +1,33 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "title": "Output Schema for Update File Content Operation",
+  "description": "Output schema for the update file content operation in the connector.",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "The unique identifier of the file."
+    },
+    "name": {
+      "type": "string",
+      "description": "The name of the file."
+    },
+    "size": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "The size of the file in bytes."
+    },
+    "file": {
+      "type": "object",
+      "description": "Indicates that this item is a file.",
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "id",
+    "name",
+    "size",
+    "file"
+  ],
+  "additionalProperties": false
+}
