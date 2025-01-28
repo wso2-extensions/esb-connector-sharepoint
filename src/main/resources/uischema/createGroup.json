@@ -27,25 +27,6 @@
           {
             "type": "attributeGroup",
             "value": {
-              "groupName": "Search",
-              "elements": [
-                {
-                  "type": "attribute",
-                  "value": {
-                    "name": "search",
-                    "displayName": "Search",
-                    "inputType": "searchBox",
-                    "defaultValue": "",
-                    "required": "false",
-                    "helpTip": "Search for an attribute using the display name."
-                  }
-                }
-              ]
-            }
-          },
-          {
-            "type": "attributeGroup",
-            "value": {
               "groupName": "Request Body",
               "elements": [
                 {
