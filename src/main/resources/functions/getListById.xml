@@ -23,6 +23,8 @@
     <!-- Path Parameter List -->
     <parameter name="siteId" description="The unique identifier of the site."/>
     <parameter name="listId" description="The unique identifier of the list."/>
+    <parameter name="responseVariable" description="The name of the variable to which the response should be stored."/>
+    <parameter name="overwriteBody" description="Replace the Message Body in Message Context with the response of the operation."/>
     <sequence>
         <class name="org.wso2.carbon.sharepoint.connector.RestURLBuilder">
             <property name="operationPath" value="/sites/{siteId}/lists/{listId}"/>
