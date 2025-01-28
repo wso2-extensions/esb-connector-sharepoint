@@ -1,0 +1,8 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "title": "Output Schema for Update List Item Fields Operation",
+  "description": "Output schema for the update list item fields operation in the connector.",
+  "properties": {},
+  "additionalProperties": false
+}
