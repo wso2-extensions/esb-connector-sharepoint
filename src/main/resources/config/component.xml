@@ -24,5 +24,10 @@
             <description>Init configuration file for sharepoint connector.</description>
             <hidden>true</hidden>
         </component>
+        <component name="testconnection">
+            <file>testconnection.xml</file>
+            <description>Operation to test the connection for sharepoint connector.</description>
+            <hidden>true</hidden>
+        </component>
     </subComponents>
 </component>
