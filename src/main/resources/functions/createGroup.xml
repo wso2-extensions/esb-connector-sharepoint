@@ -28,7 +28,8 @@
     <parameter name="mailNickname" description="The mail alias for the group, used in its email address. This must be unique within the organization."/>
     <parameter name="securityEnabled" description="Determines whether the group is a security group. For Microsoft 365 groups, set this to false."/>
     <parameter name="visibility" description="Defines the visibility of the group. Acceptable values are 'Private' or 'Public'."/>
-
+    <parameter name="responseVariable" description="The name of the variable to which the response should be stored."/>
+    <parameter name="overwriteBody" description="Replace the Message Body in Message Context with the response of the operation."/>
     <sequence>
         <class name="org.wso2.carbon.sharepoint.connector.RestURLBuilder">
             <property name="operationPath" value="/groups"/>
