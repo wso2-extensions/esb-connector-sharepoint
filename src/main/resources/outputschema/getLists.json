@@ -4,55 +4,88 @@
   "title": "Output Schema for Get Lists Operation",
   "description": "Output schema for retrieving multiple lists.",
   "properties": {
-    "value": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "createdDateTime": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "lastModifiedDateTime": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "list": {
+    "payload": {
+      "type": "object",
+      "description": "The main response payload for get lists operation.",
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
             "type": "object",
             "properties": {
-              "hidden": {
-                "type": "boolean"
-              },
-              "template": {
+              "id": {
                 "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "createdDateTime": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "lastModifiedDateTime": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "list": {
+                "type": "object",
+                "properties": {
+                  "hidden": {
+                    "type": "boolean"
+                  },
+                  "template": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "hidden",
+                  "template"
+                ],
+                "additionalProperties": false
               }
             },
             "required": [
-              "hidden",
-              "template"
+              "id",
+              "name",
+              "createdDateTime",
+              "lastModifiedDateTime",
+              "list"
             ],
             "additionalProperties": false
           }
-        },
-        "required": [
-          "id",
-          "name",
-          "createdDateTime",
-          "lastModifiedDateTime",
-          "list"
-        ],
-        "additionalProperties": false
-      }
+        }
+      },
+      "required": [
+        "value"
+      ],
+      "additionalProperties": false
+    },
+    "headers": {
+      "type": "object",
+      "description": "Transport headers returned by the get lists operation.",
+      "additionalProperties": true
+    },
+    "attributes": {
+      "type": "object",
+      "description": "Metadata about the get lists operation.",
+      "properties": {
+        "statusCode": {
+          "type": "integer",
+          "description": "HTTP status code of the API response.",
+          "minimum": 100,
+          "maximum": 599
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "statusCode"
+      ]
     }
   },
   "required": [
-    "value"
+    "payload",
+    "headers",
+    "attributes"
   ],
   "additionalProperties": false
 }

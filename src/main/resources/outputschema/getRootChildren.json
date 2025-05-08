@@ -4,57 +4,90 @@
   "title": "Output Schema for Get Root Children Operation",
   "description": "Output schema for retrieving the children of the drive root.",
   "properties": {
-    "value": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string",
-            "description": "The name of the child item."
-          },
-          "size": {
-            "type": "integer",
-            "minimum": 0,
-            "description": "The size of the file item in bytes."
-          },
-          "file": {
+    "payload": {
+      "type": "object",
+      "description": "The main response payload for get root children operation.",
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
             "type": "object",
-            "description": "Indicates that this item is a file.",
-            "additionalProperties": false
-          },
-          "folder": {
-            "type": "object",
-            "description": "Indicates that this item is a folder.",
             "properties": {
-              "childCount": {
+              "name": {
+                "type": "string",
+                "description": "The name of the child item."
+              },
+              "size": {
                 "type": "integer",
                 "minimum": 0,
-                "description": "The number of children in the folder."
+                "description": "The size of the file item in bytes."
+              },
+              "file": {
+                "type": "object",
+                "description": "Indicates that this item is a file.",
+                "additionalProperties": false
+              },
+              "folder": {
+                "type": "object",
+                "description": "Indicates that this item is a folder.",
+                "properties": {
+                  "childCount": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "description": "The number of children in the folder."
+                  }
+                },
+                "required": [
+                  "childCount"
+                ],
+                "additionalProperties": false
               }
             },
             "required": [
-              "childCount"
+              "name"
             ],
             "additionalProperties": false
-          }
+          },
+          "description": "The array of items within the root."
         },
-        "required": [
-          "name"
-        ],
-        "additionalProperties": false
+        "@odata.nextLink": {
+          "type": "string",
+          "format": "uri",
+          "description": "URL to retrieve the next set of results, if more items exist."
+        }
       },
-      "description": "The array of items within the root."
+      "required": [
+        "value",
+        "@odata.nextLink"
+      ],
+      "additionalProperties": false
     },
-    "@odata.nextLink": {
-      "type": "string",
-      "format": "uri",
-      "description": "URL to retrieve the next set of results, if more items exist."
+    "headers": {
+      "type": "object",
+      "description": "Transport headers returned by the get root children operation.",
+      "additionalProperties": true
+    },
+    "attributes": {
+      "type": "object",
+      "description": "Metadata about the get root children operation.",
+      "properties": {
+        "statusCode": {
+          "type": "integer",
+          "description": "HTTP status code of the API response.",
+          "minimum": 100,
+          "maximum": 599
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "statusCode"
+      ]
     }
   },
   "required": [
-    "value",
-    "@odata.nextLink"
+    "payload",
+    "headers",
+    "attributes"
   ],
   "additionalProperties": false
 }

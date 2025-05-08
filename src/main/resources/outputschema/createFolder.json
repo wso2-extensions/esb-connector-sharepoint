@@ -4,114 +4,147 @@
   "title": "Output Schema for Create Folder Operation",
   "description": "Output schema for the create folder operation in the connector.",
   "properties": {
-    "createdBy": {
+    "payload": {
       "type": "object",
-      "description": "Information about the user who created the item.",
+      "description": "The main response payload from the create folder operation.",
       "properties": {
-        "user": {
+        "createdBy": {
           "type": "object",
-          "description": "Details of the creating user.",
+          "description": "Information about the user who created the item.",
           "properties": {
-            "displayName": {
-              "type": "string",
-              "description": "The display name of the user."
-            },
-            "id": {
-              "type": "string",
-              "description": "The unique identifier of the user."
+            "user": {
+              "type": "object",
+              "description": "Details of the creating user.",
+              "properties": {
+                "displayName": {
+                  "type": "string",
+                  "description": "The display name of the user."
+                },
+                "id": {
+                  "type": "string",
+                  "description": "The unique identifier of the user."
+                }
+              }
             }
           }
-        }
-      }
-    },
-    "createdDateTime": {
-      "type": "string",
-      "format": "date-time",
-      "description": "The date and time when the item was created."
-    },
-    "eTag": {
-      "type": "string",
-      "description": "The entity tag (ETag) for the item."
-    },
-    "id": {
-      "type": "string",
-      "description": "The unique identifier of the item."
-    },
-    "lastModifiedBy": {
-      "type": "object",
-      "description": "Information about the user who last modified the item.",
-      "properties": {
-        "user": {
-          "type": "object",
-          "description": "Details of the modifying user.",
-          "properties": {
-            "displayName": {
-              "type": "string",
-              "description": "The display name of the user."
-            },
-            "id": {
-              "type": "string",
-              "description": "The unique identifier of the user."
-            }
-          }
-        }
-      }
-    },
-    "lastModifiedDateTime": {
-      "type": "string",
-      "format": "date-time",
-      "description": "The date and time when the item was last modified."
-    },
-    "name": {
-      "type": "string",
-      "description": "The name of the item."
-    },
-    "parentReference": {
-      "type": "object",
-      "description": "Reference to the parent folder.",
-      "properties": {
-        "driveId": {
+        },
+        "createdDateTime": {
           "type": "string",
-          "description": "The unique identifier of the drive."
+          "format": "date-time",
+          "description": "The date and time when the item was created."
+        },
+        "eTag": {
+          "type": "string",
+          "description": "The entity tag (ETag) for the item."
         },
         "id": {
           "type": "string",
-          "description": "The unique identifier of the parent folder."
+          "description": "The unique identifier of the item."
         },
-        "path": {
+        "lastModifiedBy": {
+          "type": "object",
+          "description": "Information about the user who last modified the item.",
+          "properties": {
+            "user": {
+              "type": "object",
+              "description": "Details of the modifying user.",
+              "properties": {
+                "displayName": {
+                  "type": "string",
+                  "description": "The display name of the user."
+                },
+                "id": {
+                  "type": "string",
+                  "description": "The unique identifier of the user."
+                }
+              }
+            }
+          }
+        },
+        "lastModifiedDateTime": {
           "type": "string",
-          "description": "The path to the parent folder."
-        }
-      }
-    },
-    "size": {
-      "type": "integer",
-      "description": "The size of the item in bytes.",
-      "minimum": 0
-    },
-    "folder": {
-      "type": "object",
-      "description": "Folder-related information.",
-      "properties": {
-        "childCount": {
+          "format": "date-time",
+          "description": "The date and time when the item was last modified."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the item."
+        },
+        "parentReference": {
+          "type": "object",
+          "description": "Reference to the parent folder.",
+          "properties": {
+            "driveId": {
+              "type": "string",
+              "description": "The unique identifier of the drive."
+            },
+            "id": {
+              "type": "string",
+              "description": "The unique identifier of the parent folder."
+            },
+            "path": {
+              "type": "string",
+              "description": "The path to the parent folder."
+            }
+          }
+        },
+        "size": {
           "type": "integer",
-          "description": "The number of child items in the folder.",
+          "description": "The size of the item in bytes.",
           "minimum": 0
+        },
+        "folder": {
+          "type": "object",
+          "description": "Folder-related information.",
+          "properties": {
+            "childCount": {
+              "type": "integer",
+              "description": "The number of child items in the folder.",
+              "minimum": 0
+            }
+          }
         }
-      }
+      },
+      "required": [
+        "createdBy",
+        "createdDateTime",
+        "eTag",
+        "id",
+        "lastModifiedBy",
+        "lastModifiedDateTime",
+        "name",
+        "parentReference",
+        "size",
+        "folder"
+      ],
+      "additionalProperties": false
+    },
+    "headers": {
+      "type": "object",
+      "description": "Transport headers returned by the create folder operation.",
+      "additionalProperties": true
+    },
+    "attributes": {
+      "type": "object",
+      "description": "Metadata about the create folder operation.",
+      "properties": {
+        "statusCode": {
+          "type": "integer",
+          "description": "HTTP status code of the API response.",
+          "minimum": 100,
+          "maximum": 599
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "statusCode"
+      ]
     }
   },
   "required": [
-    "createdBy",
-    "createdDateTime",
-    "eTag",
-    "id",
-    "lastModifiedBy",
-    "lastModifiedDateTime",
-    "name",
-    "parentReference",
-    "size",
-    "folder"
+    "payload",
+    "headers",
+    "attributes"
   ],
   "additionalProperties": false
 }

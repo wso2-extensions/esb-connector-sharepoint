@@ -4,51 +4,84 @@
   "title": "Output Schema for Update List Operation",
   "description": "Output schema for the update list operation in the connector.",
   "properties": {
-    "id": {
-      "type": "string",
-      "description": "The unique identifier of the list."
-    },
-    "displayName": {
-      "type": "string",
-      "description": "The updated display name of the list."
-    },
-    "createdDateTime": {
-      "type": "string",
-      "format": "date-time",
-      "description": "The date and time when the list was originally created."
-    },
-    "lastModifiedDateTime": {
-      "type": "string",
-      "format": "date-time",
-      "description": "The date and time when the list was last modified."
-    },
-    "webUrl": {
-      "type": "string",
-      "format": "uri",
-      "description": "The URL for the list on the SharePoint site."
-    },
-    "list": {
+    "payload": {
       "type": "object",
-      "description": "Additional list configuration or metadata.",
+      "description": "The main response payload for update list operation.",
       "properties": {
-        "template": {
+        "id": {
           "type": "string",
-          "description": "The template type for the list (e.g., 'genericList')."
+          "description": "The unique identifier of the list."
+        },
+        "displayName": {
+          "type": "string",
+          "description": "The updated display name of the list."
+        },
+        "createdDateTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The date and time when the list was originally created."
+        },
+        "lastModifiedDateTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The date and time when the list was last modified."
+        },
+        "webUrl": {
+          "type": "string",
+          "format": "uri",
+          "description": "The URL for the list on the SharePoint site."
+        },
+        "list": {
+          "type": "object",
+          "description": "Additional list configuration or metadata.",
+          "properties": {
+            "template": {
+              "type": "string",
+              "description": "The template type for the list (e.g., 'genericList')."
+            }
+          },
+          "required": [
+            "template"
+          ],
+          "additionalProperties": false
         }
       },
       "required": [
-        "template"
+        "id",
+        "displayName",
+        "createdDateTime",
+        "lastModifiedDateTime",
+        "webUrl",
+        "list"
       ],
       "additionalProperties": false
+    },
+    "headers": {
+      "type": "object",
+      "description": "Transport headers returned by the update list operation.",
+      "additionalProperties": true
+    },
+    "attributes": {
+      "type": "object",
+      "description": "Metadata about the update list operation.",
+      "properties": {
+        "statusCode": {
+          "type": "integer",
+          "description": "HTTP status code of the API response.",
+          "minimum": 100,
+          "maximum": 599
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "statusCode"
+      ]
     }
   },
   "required": [
-    "id",
-    "displayName",
-    "createdDateTime",
-    "lastModifiedDateTime",
-    "webUrl",
-    "list"
+    "payload",
+    "headers",
+    "attributes"
   ],
   "additionalProperties": false
 }

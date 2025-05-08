@@ -4,19 +4,52 @@
   "title": "Output Schema for Get List Item by ID Operation",
   "description": "Output schema for retrieving list item details by ID.",
   "properties": {
-    "id": {
-      "type": "string",
-      "description": "The unique identifier of the list item."
-    },
-    "fields": {
+    "payload": {
       "type": "object",
-      "description": "Dynamic set of fields for the list item.",
+      "description": "The main response payload for get list item by ID operation.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The unique identifier of the list item."
+        },
+        "fields": {
+          "type": "object",
+          "description": "Dynamic set of fields for the list item.",
+          "additionalProperties": true
+        }
+      },
+      "required": [
+        "id",
+        "fields"
+      ],
+      "additionalProperties": false
+    },
+    "headers": {
+      "type": "object",
+      "description": "Transport headers returned by the get list item by ID operation.",
       "additionalProperties": true
+    },
+    "attributes": {
+      "type": "object",
+      "description": "Metadata about the get list item by ID operation.",
+      "properties": {
+        "statusCode": {
+          "type": "integer",
+          "description": "HTTP status code of the API response.",
+          "minimum": 100,
+          "maximum": 599
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "statusCode"
+      ]
     }
   },
   "required": [
-    "id",
-    "fields"
+    "payload",
+    "headers",
+    "attributes"
   ],
   "additionalProperties": false
 }

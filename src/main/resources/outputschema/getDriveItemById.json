@@ -4,114 +4,147 @@
   "title": "Output Schema for Get Drive Item by ID Operation",
   "description": "Output schema for retrieving a drive item by its ID.",
   "properties": {
-    "createdBy": {
+    "payload": {
       "type": "object",
+      "description": "The main response payload from the get drive item by ID operation.",
       "properties": {
-        "user": {
+        "createdBy": {
           "type": "object",
           "properties": {
-            "id": {
-              "type": "string"
-            },
-            "displayName": {
-              "type": "string"
+            "user": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "displayName": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "id",
+                "displayName"
+              ],
+              "additionalProperties": false
             }
           },
           "required": [
-            "id",
-            "displayName"
+            "user"
           ],
           "additionalProperties": false
-        }
-      },
-      "required": [
-        "user"
-      ],
-      "additionalProperties": false
-    },
-    "createdDateTime": {
-      "type": "string",
-      "format": "date-time"
-    },
-    "cTag": {
-      "type": "string"
-    },
-    "eTag": {
-      "type": "string"
-    },
-    "folder": {
-      "type": "object",
-      "properties": {
-        "childCount": {
+        },
+        "createdDateTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "cTag": {
+          "type": "string"
+        },
+        "eTag": {
+          "type": "string"
+        },
+        "folder": {
+          "type": "object",
+          "properties": {
+            "childCount": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "required": [
+            "childCount"
+          ],
+          "additionalProperties": false
+        },
+        "id": {
+          "type": "string"
+        },
+        "lastModifiedBy": {
+          "type": "object",
+          "properties": {
+            "user": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "displayName": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "id",
+                "displayName"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "user"
+          ],
+          "additionalProperties": false
+        },
+        "lastModifiedDateTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "name": {
+          "type": "string"
+        },
+        "root": {
+          "type": "object"
+        },
+        "size": {
           "type": "integer",
           "minimum": 0
+        },
+        "webUrl": {
+          "type": "string",
+          "format": "uri"
         }
       },
       "required": [
-        "childCount"
+        "createdBy",
+        "createdDateTime",
+        "cTag",
+        "eTag",
+        "folder",
+        "id",
+        "lastModifiedBy",
+        "lastModifiedDateTime",
+        "name",
+        "root",
+        "size",
+        "webUrl"
       ],
       "additionalProperties": false
     },
-    "id": {
-      "type": "string"
-    },
-    "lastModifiedBy": {
+    "headers": {
       "type": "object",
+      "description": "Transport headers returned by the get drive item by ID operation.",
+      "additionalProperties": true
+    },
+    "attributes": {
+      "type": "object",
+      "description": "Metadata about the get drive item by ID operation.",
       "properties": {
-        "user": {
-          "type": "object",
-          "properties": {
-            "id": {
-              "type": "string"
-            },
-            "displayName": {
-              "type": "string"
-            }
-          },
-          "required": [
-            "id",
-            "displayName"
-          ],
-          "additionalProperties": false
+        "statusCode": {
+          "type": "integer",
+          "description": "HTTP status code of the API response.",
+          "minimum": 100,
+          "maximum": 599
         }
       },
+      "additionalProperties": false,
       "required": [
-        "user"
-      ],
-      "additionalProperties": false
-    },
-    "lastModifiedDateTime": {
-      "type": "string",
-      "format": "date-time"
-    },
-    "name": {
-      "type": "string"
-    },
-    "root": {
-      "type": "object"
-    },
-    "size": {
-      "type": "integer",
-      "minimum": 0
-    },
-    "webUrl": {
-      "type": "string",
-      "format": "uri"
+        "statusCode"
+      ]
     }
   },
   "required": [
-    "createdBy",
-    "createdDateTime",
-    "cTag",
-    "eTag",
-    "folder",
-    "id",
-    "lastModifiedBy",
-    "lastModifiedDateTime",
-    "name",
-    "root",
-    "size",
-    "webUrl"
+    "payload",
+    "headers",
+    "attributes"
   ],
   "additionalProperties": false
 }

@@ -4,138 +4,121 @@
   "title": "Output Schema for Create Group Operation",
   "description": "Output schema for the create group operation in the connector.",
   "properties": {
-    "id": {
-      "type": "string",
-      "description": "The unique identifier of the group."
-    },
-    "deletedDateTime": {
-      "type": [
-        "string",
-        "null"
-      ],
-      "format": "date-time",
-      "description": "The date and time when the group was deleted."
-    },
-    "classification": {
-      "type": [
-        "string",
-        "null"
-      ],
-      "description": "The classification of the group."
-    },
-    "createdDateTime": {
-      "type": "string",
-      "format": "date-time",
-      "description": "The date and time when the group was created."
-    },
-    "description": {
-      "type": "string",
-      "description": "The description of the group."
-    },
-    "displayName": {
-      "type": "string",
-      "description": "The display name of the group."
-    },
-    "groupTypes": {
-      "type": "array",
-      "items": {
-        "type": "string"
+    "payload": {
+      "type": "object",
+      "description": "The main response payload from the create group operation.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The unique identifier of the group."
+        },
+        "deletedDateTime": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time",
+          "description": "The date and time when the group was deleted."
+        },
+        "classification": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "The classification of the group."
+        },
+        "createdDateTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The date and time when the group was created."
+        },
+        "description": {
+          "type": "string",
+          "description": "The description of the group."
+        },
+        "displayName": {
+          "type": "string",
+          "description": "The display name of the group."
+        },
+        "groupTypes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The types of the group."
+        },
+        "mail": {
+          "type": "string",
+          "description": "The mail address of the group."
+        },
+        "mailEnabled": {
+          "type": "boolean",
+          "description": "Indicates whether the mail is enabled for the group."
+        },
+        "mailNickname": {
+          "type": "string",
+          "description": "The mail nickname of the group."
+        },
+        "preferredDataLocation": {
+          "type": "string",
+          "description": "The preferred data location."
+        },
+        "renewedDateTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The date and time when the group was renewed."
+        },
+        "securityEnabled": {
+          "type": "boolean",
+          "description": "Indicates whether the group is security enabled."
+        },
+        "visibility": {
+          "type": "string",
+          "description": "The visibility setting of the group."
+        }
       },
-      "description": "The types of the group."
-    },
-    "mail": {
-      "type": "string",
-      "description": "The mail address of the group."
-    },
-    "mailEnabled": {
-      "type": "boolean",
-      "description": "Indicates whether the mail is enabled for the group."
-    },
-    "mailNickname": {
-      "type": "string",
-      "description": "The mail nickname of the group."
-    },
-    "onPremisesLastSyncDateTime": {
-      "type": [
-        "string",
-        "null"
+      "required": [
+        "id",
+        "createdDateTime",
+        "description",
+        "displayName",
+        "groupTypes",
+        "mail",
+        "mailEnabled",
+        "mailNickname",
+        "preferredDataLocation",
+        "renewedDateTime",
+        "securityEnabled",
+        "visibility"
       ],
-      "format": "date-time",
-      "description": "The date and time of the last sync."
+      "additionalProperties": false
     },
-    "onPremisesSecurityIdentifier": {
-      "type": [
-        "string",
-        "null"
-      ],
-      "description": "The on-premises security identifier."
+    "headers": {
+      "type": "object",
+      "description": "Transport headers returned by the create group operation.",
+      "additionalProperties": true
     },
-    "onPremisesSyncEnabled": {
-      "type": [
-        "boolean",
-        "null"
-      ],
-      "description": "Indicates whether on-premises sync is enabled."
-    },
-    "preferredDataLocation": {
-      "type": "string",
-      "description": "The preferred data location."
-    },
-    "proxyAddresses": {
-      "type": "array",
-      "items": {
-        "type": "string"
+    "attributes": {
+      "type": "object",
+      "description": "Metadata about the create group operation.",
+      "properties": {
+        "statusCode": {
+          "type": "integer",
+          "description": "HTTP status code of the API response.",
+          "minimum": 100,
+          "maximum": 599
+        }
       },
-      "description": "The proxy addresses of the group."
-    },
-    "renewedDateTime": {
-      "type": "string",
-      "format": "date-time",
-      "description": "The date and time when the group was renewed."
-    },
-    "resourceBehaviorOptions": {
-      "type": "array",
-      "items": {
-        "type": "string"
-      },
-      "description": "The resource behavior options."
-    },
-    "resourceProvisioningOptions": {
-      "type": "array",
-      "items": {
-        "type": "string"
-      },
-      "description": "The resource provisioning options."
-    },
-    "securityEnabled": {
-      "type": "boolean",
-      "description": "Indicates whether the group is security enabled."
-    },
-    "visibility": {
-      "type": "string",
-      "description": "The visibility setting of the group."
-    },
-    "onPremisesProvisioningErrors": {
-      "type": "array",
-      "items": {
-        "type": "object"
-      },
-      "description": "The on-premises provisioning errors."
+      "additionalProperties": false,
+      "required": [
+        "statusCode"
+      ]
     }
   },
   "required": [
-    "id",
-    "createdDateTime",
-    "description",
-    "displayName",
-    "groupTypes",
-    "mail",
-    "mailEnabled",
-    "mailNickname",
-    "preferredDataLocation",
-    "renewedDateTime",
-    "securityEnabled",
-    "visibility"
+    "payload",
+    "headers",
+    "attributes"
   ],
   "additionalProperties": false
 }
