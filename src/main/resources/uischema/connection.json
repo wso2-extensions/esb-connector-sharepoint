@@ -3,6 +3,7 @@
   "connectionName": "sharepoint",
   "title": "Sharepoint Connection",
   "help": "<h1>Sharepoint Connection</h1> <b>The Sharepoint Connector allows you to access the REST API of Sharepoint.</b>",
+  "testConnectionEnabled": true,
   "elements": [
     {
       "type": "attribute",

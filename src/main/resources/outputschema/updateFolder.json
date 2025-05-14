@@ -1,0 +1,60 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "title": "Output Schema for Update Folder Operation",
+  "description": "Output schema for the update folder operation in the connector.",
+  "properties": {
+    "payload": {
+      "type": "object",
+      "description": "The main response payload for update folder operation.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The unique identifier of the folder."
+        },
+        "name": {
+          "type": "string",
+          "description": "The updated name of the folder."
+        },
+        "file": {
+          "type": "object",
+          "description": "Indicates that this item is treated as a file. If present, it indicates that the item is not actually a folder.",
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "file"
+      ],
+      "additionalProperties": false
+    },
+    "headers": {
+      "type": "object",
+      "description": "Transport headers returned by the update folder operation.",
+      "additionalProperties": true
+    },
+    "attributes": {
+      "type": "object",
+      "description": "Metadata about the update folder operation.",
+      "properties": {
+        "statusCode": {
+          "type": "integer",
+          "description": "HTTP status code of the API response.",
+          "minimum": 100,
+          "maximum": 599
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "statusCode"
+      ]
+    }
+  },
+  "required": [
+    "payload",
+    "headers",
+    "attributes"
+  ],
+  "additionalProperties": false
+}

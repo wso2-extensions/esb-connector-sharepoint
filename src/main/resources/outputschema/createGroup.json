@@ -1,0 +1,124 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "title": "Output Schema for Create Group Operation",
+  "description": "Output schema for the create group operation in the connector.",
+  "properties": {
+    "payload": {
+      "type": "object",
+      "description": "The main response payload from the create group operation.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The unique identifier of the group."
+        },
+        "deletedDateTime": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time",
+          "description": "The date and time when the group was deleted."
+        },
+        "classification": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "The classification of the group."
+        },
+        "createdDateTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The date and time when the group was created."
+        },
+        "description": {
+          "type": "string",
+          "description": "The description of the group."
+        },
+        "displayName": {
+          "type": "string",
+          "description": "The display name of the group."
+        },
+        "groupTypes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The types of the group."
+        },
+        "mail": {
+          "type": "string",
+          "description": "The mail address of the group."
+        },
+        "mailEnabled": {
+          "type": "boolean",
+          "description": "Indicates whether the mail is enabled for the group."
+        },
+        "mailNickname": {
+          "type": "string",
+          "description": "The mail nickname of the group."
+        },
+        "preferredDataLocation": {
+          "type": "string",
+          "description": "The preferred data location."
+        },
+        "renewedDateTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The date and time when the group was renewed."
+        },
+        "securityEnabled": {
+          "type": "boolean",
+          "description": "Indicates whether the group is security enabled."
+        },
+        "visibility": {
+          "type": "string",
+          "description": "The visibility setting of the group."
+        }
+      },
+      "required": [
+        "id",
+        "createdDateTime",
+        "description",
+        "displayName",
+        "groupTypes",
+        "mail",
+        "mailEnabled",
+        "mailNickname",
+        "preferredDataLocation",
+        "renewedDateTime",
+        "securityEnabled",
+        "visibility"
+      ],
+      "additionalProperties": false
+    },
+    "headers": {
+      "type": "object",
+      "description": "Transport headers returned by the create group operation.",
+      "additionalProperties": true
+    },
+    "attributes": {
+      "type": "object",
+      "description": "Metadata about the create group operation.",
+      "properties": {
+        "statusCode": {
+          "type": "integer",
+          "description": "HTTP status code of the API response.",
+          "minimum": 100,
+          "maximum": 599
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "statusCode"
+      ]
+    }
+  },
+  "required": [
+    "payload",
+    "headers",
+    "attributes"
+  ],
+  "additionalProperties": false
+}

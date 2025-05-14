@@ -1,0 +1,66 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "title": "Output Schema for Update File Content Operation",
+  "description": "Output schema for the update file content operation in the connector.",
+  "properties": {
+    "payload": {
+      "type": "object",
+      "description": "The main response payload for update file content operation.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The unique identifier of the file."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the file."
+        },
+        "size": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "The size of the file in bytes."
+        },
+        "file": {
+          "type": "object",
+          "description": "Indicates that this item is a file.",
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "size",
+        "file"
+      ],
+      "additionalProperties": false
+    },
+    "headers": {
+      "type": "object",
+      "description": "Transport headers returned by the update file content operation.",
+      "additionalProperties": true
+    },
+    "attributes": {
+      "type": "object",
+      "description": "Metadata about the update file content operation.",
+      "properties": {
+        "statusCode": {
+          "type": "integer",
+          "description": "HTTP status code of the API response.",
+          "minimum": 100,
+          "maximum": 599
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "statusCode"
+      ]
+    }
+  },
+  "required": [
+    "payload",
+    "headers",
+    "attributes"
+  ],
+  "additionalProperties": false
+}
