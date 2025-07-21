@@ -1,260 +1,989 @@
 {
-  "name": "SharePoint",
-  "owner": "WSO2",
-  "product": "MI",
-  "category": "Storage and Content Management",
-  "documentationUrl": "https://mi.docs.wso2.com/en/latest/reference/connectors/sharepoint-connector/sharepoint-overview/",
-  "mavenGroupId": "org.wso2.integration.connector",
-  "mavenArtifactId": "mi-connector-sharepoint",
-  "description": "The sharePoint connector allows you to access the SharePoint REST API. SharePoint is a web application platform.SharePoint combines various functions which are traditionally separate applications: intranet, extranet, content management, document management, enterprise search, workflow management and web content management.",
-  "status": "Active",
-  "rank": 52,
-  "type": "Connector",
-  "releases": [
-    {
-      "tagName": "v2.0.0",
-      "products": [
-        "MI 4.4.0"
-      ],
-      "operations": [
+    "name": "SharePoint",
+    "owner": "WSO2",
+    "product": "MI",
+    "category": "Storage and Content Management",
+    "documentationUrl": "https://mi.docs.wso2.com/en/latest/reference/connectors/sharepoint-connector/sharepoint-overview/",
+    "mavenGroupId": "org.wso2.integration.connector",
+    "mavenArtifactId": "mi-connector-sharepoint",
+    "description": "The sharePoint connector allows you to access the SharePoint REST API. SharePoint is a web application platform.SharePoint combines various functions which are traditionally separate applications: intranet, extranet, content management, document management, enterprise search, workflow management and web content management.",
+    "status": "Active",
+    "rank": 52,
+    "type": "Connector",
+    "releases": [
         {
-          "name": "init",
-          "description": "Config operation",
-          "isHidden": true
+            "tagName": "v2.0.1",
+            "products": [
+                "MI 4.4.0"
+            ],
+            "operations": [
+                {
+                    "name": "createFolder",
+                    "description": "Create Folder",
+                    "params": [
+                        {
+                            "name": "siteId",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The unique identifier of the site."
+                        },
+                        {
+                            "name": "parentItemId",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The ID of the parent folder. Use 'root' for the root directory."
+                        },
+                        {
+                            "name": "name",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The name of the folder to be created."
+                        },
+                        {
+                            "name": "folder",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "Empty object to indicate this item is a folder."
+                        },
+                        {
+                            "name": "MicrosoftGraphConflictBehavior",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "Accepts the input values fail (default), replace, or rename to specify how to handle naming conflicts when creating files or folders."
+                        },
+                        {
+                            "name": "responseVariable",
+                            "type": "string",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "Name of the variable to which the output of the operation should be assigned"
+                        },
+                        {
+                            "name": "overwriteBody",
+                            "type": "checkbox",
+                            "required": false,
+                            "defaultValue": "false",
+                            "description": "Replace the Message Body in Message Context with the output of the operation (This will remove the payload from the above variable)."
+                        }
+                    ],
+                    "isHidden": false
+                },
+                {
+                    "name": "getFolderChildren",
+                    "description": "Get Folder Children",
+                    "params": [
+                        {
+                            "name": "siteId",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The unique identifier of the site."
+                        },
+                        {
+                            "name": "itemId",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The unique identifier of the item (file or folder)."
+                        },
+                        {
+                            "name": "responseVariable",
+                            "type": "string",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "Name of the variable to which the output of the operation should be assigned"
+                        },
+                        {
+                            "name": "overwriteBody",
+                            "type": "checkbox",
+                            "required": false,
+                            "defaultValue": "false",
+                            "description": "Replace the Message Body in Message Context with the output of the operation (This will remove the payload from the above variable)."
+                        }
+                    ],
+                    "isHidden": false
+                },
+                {
+                    "name": "getDriveItemById",
+                    "description": "Get Drive Item By Id",
+                    "params": [
+                        {
+                            "name": "siteId",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The unique identifier of the site."
+                        },
+                        {
+                            "name": "itemId",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The unique identifier of the item (file or folder)."
+                        },
+                        {
+                            "name": "responseVariable",
+                            "type": "string",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "Name of the variable to which the output of the operation should be assigned"
+                        },
+                        {
+                            "name": "overwriteBody",
+                            "type": "checkbox",
+                            "required": false,
+                            "defaultValue": "false",
+                            "description": "Replace the Message Body in Message Context with the output of the operation (This will remove the payload from the above variable)."
+                        }
+                    ],
+                    "isHidden": false
+                },
+                {
+                    "name": "deleteListItem",
+                    "description": "Delete List Item",
+                    "params": [
+                        {
+                            "name": "siteId",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The unique identifier of the site."
+                        },
+                        {
+                            "name": "listId",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The unique identifier of the list."
+                        },
+                        {
+                            "name": "itemId",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The unique identifier of the item (file or folder)."
+                        },
+                        {
+                            "name": "responseVariable",
+                            "type": "string",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "Name of the variable to which the output of the operation should be assigned"
+                        },
+                        {
+                            "name": "overwriteBody",
+                            "type": "checkbox",
+                            "required": false,
+                            "defaultValue": "false",
+                            "description": "Replace the Message Body in Message Context with the output of the operation (This will remove the payload from the above variable)."
+                        }
+                    ],
+                    "isHidden": false
+                },
+                {
+                    "name": "getListItems",
+                    "description": "Get List Items",
+                    "params": [
+                        {
+                            "name": "siteId",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The unique identifier of the site."
+                        },
+                        {
+                            "name": "listId",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The unique identifier of the list."
+                        },
+                        {
+                            "name": "responseVariable",
+                            "type": "string",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "Name of the variable to which the output of the operation should be assigned"
+                        },
+                        {
+                            "name": "overwriteBody",
+                            "type": "checkbox",
+                            "required": false,
+                            "defaultValue": "false",
+                            "description": "Replace the Message Body in Message Context with the output of the operation (This will remove the payload from the above variable)."
+                        }
+                    ],
+                    "isHidden": false
+                },
+                {
+                    "name": "getGroupSite",
+                    "description": "Get Group Site",
+                    "params": [
+                        {
+                            "name": "groupId",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The unique identifier of the Microsoft 365 Group."
+                        },
+                        {
+                            "name": "responseVariable",
+                            "type": "string",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "Name of the variable to which the output of the operation should be assigned"
+                        },
+                        {
+                            "name": "overwriteBody",
+                            "type": "checkbox",
+                            "required": false,
+                            "defaultValue": "false",
+                            "description": "Replace the Message Body in Message Context with the output of the operation (This will remove the payload from the above variable)."
+                        }
+                    ],
+                    "isHidden": false
+                },
+                {
+                    "name": "updateListItemFields",
+                    "description": "Update List Item Fields",
+                    "params": [
+                        {
+                            "name": "siteId",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The unique identifier of the site."
+                        },
+                        {
+                            "name": "listId",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The unique identifier of the list."
+                        },
+                        {
+                            "name": "itemId",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The unique identifier of the item (file or folder)."
+                        },
+                        {
+                            "name": "properties",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "Specifies the properties of the item to be updated."
+                        },
+                        {
+                            "name": "responseVariable",
+                            "type": "string",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "Name of the variable to which the output of the operation should be assigned"
+                        },
+                        {
+                            "name": "overwriteBody",
+                            "type": "checkbox",
+                            "required": false,
+                            "defaultValue": "false",
+                            "description": "Replace the Message Body in Message Context with the output of the operation (This will remove the payload from the above variable)."
+                        }
+                    ],
+                    "isHidden": false
+                },
+                {
+                    "name": "createListItem",
+                    "description": "Create List Item",
+                    "params": [
+                        {
+                            "name": "siteId",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The unique identifier of the site."
+                        },
+                        {
+                            "name": "listId",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The unique identifier of the list."
+                        },
+                        {
+                            "name": "fields",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The object containing the data for the new list item."
+                        },
+                        {
+                            "name": "responseVariable",
+                            "type": "string",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "Name of the variable to which the output of the operation should be assigned"
+                        },
+                        {
+                            "name": "overwriteBody",
+                            "type": "checkbox",
+                            "required": false,
+                            "defaultValue": "false",
+                            "description": "Replace the Message Body in Message Context with the output of the operation (This will remove the payload from the above variable)."
+                        }
+                    ],
+                    "isHidden": false
+                },
+                {
+                    "name": "uploadFile",
+                    "description": "Upload File",
+                    "params": [
+                        {
+                            "name": "siteId",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The unique identifier of the site."
+                        },
+                        {
+                            "name": "parentItemId",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The ID of the parent folder. Use 'root' for the root directory."
+                        },
+                        {
+                            "name": "fileName",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The name of the file."
+                        },
+                        {
+                            "name": "responseVariable",
+                            "type": "string",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "Name of the variable to which the output of the operation should be assigned"
+                        },
+                        {
+                            "name": "overwriteBody",
+                            "type": "checkbox",
+                            "required": false,
+                            "defaultValue": "false",
+                            "description": "Replace the Message Body in Message Context with the output of the operation (This will remove the payload from the above variable)."
+                        }
+                    ],
+                    "isHidden": false
+                },
+                {
+                    "name": "createGroup",
+                    "description": "Create Group",
+                    "params": [
+                        {
+                            "name": "description",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "A brief description of the group, outlining its purpose and intended use."
+                        },
+                        {
+                            "name": "displayName",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The display name of the group, visible in Microsoft 365 applications and directories."
+                        },
+                        {
+                            "name": "groupTypes",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "An array specifying the types of the group. For Microsoft 365 groups, set this to ['Unified']"
+                        },
+                        {
+                            "name": "mailEnabled",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "Indicates whether the group is mail-enabled. Set to true to enable email functionalities for the group."
+                        },
+                        {
+                            "name": "mailNickname",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The mail alias for the group, used in its email address. This must be unique within the organization."
+                        },
+                        {
+                            "name": "securityEnabled",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "Determines whether the group is a security group. For Microsoft 365 groups, set this to false."
+                        },
+                        {
+                            "name": "visibility",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "Defines the visibility of the group. Acceptable values are 'Private' or 'Public'."
+                        },
+                        {
+                            "name": "responseVariable",
+                            "type": "string",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "Name of the variable to which the output of the operation should be assigned"
+                        },
+                        {
+                            "name": "overwriteBody",
+                            "type": "checkbox",
+                            "required": false,
+                            "defaultValue": "false",
+                            "description": "Replace the Message Body in Message Context with the output of the operation (This will remove the payload from the above variable)."
+                        }
+                    ],
+                    "isHidden": false
+                },
+                {
+                    "name": "createList",
+                    "description": "Create List",
+                    "params": [
+                        {
+                            "name": "siteId",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The unique identifier of the site."
+                        },
+                        {
+                            "name": "properties",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "Specifies the name and the properties of the new list."
+                        },
+                        {
+                            "name": "responseVariable",
+                            "type": "string",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "Name of the variable to which the output of the operation should be assigned"
+                        },
+                        {
+                            "name": "overwriteBody",
+                            "type": "checkbox",
+                            "required": false,
+                            "defaultValue": "false",
+                            "description": "Replace the Message Body in Message Context with the output of the operation (This will remove the payload from the above variable)."
+                        }
+                    ],
+                    "isHidden": false
+                },
+                {
+                    "name": "updateList",
+                    "description": "Update List",
+                    "params": [
+                        {
+                            "name": "siteId",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The unique identifier of the site."
+                        },
+                        {
+                            "name": "listId",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The unique identifier of the list."
+                        },
+                        {
+                            "name": "displayName",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "The new display name you wish to assign to the list."
+                        },
+                        {
+                            "name": "description",
+                            "type": "stringOrExpression",
+                            "required": false,
+                            "defaultValue": "",
+                            "description": "The new description text for the list."
+                        },
+                        {
+                            "name": "responseVariable",
+                            "type": "string",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "Name of the variable to which the output of the operation should be assigned"
+                        },
+                        {
+                            "name": "overwriteBody",
+                            "type": "checkbox",
+                            "required": false,
+                            "defaultValue": "false",
+                            "description": "Replace the Message Body in Message Context with the output of the operation (This will remove the payload from the above variable)."
+                        }
+                    ],
+                    "isHidden": false
+                },
+                {
+                    "name": "updateFileContent",
+                    "description": "Update File Content",
+                    "params": [
+                        {
+                            "name": "siteId",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The unique identifier of the site."
+                        },
+                        {
+                            "name": "itemId",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The unique identifier of the item (file or folder)."
+                        },
+                        {
+                            "name": "responseVariable",
+                            "type": "string",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "Name of the variable to which the output of the operation should be assigned"
+                        },
+                        {
+                            "name": "overwriteBody",
+                            "type": "checkbox",
+                            "required": false,
+                            "defaultValue": "false",
+                            "description": "Replace the Message Body in Message Context with the output of the operation (This will remove the payload from the above variable)."
+                        }
+                    ],
+                    "isHidden": false
+                },
+                {
+                    "name": "updateFolder",
+                    "description": "Update Folder",
+                    "params": [
+                        {
+                            "name": "siteId",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The unique identifier of the site."
+                        },
+                        {
+                            "name": "itemId",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The unique identifier of the item (file or folder)."
+                        },
+                        {
+                            "name": "name",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The new name for the folder."
+                        },
+                        {
+                            "name": "responseVariable",
+                            "type": "string",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "Name of the variable to which the output of the operation should be assigned"
+                        },
+                        {
+                            "name": "overwriteBody",
+                            "type": "checkbox",
+                            "required": false,
+                            "defaultValue": "false",
+                            "description": "Replace the Message Body in Message Context with the output of the operation (This will remove the payload from the above variable)."
+                        }
+                    ],
+                    "isHidden": false
+                },
+                {
+                    "name": "getRootChildren",
+                    "description": "Get Root Children",
+                    "params": [
+                        {
+                            "name": "siteId",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The unique identifier of the site."
+                        },
+                        {
+                            "name": "responseVariable",
+                            "type": "string",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "Name of the variable to which the output of the operation should be assigned"
+                        },
+                        {
+                            "name": "overwriteBody",
+                            "type": "checkbox",
+                            "required": false,
+                            "defaultValue": "false",
+                            "description": "Replace the Message Body in Message Context with the output of the operation (This will remove the payload from the above variable)."
+                        }
+                    ],
+                    "isHidden": false
+                },
+                {
+                    "name": "deleteList",
+                    "description": "Delete List",
+                    "params": [
+                        {
+                            "name": "siteId",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The unique identifier of the site."
+                        },
+                        {
+                            "name": "listId",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The unique identifier of the list."
+                        },
+                        {
+                            "name": "responseVariable",
+                            "type": "string",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "Name of the variable to which the output of the operation should be assigned"
+                        },
+                        {
+                            "name": "overwriteBody",
+                            "type": "checkbox",
+                            "required": false,
+                            "defaultValue": "false",
+                            "description": "Replace the Message Body in Message Context with the output of the operation (This will remove the payload from the above variable)."
+                        }
+                    ],
+                    "isHidden": false
+                },
+                {
+                    "name": "getListById",
+                    "description": "Get List By Id",
+                    "params": [
+                        {
+                            "name": "siteId",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The unique identifier of the site."
+                        },
+                        {
+                            "name": "listId",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The unique identifier of the list."
+                        },
+                        {
+                            "name": "responseVariable",
+                            "type": "string",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "Name of the variable to which the output of the operation should be assigned"
+                        },
+                        {
+                            "name": "overwriteBody",
+                            "type": "checkbox",
+                            "required": false,
+                            "defaultValue": "false",
+                            "description": "Replace the Message Body in Message Context with the output of the operation (This will remove the payload from the above variable)."
+                        }
+                    ],
+                    "isHidden": false
+                },
+                {
+                    "name": "deleteDriveItem",
+                    "description": "Delete Drive Item",
+                    "params": [
+                        {
+                            "name": "siteId",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The unique identifier of the site."
+                        },
+                        {
+                            "name": "itemId",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The unique identifier of the item (file or folder)."
+                        },
+                        {
+                            "name": "responseVariable",
+                            "type": "string",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "Name of the variable to which the output of the operation should be assigned"
+                        },
+                        {
+                            "name": "overwriteBody",
+                            "type": "checkbox",
+                            "required": false,
+                            "defaultValue": "false",
+                            "description": "Replace the Message Body in Message Context with the output of the operation (This will remove the payload from the above variable)."
+                        }
+                    ],
+                    "isHidden": false
+                },
+                {
+                    "name": "getListItemById",
+                    "description": "Get List Item By Id",
+                    "params": [
+                        {
+                            "name": "siteId",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The unique identifier of the site."
+                        },
+                        {
+                            "name": "listId",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The unique identifier of the list."
+                        },
+                        {
+                            "name": "itemId",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The unique identifier of the item (file or folder)."
+                        },
+                        {
+                            "name": "responseVariable",
+                            "type": "string",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "Name of the variable to which the output of the operation should be assigned"
+                        },
+                        {
+                            "name": "overwriteBody",
+                            "type": "checkbox",
+                            "required": false,
+                            "defaultValue": "false",
+                            "description": "Replace the Message Body in Message Context with the output of the operation (This will remove the payload from the above variable)."
+                        }
+                    ],
+                    "isHidden": false
+                },
+                {
+                    "name": "getLists",
+                    "description": "Get Lists",
+                    "params": [
+                        {
+                            "name": "siteId",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "The unique identifier of the site."
+                        },
+                        {
+                            "name": "responseVariable",
+                            "type": "string",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "Name of the variable to which the output of the operation should be assigned"
+                        },
+                        {
+                            "name": "overwriteBody",
+                            "type": "checkbox",
+                            "required": false,
+                            "defaultValue": "false",
+                            "description": "Replace the Message Body in Message Context with the output of the operation (This will remove the payload from the above variable)."
+                        }
+                    ],
+                    "isHidden": false
+                }
+            ],
+            "connections": [
+                {
+                    "name": "sharepoint",
+                    "description": "Sharepoint Connection",
+                    "params": [
+                        {
+                            "name": "connectionName",
+                            "type": "string",
+                            "required": true,
+                            "defaultValue": "SHAREPOINT_CONNECTION_1",
+                            "description": "The name for the Sharepoint connection."
+                        },
+                        {
+                            "name": "base",
+                            "type": "string",
+                            "required": true,
+                            "defaultValue": "https://graph.microsoft.com/v1.0",
+                            "description": "The service root URL."
+                        },
+                        {
+                            "name": "clientId",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "Client ID of the registered application."
+                        },
+                        {
+                            "name": "clientSecret",
+                            "type": "stringOrExpression",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "Client secret of the registered application."
+                        },
+                        {
+                            "name": "tenant",
+                            "type": "string",
+                            "required": true,
+                            "defaultValue": "",
+                            "description": "Enter 'common', 'organizations', 'consumers', or your Azure AD tenant ID or domain name."
+                        }
+                    ]
+                }
+            ]
         },
         {
-          "name": "createFolder",
-          "description": "Create a new folder within the specified parent folder.",
-          "isHidden": false
-        },
-        {
-          "name": "createGroup",
-          "description": "Creates a new Microsoft 365 Group, which provisions a connected SharePoint site.",
-          "isHidden": false
-        },
-        {
-          "name": "createList",
-          "description": "Creates a new list in the specified site.",
-          "isHidden": false
-        },
-        {
-          "name": "createListItem",
-          "description": "Creates a new item in the specified list.",
-          "isHidden": false
-        },
-        {
-          "name": "deleteDriveItem",
-          "description": "Deletes the specified file or folder.",
-          "isHidden": false
-        },
-        {
-          "name": "deleteList",
-          "description": "Deletes the specified list.",
-          "isHidden": false
-        },
-        {
-          "name": "deleteListItem",
-          "description": "Deletes the specified list item.",
-          "isHidden": false
-        },
-        {
-          "name": "getDriveItemById",
-          "description": "Retrieves metadata about the specified file or folder.",
-          "isHidden": false
-        },
-        {
-          "name": "getFolderChildren",
-          "description": "Retrieves all items within the specified folder.",
-          "isHidden": false
-        },
-        {
-          "name": "getGroupSite",
-          "description": "Retrieves the root SharePoint site associated with the specified Microsoft 365 Group.",
-          "isHidden": false
-        },
-        {
-          "name": "getListById",
-          "description": "Retrieves a list by its ID or Title/Display name.",
-          "isHidden": false
-        },
-        {
-          "name": "getListItemById",
-          "description": "Retrieves a list item by its ID.",
-          "isHidden": false
-        },
-        {
-          "name": "getListItems",
-          "description": "Retrieves all items in the specified list.",
-          "isHidden": false
-        },
-        {
-          "name": "getLists",
-          "description": "Retrieves all lists in the specified site.",
-          "isHidden": false
-        },
-        {
-          "name": "getRootChildren",
-          "description": "Retrieves all items in the root directory of the drive.",
-          "isHidden": false
-        },
-        {
-          "name": "updateFileContent",
-          "description": "Updates the content of the specified file.",
-          "isHidden": false
-        },
-        {
-          "name": "updateFolder",
-          "description": "Updates the properties of the specified folder.",
-          "isHidden": false
-        },
-        {
-          "name": "updateList",
-          "description": "Updates properties of the specified list.",
-          "isHidden": false
-        },
-        {
-          "name": "updateListItemFields",
-          "description": "Updates the fields of the specified list item.",
-          "isHidden": false
-        },
-        {
-          "name": "uploadFile",
-          "description": "Uploads a new file to the specified folder.",
-          "isHidden": false
+            "tagName": "v1.1.1",
+            "products": [
+                "MI 4.4.0",
+                "MI 4.3.0",
+                "MI 4.2.0"
+            ],
+            "operations": [
+                {
+                    "name": "init",
+                    "description": "Config operation",
+                    "isHidden": true
+                },
+                {
+                    "name": "createFolder",
+                    "description": "Create a new folder within the specified parent folder.",
+                    "isHidden": false
+                },
+                {
+                    "name": "createGroup",
+                    "description": "Creates a new Microsoft 365 Group, which provisions a connected SharePoint site.",
+                    "isHidden": false
+                },
+                {
+                    "name": "createList",
+                    "description": "Creates a new list in the specified site.",
+                    "isHidden": false
+                },
+                {
+                    "name": "createListItem",
+                    "description": "Creates a new item in the specified list.",
+                    "isHidden": false
+                },
+                {
+                    "name": "deleteDriveItem",
+                    "description": "Deletes the specified file or folder.",
+                    "isHidden": false
+                },
+                {
+                    "name": "deleteList",
+                    "description": "Deletes the specified list.",
+                    "isHidden": false
+                },
+                {
+                    "name": "deleteListItem",
+                    "description": "Deletes the specified list item.",
+                    "isHidden": false
+                },
+                {
+                    "name": "getDriveItemById",
+                    "description": "Retrieves metadata about the specified file or folder.",
+                    "isHidden": false
+                },
+                {
+                    "name": "getFolderChildren",
+                    "description": "Retrieves all items within the specified folder.",
+                    "isHidden": false
+                },
+                {
+                    "name": "getGroupSite",
+                    "description": "Retrieves the root SharePoint site associated with the specified Microsoft 365 Group.",
+                    "isHidden": false
+                },
+                {
+                    "name": "getListById",
+                    "description": "Retrieves a list by its ID or Title/Display name.",
+                    "isHidden": false
+                },
+                {
+                    "name": "getListItemById",
+                    "description": "Retrieves a list item by its ID.",
+                    "isHidden": false
+                },
+                {
+                    "name": "getListItems",
+                    "description": "Retrieves all items in the specified list.",
+                    "isHidden": false
+                },
+                {
+                    "name": "getLists",
+                    "description": "Retrieves all lists in the specified site.",
+                    "isHidden": false
+                },
+                {
+                    "name": "getRootChildren",
+                    "description": "Retrieves all items in the root directory of the drive.",
+                    "isHidden": false
+                },
+                {
+                    "name": "updateFileContent",
+                    "description": "Updates the content of the specified file.",
+                    "isHidden": false
+                },
+                {
+                    "name": "updateFolder",
+                    "description": "Updates the properties of the specified folder.",
+                    "isHidden": false
+                },
+                {
+                    "name": "updateList",
+                    "description": "Updates properties of the specified list.",
+                    "isHidden": false
+                },
+                {
+                    "name": "updateListItemFields",
+                    "description": "Updates the fields of the specified list item.",
+                    "isHidden": false
+                },
+                {
+                    "name": "uploadFile",
+                    "description": "Uploads a new file to the specified folder.",
+                    "isHidden": false
+                }
+            ],
+            "connections": [
+                {
+                    "name": "sharepoint",
+                    "description": "Connection for accessing SharePoint data and files."
+                }
+            ],
+            "isHidden": false
         }
-      ],
-      "connections": [
-        {
-          "name": "sharepoint",
-          "description": "Connection for accessing SharePoint data and files."
-        }
-      ],
-      "isHidden": false
-    },
-    {
-      "tagName": "v1.1.1",
-      "products": [
-        "MI 4.4.0",
-        "MI 4.3.0",
-        "MI 4.2.0"
-      ],
-      "operations": [
-        {
-          "name": "init",
-          "description": "Config operation",
-          "isHidden": true
-        },
-        {
-          "name": "createFolder",
-          "description": "Create a new folder within the specified parent folder.",
-          "isHidden": false
-        },
-        {
-          "name": "createGroup",
-          "description": "Creates a new Microsoft 365 Group, which provisions a connected SharePoint site.",
-          "isHidden": false
-        },
-        {
-          "name": "createList",
-          "description": "Creates a new list in the specified site.",
-          "isHidden": false
-        },
-        {
-          "name": "createListItem",
-          "description": "Creates a new item in the specified list.",
-          "isHidden": false
-        },
-        {
-          "name": "deleteDriveItem",
-          "description": "Deletes the specified file or folder.",
-          "isHidden": false
-        },
-        {
-          "name": "deleteList",
-          "description": "Deletes the specified list.",
-          "isHidden": false
-        },
-        {
-          "name": "deleteListItem",
-          "description": "Deletes the specified list item.",
-          "isHidden": false
-        },
-        {
-          "name": "getDriveItemById",
-          "description": "Retrieves metadata about the specified file or folder.",
-          "isHidden": false
-        },
-        {
-          "name": "getFolderChildren",
-          "description": "Retrieves all items within the specified folder.",
-          "isHidden": false
-        },
-        {
-          "name": "getGroupSite",
-          "description": "Retrieves the root SharePoint site associated with the specified Microsoft 365 Group.",
-          "isHidden": false
-        },
-        {
-          "name": "getListById",
-          "description": "Retrieves a list by its ID or Title/Display name.",
-          "isHidden": false
-        },
-        {
-          "name": "getListItemById",
-          "description": "Retrieves a list item by its ID.",
-          "isHidden": false
-        },
-        {
-          "name": "getListItems",
-          "description": "Retrieves all items in the specified list.",
-          "isHidden": false
-        },
-        {
-          "name": "getLists",
-          "description": "Retrieves all lists in the specified site.",
-          "isHidden": false
-        },
-        {
-          "name": "getRootChildren",
-          "description": "Retrieves all items in the root directory of the drive.",
-          "isHidden": false
-        },
-        {
-          "name": "updateFileContent",
-          "description": "Updates the content of the specified file.",
-          "isHidden": false
-        },
-        {
-          "name": "updateFolder",
-          "description": "Updates the properties of the specified folder.",
-          "isHidden": false
-        },
-        {
-          "name": "updateList",
-          "description": "Updates properties of the specified list.",
-          "isHidden": false
-        },
-        {
-          "name": "updateListItemFields",
-          "description": "Updates the fields of the specified list item.",
-          "isHidden": false
-        },
-        {
-          "name": "uploadFile",
-          "description": "Uploads a new file to the specified folder.",
-          "isHidden": false
-        }
-      ],
-      "connections": [
-        {
-          "name": "sharepoint",
-          "description": "Connection for accessing SharePoint data and files."
-        }
-      ],
-      "isHidden": false
-    }
-  ],
-  "labels": [
-    "storage"
-  ]
+    ],
+    "labels": [
+        "storage"
+    ]
 }
