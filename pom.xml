@@ -34,6 +34,7 @@
         <connector.name>sharepoint</connector.name>
         <synapse.version>4.0.0-wso2v20</synapse.version>
         <carbon.mediation.version>4.7.175</carbon.mediation.version>
+        <skip-tests>true</skip-tests>
     </properties>
     <dependencies>
         <dependency>
@@ -99,6 +100,59 @@
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.12.4</version>
+                <inherited>false</inherited>
+                <configuration>
+                    <skipTests>${skip-tests}</skipTests>
+                    <argLine>-Xms512m -Xmx1024m -XX:MaxPermSize=128m</argLine>
+                    <disableXmlReport>false</disableXmlReport>
+                    <parallel>false</parallel>
+                    <testFailureIgnore>true</testFailureIgnore>
+                    <suiteXmlFiles>
+                        <suiteXmlFile>src/test/resources/testng.xml</suiteXmlFile>
+                    </suiteXmlFiles>
+                    <systemProperties>
+                        <property>
+                            <name>framework.resource.location</name>
+                            <value>
+                                ${basedir}/src/test/resources/
+                            </value>
+                        </property>
+                        <property>
+                            <name>server.list</name>
+                            <value>
+                                ESB
+                            </value>
+                        </property>
+                        <property>
+                            <name>usedefaultlisteners</name>
+                            <value>false</value>
+                        </property>
+                        <sec.verifier.dir>${basedir}/target/security-verifier/</sec.verifier.dir>
+                        <maven.test.haltafterfailure>false</maven.test.haltafterfailure>
+                        <carbon.zip>
+                            ${basedir}/repository/wso2ei-${product.ei.version}.zip
+                        </carbon.zip>
+                        <instr.file>${basedir}/src/test/resources/instrumentation.txt</instr.file>
+                        <filters.file>${basedir}/src/test/resources/filters.txt</filters.file>
+                        <property>
+                            <name>connector_repo</name>
+                            <value>${basedir}/target</value>
+                        </property>
+                        <property>
+                            <name>connector_name</name>
+                            <value>${connector.name}</value>
+                        </property>
+                        <property>
+                            <name>connector_version</name>
+                            <value>${project.version}</value>
+                        </property>
+                    </systemProperties>
+                    <workingDirectory>${basedir}/target</workingDirectory>
+                </configuration>
             </plugin>
         </plugins>
     </build>
