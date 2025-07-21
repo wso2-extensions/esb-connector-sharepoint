@@ -34,7 +34,7 @@
         <connector.name>sharepoint</connector.name>
         <synapse.version>4.0.0-wso2v20</synapse.version>
         <carbon.mediation.version>4.7.175</carbon.mediation.version>
-        <skip-tests>true</skip-tests>
+        <maven.test.skip>true</maven.test.skip>
     </properties>
     <dependencies>
         <dependency>
@@ -106,7 +106,7 @@
                 <version>2.12.4</version>
                 <inherited>false</inherited>
                 <configuration>
-                    <skipTests>${skip-tests}</skipTests>
+                    <skip>${maven.test.skip}</skip>
                     <argLine>-Xms512m -Xmx1024m -XX:MaxPermSize=128m</argLine>
                     <disableXmlReport>false</disableXmlReport>
                     <parallel>false</parallel>
