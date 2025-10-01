@@ -14,7 +14,8 @@
         {
             "tagName": "v2.0.1",
             "products": [
-                "MI 4.4.0"
+                "MI 4.4.0",
+                "MI 4.5.0"
             ],
             "operations": [
                 {
@@ -865,7 +866,8 @@
             "products": [
                 "MI 4.4.0",
                 "MI 4.3.0",
-                "MI 4.2.0"
+                "MI 4.2.0",
+                "MI 4.5.0"
             ],
             "operations": [
                 {
