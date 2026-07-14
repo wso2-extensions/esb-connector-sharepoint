@@ -27,7 +27,7 @@
         <property name="uri.var.base" expression="$func:base"/>
         <property name="uri.var.connection" expression="$func:connectionName"/>
         <class name="org.wso2.carbon.sharepoint.connector.ClientCredentialsAccessTokenHandler"/>
-        <log level="custom">
+        <log level="custom" category="DEBUG">
             <property name="AuthorizationHeader" expression="get-property('_ACCESS_TOKEN_')"/>
         </log>
     </sequence>
